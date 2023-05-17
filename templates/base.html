@@ -1,0 +1,261 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PropertyManagement</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static "css/plugin.min.css" %}">
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" type="image/x-icon"/>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.0/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.0/dist/sweetalert2.min.js"></script>
+
+    <style>
+        /* Set the background color of the SweetAlert overlay to black */
+        .swal-overlay {
+            background-color: rgba(0, 0, 0, 0.6) !important;
+        }
+
+        /* Set the background color of the SweetAlert dialog box to dark gray */
+        .swal-modal {
+            background-color: #333333 !important;
+        }
+
+        /* Set the text color of the SweetAlert message and buttons to white */
+        .swal-text, .swal-button {
+            color: #ffffff !important;
+        }
+
+    </style>
+    {% block css %}
+
+    {% endblock %}
+</head>
+
+<body class=" side-menu  ">
+<div class="mobile-search">
+    {% comment %} <form action="/" class="search-form">
+        <img src="img/svg/search.svg" alt="search" class="svg">
+        <input class="form-control me-sm-2 box-shadow-none" type="search" placeholder="Search..." aria-label="Search">
+    </form>{% endcomment %}
+</div>
+<div class="mobile-author-actions"></div>
+<header class="header-top">
+    <nav class="navbar navbar-light">
+        <div class="navbar-left">
+            <div class="logo-area">
+                <a class="navbar-brand" href="#">
+                    <img class=" dark" src="{% static 'img/logo-dark.png' %}" alt="logo">
+                    <img class="light" src="{% static 'img/logo-white.png' %}" alt="logo">
+                </a>
+                <a href="#" class="sidebar-toggle">
+                    <img class="svg" src="{% static 'img/svg/align-center-alt.svg' %}" alt="img"></a>
+            </div>
+
+
+        </div>
+
+        <div class="navbar-right">
+            <ul class="navbar-right__menu">
+
+
+                <li class="nav-author">
+                    <div class="dropdown-custom">
+                        <a href="javascript:;" class="nav-item-toggle"><img
+                                src="{% static 'img/favicon.ico' %}" alt=""
+                                class=" rounded-circle">
+                            <span class="nav-item__title">{{ request.user.username }}<i
+                                    class="las la-angle-down nav-item__arrow"></i></span>
+                        </a>
+                        <div class="dropdown-parent-wrapper">
+                            <div class="dropdown-wrapper">
+                                <div class="nav-author__info">
+                                    <div class="author-img">
+                                        <img src="{% static 'img/favicon.ico' %}" alt="" class="rounded-circle">
+                                    </div>
+                                    <div>
+                                        <h6>{{ request.user.username }}</h6>
+                                    </div>
+                                </div>
+                                <div class="nav-author__options">
+
+                                    <a href="{% url "account_logout" %}" class="nav-author__signout">
+                                        <i class="uil uil-sign-out-alt"></i> Sign Out</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+
+            <div class="navbar-right__mobileAction d-md-none">
+                <a href="#" class="btn-search">
+                    <img src="{% static 'img/svg/search.svg' %}" alt="search" class="svg feather-search">
+                    <img src="{% static 'img/svg/x.svg' %}" alt="x" class="svg feather-x"></a>
+                <a href="#" class="btn-author-action">
+                    <img class="svg" src="{% static "img/svg/more-vertical.svg" %}" alt="more-vertical"></a>
+            </div>
+        </div>
+
+    </nav>
+</header>
+<main class="main-content">
+    <div class="sidebar-wrapper">
+        <div class="sidebar sidebar-collapse" id="sidebar">
+            <div class="sidebar__menu-group">
+                <ul class="sidebar_nav">
+
+                    <li class="">
+                        <a href="{% url "upload_data" %}">
+                            <span class="nav-icon uil uil-create-dashboard"></span>
+                            <span class="menu-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="{% url "list_contract" %}">
+                            <span class="nav-icon uil uil-file-contract"></span>
+                            <span class="menu-text">Contract</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="{% url "create_data_structure" %}">
+                            <span class="nav-icon uil uil-columns"></span>
+                            <span class="menu-text">Create Structure</span>
+                        </a>
+                    </li>
+                    {% if reqeuest.user.is_staff or request.user.is_superuser %}
+                        <li class="">
+                            <a href="{% url "create_user" %}">
+                                <span class="nav-icon uil uil-user-plus"></span>
+                                <span class="menu-text">Create User</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="{% url "update_structure_required_fields" %}">
+                                <span class="nav-icon uil uil-analytics"></span>
+                                <span class="menu-text">Update Required Fields</span>
+                            </a>
+                        </li>
+
+                    {% endif %}
+                    {% if not request.user.is_authenticated %}
+                        <li class="">
+                            <a href="{% url "account_login" %}">
+                                <span class="nav-icon uil uil-signin"></span>
+                                <span class="menu-text">Log In</span>
+                            </a>
+                        </li>
+
+                    {% else %}
+                        <li class="">
+                            <a href="{% url "account_logout" %}">
+                                <span class="nav-icon uil uil-sign-out-alt"></span>
+                                <span class="menu-text">Logout </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="contents">
+        <div class="container-fluid">
+            <div class="social-dash-wrap">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == "info" or message.tags == 'success' %}
+                            <div class="alert
+                                    alert-primary text-white
+                                    p-2 alert-dismissible fade show text-center text-capitalize shadow-sm" role="alert"
+                                 style="">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <footer class="footer-wrapper">
+        <div class="footer-wrapper__inside">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="footer-copyright">
+                            <p><span>© 2023</span><a href="#">Sovware</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="footer-menu text-end">
+                            <ul>
+                                <li>
+                                    <a href="#">About</a>
+                                </li>
+                                <li>
+                                    <a href="#">Team</a>
+                                </li>
+                                <li>
+                                    <a href="#">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</main>
+<div id="overlayer">
+    <div class="loader-overlay">
+        <div class="dm-spin-dots spin-lg">
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+        </div>
+    </div>
+</div>
+<div class="overlay-dark-sidebar"></div>
+<div class="customizer-overlay"></div>
+{% block script %}
+
+{% endblock %}
+<script src="{% static "js/plugins.min.js" %}"></script>
+<script src="{% static "js/script.min.js" %}"></script>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags != "info" or message.tags != 'success' %}
+            <script>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ message }}',
+                    footer: 'Please correct the excel format.'
+                })
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+</body>
+
+</html>

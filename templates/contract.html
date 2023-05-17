@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="breadcrumb-main">
+                <h4 class="text-capitalize breadcrumb-title">Contract</h4>
+                <div class="breadcrumb-action justify-content-center flex-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="uil uil-estate"></i>Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">contract</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header color-dark fw-500">
+                    All Contracts
+                </div>
+                <div class="card-body p-0">
+                    <div class="table4 p-25 mb-30">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                <tr class="userDatatable-header">
+                                    <th>
+                                        <span class="userDatatable-title">Counter</span>
+                                    </th>
+                                    <th>
+                                        <span class="userDatatable-title">Name</span>
+                                    </th>
+
+                                    <th>
+                                        <span class="userDatatable-title">Timestamp</span>
+                                    </th>
+                                    <th>
+                                        <span class="userDatatable-title">Action</span>
+                                    </th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in object_list %}
+                                    <tr>
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                <a href="{% url "list_contract_management" item.id %}"> {{ forloop.counter }}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                <a href="{% url "list_contract_management" item.id %}">{{ item.name }}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                {{ item.timestamp }}
+                                            </div>
+                                        </td>
+                                        <td style="max-width: 10px">
+
+                                            <form action="{% url 'contract_delete' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" value="{{ item.id }}"
+                                                       name="contract_id">
+
+                                                <button type="submit"
+                                                        class=" btn" style="box-shadow: none;">
+                                                    <i class="uil uil-trash-alt text-danger"></i>
+                                                </button>
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block css %}
+    <style>
+        #div_id_user {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group > * {
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="breadcrumb-main">
+                <h4 class="text-capitalize breadcrumb-title">Form</h4>
+                <div class="breadcrumb-action justify-content-center flex-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="uil uil-estate"></i>Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Form</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 d-flex justify-content-center align-items-center">
+            <div class="card card-default card-md mb-4" style="width: 80%">
+                <div class="card-header">
+                    <h6>Update Required Fields</h6>
+                </div>
+                <div class="card-body">
+                    <div class="basic-form-wrapper">
+                        <form action="{% url "update_structure_required_fields" %}" method="post"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-basic">
+                                {% for field in form %}
+                                    <div class="form-group">
+                                        {{ field|as_crispy_field }}
+                                    </div>
+
+                                {% endfor %}
+                                <div class="form-group mb-0">
+                                    <button type="submit" class="btn btn-lg btn-primary btn-submit">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+

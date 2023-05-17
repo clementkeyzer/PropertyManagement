@@ -1,0 +1,65 @@
+Tutorial Url  https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-22-04
+
+
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=server332
+Group=www-data
+WorkingDirectory=/home/server332/PropertyManagement
+ExecStart=/home/server332/PropertyManagement/venv/bin/gunicorn \
+        --access-logfile - \
+        --workers 3 \
+        --bind unix:/run/gunicorn.sock \
+        PropertyManagement.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+
+# Nginx Configuration
+server {
+    listen 80;
+    server_name 178.21.19.33 ;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        server332 /home/server332/PropertyManagement;
+    }
+    location /media/ {
+        server332 /home/server332/PropertyManagement;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}
+
+
+Celery Configuration systemd confuration in
+sudo nano /etc/systemd/system/celery.service
+
+[Unit]
+Description=Celery Service
+After=network.target
+
+[Service]
+User=server332
+Group=www-data
+WorkingDirectory=/home/server332/PropertyManagement
+ExecStart=/home/server332/PropertyManagement/venv/bin/celery -A PropertyManagement worker  --loglevel=info
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start celery
+sudo systemctl enable celery
+sudo systemctl status celery

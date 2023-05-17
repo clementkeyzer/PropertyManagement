@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+
+{% block content %}
+    <div class="col-12 mt-30">
+        <div class="card border-0">
+            <div class="card-header">
+                <h6>Propert Management</h6>
+                <div class="card-extra">
+
+                </div>
+            </div>
+            <div class="card-body p-0 pe-2">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-social">
+                        <thead>
+                        <tr>
+                            <th scope="row" rowspan="3">{{ Counter }}</th>
+                            {% for field in object_list|first|get_all_fields %}
+                                {% if field.name not in exclude_management_fields %}
+                                    <th scope="row" rowspan="3">{{ field.verbose_name|title }}</th>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in object_list %}
+                            <tr>
+                                <td style="min-width: 20px">{{ forloop.counter }}</td>
+                                {% with item|get_all_field_values as field_values %}
+                                    {% with item|get_all_fields as fields %}
+                                        {% for field_value, field in field_values|zip_fields_values:fields %}
+                                            {% if field.name not in exclude_management_fields %}
+                                                <td style="min-width: 100px">{{ field_value }}</td>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endwith %}
+                                {% endwith %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% comment %}   <th scope="col"></th>
+<th scope="col" colspan="3">Acquisition</th>
+<th scope="col" colspan="3">Behavior</th>
+{% endcomment %}

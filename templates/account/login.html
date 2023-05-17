@@ -1,0 +1,92 @@
+{% load crispy_forms_filters %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" type="image/x-icon"/>
+    <title>Login Page</title>
+    <style>
+        input:focus {
+            box-shadow: 0 0 8px #51cbee;
+        }
+
+        text {
+            color: #5e5e5e;
+        }
+
+        @media (min-width: 1200px) {
+            .large-screen-element {
+                max-width: 400px;
+            }
+        }
+
+    </style>
+</head>
+<body class="bg-cover bg-center bg-fixed" style="background-image: url('{% static "img/background.jpeg" %}');">
+<div class="flex justify-center items-center  ">
+    <div class="bg-white shadow-md rounded w-full h-screen md:w-2/3 md:h-2/5 lg:w-2/5 xl:w-2/6 lg:h-2/5 large-screen-element "
+         >
+        <!-- Login form content -->
+        <div class="mt-6 mb-6 flex justify-center">
+            <img src="{% static "img/logo_big.jpg" %}" alt="Logo" class="h-12" style="    display: block;
+                    margin: 0 auto;
+                    max-height: 40px;
+                    max-width: 200px;">
+        </div>
+        <hr>
+        <form method="POST" action="{% url 'account_login' %}"
+              class="bg-white  rounded px-8 pt-6 pb-2 large-screen-element">
+            <div class="mt-3 mb-3 flex justify-center font-semibold">
+                <h3 style="color: #5e5e5e;
+                         font-weight: 600;">Welcom</h3>
+            </div>
+            {% csrf_token %}
+            <div class="flex flex-col ">
+
+                <label for="id_login" class="block font-semibold" style=" font-size: 14px;">Emailadres</label>
+                <input type="email" name="login" placeholder="E-mail address" autocomplete="email" required=""
+                       id="id_login"
+                       class="border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-500"
+                       style="margin-bottom: 20px;">
+
+                <label for="id_password" class="block mb-2 font-semibold" style="font-size: 14px;">Wachtwoord</label>
+                <input type="password" name="password" placeholder="Password" autocomplete="current-password"
+                       required="" id="id_password"
+                       class="border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-500"
+                       style="margin-bottom: 20px;">
+
+                <label for="id_remember" class="block mb-2 font-semibold" style="margin-bottom: 30px;">
+                    <input type="checkbox" name="remember" id="id_remember" class="form-checkbox">
+                    <span class="ml-2" style=" font-size: 14px;">Remember Me</span>
+                </label>
+
+
+                <div class="admin__button-group button-group d-flex pt-1 justify-content-md-start justify-content-center"
+                     style="margin-bottom: 20px;">
+                    <button class="bg-blue-500 hover:bg-blue-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Login
+                    </button>
+                </div>
+                <div class="block ">
+                    <a href="#" target="_blank" class="text-gray-500 underline">Need
+                        help signing
+                        in?</a>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <footer class="fixed bottom-0 left-0 w-full bg-white h-10 flex items-center justify-between p-6 z-50">
+        <p class="text-xs text-gray-500">Powered by Okta </p>
+        <a href="https://login.watsonholmes.nl/privacy" target="_blank" class="text-xs text-gray-500">Privacy Policy</a>
+    </footer>
+
+</div>
+
+</body>
+</html>
