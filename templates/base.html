@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="{% static "style.css" %}">
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" type="image/x-icon"/>
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.0/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.0/dist/sweetalert2.min.js"></script>
 
@@ -117,32 +117,32 @@
             <div class="sidebar__menu-group">
                 <ul class="sidebar_nav">
 
-                    <li class="">
+                    <li class="{% if request.resolver_match.view_name == 'upload_data' %}active{% endif %}">
                         <a href="{% url "upload_data" %}">
                             <span class="nav-icon uil uil-create-dashboard"></span>
                             <span class="menu-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="">
+                    <li class="{% if request.resolver_match.view_name == 'list_contract' %}active{% endif %}">
                         <a href="{% url "list_contract" %}">
                             <span class="nav-icon uil uil-file-contract"></span>
-                            <span class="menu-text">Contract</span>
+                            <span class="menu-text">Uploads</span>
                         </a>
                     </li>
-                    <li class="">
+                    <li class="{% if request.resolver_match.view_name == 'create_data_structure' %}active{% endif %}">
                         <a href="{% url "create_data_structure" %}">
                             <span class="nav-icon uil uil-columns"></span>
-                            <span class="menu-text">Create Structure</span>
+                            <span class="menu-text">Mapping</span>
                         </a>
                     </li>
                     {% if reqeuest.user.is_staff or request.user.is_superuser %}
-                        <li class="">
+                        <li class="{% if request.resolver_match.view_name == 'create_user' %}active{% endif %}">
                             <a href="{% url "create_user" %}">
                                 <span class="nav-icon uil uil-user-plus"></span>
                                 <span class="menu-text">Create User</span>
                             </a>
                         </li>
-                        <li class="">
+                        <li class="{% if request.resolver_match.view_name == 'update_structure_required_fields' %}active{% endif %}">
                             <a href="{% url "update_structure_required_fields" %}">
                                 <span class="nav-icon uil uil-analytics"></span>
                                 <span class="menu-text">Update Required Fields</span>
@@ -151,7 +151,7 @@
 
                     {% endif %}
                     {% if not request.user.is_authenticated %}
-                        <li class="">
+                        <li class="{% if request.resolver_match.view_name == 'account_login' %}active{% endif %}">
                             <a href="{% url "account_login" %}">
                                 <span class="nav-icon uil uil-signin"></span>
                                 <span class="menu-text">Log In</span>
@@ -159,7 +159,7 @@
                         </li>
 
                     {% else %}
-                        <li class="">
+                        <li class="{% if request.resolver_match.view_name == 'account_logout' %}active{% endif %}">
                             <a href="{% url "account_logout" %}">
                                 <span class="nav-icon uil uil-sign-out-alt"></span>
                                 <span class="menu-text">Logout </span>
@@ -177,7 +177,7 @@
                     {% for message in messages %}
                         {% if message.tags == "info" or message.tags == 'success' %}
                             <div class="alert
-                                    alert-primary text-white
+                                    alert-success text-white
                                     p-2 alert-dismissible fade show text-center text-capitalize shadow-sm" role="alert"
                                  style="">
                                 {{ message }}
@@ -242,15 +242,15 @@
 
 {% if messages %}
     {% for message in messages %}
-        {% if message.tags != "info" or message.tags != 'success' %}
+        {% if message.tags == "error" %}
             <script>
-
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: '{{ message }}',
-                    footer: 'Please correct the excel format.'
+                    {#footer: 'Please correct the excel format.'#}
                 })
+
             </script>
         {% endif %}
     {% endfor %}

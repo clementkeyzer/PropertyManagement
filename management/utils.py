@@ -91,6 +91,8 @@ def check_required_field_to_management(contract: Contract):
     """
     managements = contract.management_set.all()
     required_fields = DataStructureRequiredField.objects.first()
+    if not required_fields:
+        required_fields = DataStructureRequiredField.objects.create()
 
     for management in managements:
         for field in required_fields._meta.fields:

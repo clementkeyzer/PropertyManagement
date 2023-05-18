@@ -107,6 +107,7 @@ class UploadDataView(LoginRequiredMixin, View):
         return render(request, "index.html", context)
 
     def post(self, request):
+        global contract
         if request.method == 'POST' and request.FILES['property_file']:
             excel_file = request.FILES['property_file']
             contract_name = request.POST.get("name")
@@ -118,7 +119,7 @@ class UploadDataView(LoginRequiredMixin, View):
 
             try:
                 excel_datas = excel_to_dict_list(excel_file)
-                contract = Contract.objects.create(name=contract_name)
+                contract = Contract.objects.create(name=contract_name, user=self.request.user)
 
                 for data in excel_datas:
                     structure = DataStructure.objects.filter(id=data_structure_id, user=self.request.user).first()
