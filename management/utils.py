@@ -22,9 +22,9 @@ def excel_to_dict_list(excel_file):
     wb = load_workbook(excel_file)
     ws = wb.active
 
-    headers = [convert_string(cell.value) for cell in ws[2]]  # Assuming the headers are in the second row
+    headers = [convert_string(cell.value) for cell in ws[1]]  # Assuming the headers are in the second row
     data = []
-    for row in ws.iter_rows(min_row=3):  # Assuming the data starts from the third row
+    for row in ws.iter_rows(min_row=2):  # Assuming the data starts from the third row
         row_data = {}
         all_none = True
         for header, cell in zip(headers, row):

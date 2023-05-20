@@ -77,17 +77,7 @@ class DataStructure(models.Model):
         return self._form
 
 
-def post_save_data_structure(sender, instance, *args, **kwargs):
-    """
-    This creates a user data_structure once a user is being created
-    :param sender:
-    :param instance:  the user created or updated
-    """
-    if instance:
-        data_structure, created = DataStructure.objects.get_or_create(user=instance)
 
-
-post_save.connect(post_save_data_structure, sender=User)
 
 
 class DataStructureRequiredField(models.Model):
