@@ -62,10 +62,9 @@ class Management(models.Model):
     index_type = models.CharField(max_length=250, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     index_frequency = models.CharField(max_length=250, blank=True, null=True)
-
     index_date = models.DateField(blank=True, null=True)
     index_value = models.CharField(max_length=250, blank=True, null=True)
     next_index_date = models.DateField(blank=True, null=True)
     next_index_value = models.CharField(max_length=250, blank=True, null=True)
-
     timestamp = models.DateTimeField(auto_now_add=True)
+    # added may 22

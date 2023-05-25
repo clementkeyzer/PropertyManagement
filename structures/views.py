@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 # Create your views here.
 from django.views import View
 
@@ -8,44 +8,29 @@ from .forms import DataStructureForm, DataStructureRequiredFieldForm
 from .models import DataStructure, DataStructureRequiredField
 
 
-class DataStructureCreateView(LoginRequiredMixin, View):
+class DataStructureUpdateView(LoginRequiredMixin, View):
 
     def get(self, request):
+        if not DataStructure.objects.filter(user=self.request.user).first():
+            DataStructure.objects.create(user=self.request.user)
+        data_structure = DataStructure.objects.filter(user=self.request.user).first()
         form = DataStructureForm()
         context = {
-            "form": form
+            "form": form,
+            "data_structure": data_structure,
         }
         return render(request, "data_structure.html", context=context)
 
     def post(self, request):
-        form = DataStructureForm(data=self.request.POST)
+        data_structure = DataStructure.objects.filter(user=self.request.user).first()
+
+        form = DataStructureForm(data=self.request.POST, instance=data_structure)
         if form.is_valid():
             data_structure = form.save(commit=False)
             data_structure.user = self.request.user  # Assign the logged-in user
             data_structure.save()
-            messages.success(request, "Successfully Create Structure")
+            messages.success(request, "Successfully Update Structure")
         return redirect("create_data_structure")
-
-
-class DataStructureUpdateView(LoginRequiredMixin, View):
-
-    def post(self, request, **kwargs):
-        id = self.kwargs.get("pk")
-        data_structure = DataStructure.objects.filter(user=self.request.user, id=id).first()
-        if not data_structure:
-            messages.warning(request, "An error occurred ")
-            return redirect("upload_data")
-
-        form = DataStructureForm(instance=data_structure, data=request.POST)
-        if form.is_valid():
-            data_structure = form.save(commit=False)
-            data_structure.user = self.request.user  # Assign the logged-in user
-            data_structure.save()
-            messages.info(request, "Successfully updated structure")
-            return redirect("upload_data")  # Replace with your desired URL or view name
-
-        messages.warning(request, "Structure does not exists")
-        return redirect("upload_data")
 
 
 class UpdateRetrieveRequiredFieldsView(LoginRequiredMixin, View):
@@ -72,5 +57,5 @@ class UpdateRetrieveRequiredFieldsView(LoginRequiredMixin, View):
         form = DataStructureRequiredFieldForm(data=self.request.POST, instance=data_structure_required_field)
         if form.is_valid():
             form.save()
-            messages.info(request, "Successfully Update Sructure form")
+            messages.info(request, "Successfully Update Structure form")
         return redirect("update_structure_required_fields")

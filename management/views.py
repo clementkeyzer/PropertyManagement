@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import models
@@ -8,26 +9,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import ListView
 
-from structures.forms import DataStructureForm
 from structures.models import DataStructure
-from .forms import UserCreationCustomForm
+from .forms import UserCreationCustomForm, ManagementForm
 from .models import Contract, Management
 from .utils import excel_to_dict_list, convert_string_int_to_bool, convert_string, query_items, \
     check_required_field_to_management
+from django.forms import formset_factory, HiddenInput
 
-from django.contrib.auth.decorators import user_passes_test
-
-
-class ListContractView(LoginRequiredMixin, ListView):
-    """
-    this is used to list all contracts that are avaiolable for a user
-    """
-    queryset = Contract.objects.all()
-    template_name = "contract.html"
-
-    def get_queryset(self):
-        queryset = Contract.objects.filter(user=self.request.user)
-        return queryset
+FormSet = formset_factory(ManagementForm, extra=0)
 
 
 class ContractDeleteView(View):
@@ -84,8 +73,34 @@ class ManagementListView(LoginRequiredMixin, ListView):
         # context['item_form'] = ManagementUpdate()
         context['exclude_management_fields'] = ["user", "contract", "id"]
         context["contract_id"] = self.kwargs['id']
+        formset = FormSet(
+            initial=Contract.objects.filter(id=self.kwargs['id']).first().management_set.all().values())
+        # Hide a specific field
+        for form in formset:
+            form.fields['user'].widget = HiddenInput()
+            form.fields['contract'].widget = HiddenInput()
+        context["formset"] = formset
         context["contract"] = Contract.objects.filter(id=self.kwargs['id']).first()
         return context
+
+
+class ManagementUpdateAllView(LoginRequiredMixin, View):
+
+    def post(self, request, id):
+        contract_id = id
+        # check for the contract if it exists
+        contract = Contract.objects.filter(id=contract_id).first()
+        if not contract:
+            return redirect("list_contract_management")
+        # get all the managements
+        managements = contract.management_set.all()
+        formset = FormSet(request.POST)
+
+        if formset.is_valid():
+            for form, management in zip(formset, managements):
+                form.instance.management = management  # Assign the current management instance to the form instance
+                form.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 class UploadDataView(LoginRequiredMixin, View):
@@ -95,14 +110,9 @@ class UploadDataView(LoginRequiredMixin, View):
     """
 
     def get(self, request):
-        if DataStructure.objects.filter(user=self.request.user).count() == 0:
-            # create new data structure
-            DataStructure.objects.create(user=self.request.user)
-
-        data_structures = DataStructure.objects.filter(user=self.request.user)
+        contracts = Contract.objects.filter(user=self.request.user)
         context = {
-            "data_structures": data_structures,
-            "form": DataStructureForm()
+            "contracts": contracts,
         }
         return render(request, "index.html", context)
 
@@ -111,7 +121,7 @@ class UploadDataView(LoginRequiredMixin, View):
         if request.method == 'POST' and request.FILES['property_file']:
             excel_file = request.FILES['property_file']
             contract_name = request.POST.get("name")
-            data_structure_id = request.POST.get("data_structure_id")
+            data_structure_id = DataStructure.objects.filter(user=self.request.user).first().id
 
             if not contract_name or not excel_file or not data_structure_id:
                 messages.warning(request, "Contract name or Excel File is required")

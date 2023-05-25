@@ -102,3 +102,22 @@ def check_required_field_to_management(contract: Contract):
                 if getattr(management, field.name) is None or getattr(management, field.name) == "":
                     return False, field.name
     return True, None
+
+
+def check_validation_on_management(contract: Contract):
+    """
+    this is used to validate the management model with the default value that is supposed to be there
+    :param contract:
+    :return:
+    """
+    managements = contract.management_set.all()
+    # loop through the management and check for the required stuff in each row
+    counter = 0
+    errors = []
+    for management in managements:
+        counter += 1
+        # check is vacant
+        if management.is_vacant:
+            if not management.vacancy_reason:
+                errors.append(f"Vacancy reason needed in row {counter}")
+        pass

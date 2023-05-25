@@ -44,10 +44,7 @@
 
 <body class=" side-menu  ">
 <div class="mobile-search">
-    {% comment %} <form action="/" class="search-form">
-        <img src="img/svg/search.svg" alt="search" class="svg">
-        <input class="form-control me-sm-2 box-shadow-none" type="search" placeholder="Search..." aria-label="Search">
-    </form>{% endcomment %}
+
 </div>
 <div class="mobile-author-actions"></div>
 <header class="header-top">
@@ -123,14 +120,9 @@
                             <span class="menu-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="{% if request.resolver_match.view_name == 'list_contract' %}active{% endif %}">
-                        <a href="{% url "list_contract" %}">
-                            <span class="nav-icon uil uil-file-contract"></span>
-                            <span class="menu-text">Uploads</span>
-                        </a>
-                    </li>
+
                     <li class="{% if request.resolver_match.view_name == 'create_data_structure' %}active{% endif %}">
-                        <a href="{% url "create_data_structure" %}">
+                        <a href="{% url "update_data_structure" %}">
                             <span class="nav-icon uil uil-columns"></span>
                             <span class="menu-text">Mapping</span>
                         </a>

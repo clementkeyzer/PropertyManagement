@@ -18,117 +18,111 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 mt-30">
-            <div class="card border-0">
-                <div class="card-header">
-                    <h6>{% comment %}{% endcomment %}</h6>
-                    <div class="card-extra">
-                        <ul class="card-tab-links nav-tabs nav" role="tablist">
 
-                            {% for data_structure in data_structures %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header color-dark fw-500">
+                    Uploads
+                </div>
+                <div class="card-body p-0">
+                    <div class="table4 p-25 mb-30">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                <tr class="userDatatable-header">
+                                    <th>
+                                        <span class="userDatatable-title">Counter</span>
+                                    </th>
+                                    <th>
+                                        <span class="userDatatable-title">Name</span>
+                                    </th>
 
-                                <li><a
-                                        {% if forloop.counter == 1 %}
-                                            class="active"
-                                            aria-selected="true"
-                                        {% else %}
-                                            aria-selected="false"
-                                        {% endif %}
-                                            id="data_structure_{{ data_structure.id }}-tab" data-bs-toggle="tab"
-                                            href="#data_structure_{{ data_structure.id }}"
-                                            role="tab">Mapping {{ forloop.counter }}</a></li>
-                            {% endfor %}
+                                    <th>
+                                        <span class="userDatatable-title">Timestamp</span>
+                                    </th>
+                                    <th>
+                                        <span class="userDatatable-title">Action</span>
+                                    </th>
 
-                        </ul>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in contracts %}
+                                    <tr>
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                <a href="{% url "list_contract_management" item.id %}"> {{ forloop.counter }}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                <a href="{% url "list_contract_management" item.id %}">{{ item.name }}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                {{ item.timestamp }}
+                                            </div>
+                                        </td>
+                                        <td style="max-width: 10px">
+
+                                            <form action="{% url 'contract_delete' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" value="{{ item.id }}"
+                                                       name="contract_id">
+
+                                                <button type="submit"
+                                                        class=" btn" style="box-shadow: none;">
+                                                    <i class="uil uil-trash-alt text-danger"></i>
+                                                </button>
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body p-0 pe-2">
-                    <div class="tab-content">
-                        {% for data_structure in data_structures %}
-                            <div class="tab-pane fade
-                                {% if forloop.counter == 1 %}
-                                     active show  {% endif %} "
-                                 id="data_structure_{{ data_structure.id }}" role="tabpanel"
-                                 aria-labelledby="data_structure_{{ data_structure.id }}-tab">
-                                <div class="row">
-                                    <div class=" col-md-5 d-flex justify-content-center ">
-                                        <div class="card card-default card-md mb-4">
-                                            <div class="card-header">
-                                                <h6>Rent Role</h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="basic-form-wrapper">
-                                                    <form action="." method="post" enctype="multipart/form-data">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="data_structure_id"
-                                                               value="{{ data_structure.id }}">
-                                                        <div class="form-basic">
-                                                            <div class="form-group mb-25">
-                                                                <label>Contract name</label>
-                                                                <input class="form-control form-control-lg" type="text"
-                                                                       name="name"
-                                                                       placeholder="contract name">
-                                                            </div>
-                                                            <div class="form-group mb-25">
-                                                                <label>Rental File</label>
-                                                                <input class="form-control form-control-lg" type="file"
-                                                                       name="property_file"
-                                                                       placeholder="file">
-                                                            </div>
+            </div>
+        </div>
+        <div class="col-12 my-5">
+            <div class="card">
+                <div class="card-header color-dark fw-500">
+                    New Upload
+                </div>
+                <div class="card-body p-0">
+                    <form action="." method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-                                                            <div class="form-group mb-0">
-                                                                <button type="submit"
-                                                                        class="btn btn-lg btn-primary btn-submit">
-                                                                    Upload
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-7 d-flex justify-content-center align-items-center">
-                                        <div class="card card-default card-md mb-4" style="width: 80%">
-                                            <div class="card-header">
-                                                <h6>Mapping</h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="basic-form-wrapper" style="max-width: 90%">
-                                                    <form action="{% url 'update_data_structure' data_structure.id %}"
-                                                          method="post" enctype="multipart/form-data">
-                                                        {% csrf_token %}
-                                                        <div class="form-basic">
-                                                            {% for field in data_structure.form %}
-
-                                                                {% if field.name != "user" %}
-                                                                    <div class="form-group">
-                                                                        {{ field|as_crispy_field }}
-                                                                    </div>
-
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                            <div class="form-group mb-0">
-                                                                <button type="submit"
-                                                                        class="btn btn-lg btn-primary btn-submit">
-                                                                    Update
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
+                        <div class="row px-3 mx-auto">
+                            <div class="col-12 col-md-4  form-group mb-25">
+                                <label>Contract name</label>
+                                <input class="form-control form-control-lg" type="text"
+                                       name="name"
+                                       placeholder="contract name">
                             </div>
-                        {% endfor %}
+                            <div class="col-12 col-md-4 form-group mb-25">
+                                <label>Rental File</label>
+                                <input class="form-control form-control-lg" type="file"
+                                       name="property_file"
+                                       placeholder="file">
+                            </div>
 
-
-                    </div>
+                            <div class="col-12 col-md-4 form-group mb-25">
+                                  <label>{{ ""}}</label>
+                                <button type="submit"
+                                        class="btn btn-lg btn-danger btn-submit" style="background-color:#870303">
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

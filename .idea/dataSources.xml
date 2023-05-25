@@ -23,5 +23,12 @@
       <jdbc-url>jdbc:postgresql://178.21.19.33:5432/propertymanagement</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="keyware_oscre2@keyware.nl" uuid="739e1784-16f4-4bd6-8b23-b5383eb93ba6">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://keyware.nl:3306/keyware_oscre2</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
