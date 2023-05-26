@@ -1,9 +1,13 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import models
-from django.http import HttpResponseRedirect
+from django.db.models import BooleanField
+from django.forms import formset_factory
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from django.views import View
@@ -14,7 +18,6 @@ from .forms import UserCreationCustomForm, ManagementForm
 from .models import Contract, Management
 from .utils import excel_to_dict_list, convert_string_int_to_bool, convert_string, query_items, \
     check_required_field_to_management
-from django.forms import formset_factory, HiddenInput
 
 FormSet = formset_factory(ManagementForm, extra=0)
 
@@ -70,37 +73,103 @@ class ManagementListView(LoginRequiredMixin, ListView):
         :return:
         """
         context = super().get_context_data(**kwargs)
-        # context['item_form'] = ManagementUpdate()
-        context['exclude_management_fields'] = ["user", "contract", "id"]
+        context['exclude_management_fields'] = ["user", "contract", "id", "timestamp"]
         context["contract_id"] = self.kwargs['id']
-        formset = FormSet(
-            initial=Contract.objects.filter(id=self.kwargs['id']).first().management_set.all().values())
-        # Hide a specific field
-        for form in formset:
-            form.fields['user'].widget = HiddenInput()
-            form.fields['contract'].widget = HiddenInput()
-        context["formset"] = formset
         context["contract"] = Contract.objects.filter(id=self.kwargs['id']).first()
         return context
 
 
-class ManagementUpdateAllView(LoginRequiredMixin, View):
+class ManagementUpdateView(LoginRequiredMixin, ListView):
+    queryset = Management.objects.all()
+    template_name = "management_edit.html"
+    paginate_by = 50
 
+    def get_queryset(self):
+        """
+        Return the list of items for this view.
+
+        The return value must be an iterable and may be an instance of
+        `QuerySet` in which case `QuerySet` specific behavior will be enabled.
+        """
+        id = self.kwargs['id']
+        query = self.request.GET.get('search')
+        username = self.request.GET.get('username')
+
+        contract = get_object_or_404(Contract, id=id)
+        queryset = contract.management_set.all()
+        ordering = self.get_ordering()
+        if query:
+            queryset = query_items(item=queryset, query=query)
+        if ordering:
+            if isinstance(ordering, str):
+                ordering = (ordering,)
+            queryset = queryset.order_by(*ordering)
+        if username:
+            queryset = queryset.filter(user__username=username)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        """
+        Overiding context data
+        :param kwargs:
+        :return:
+        """
+        context = super().get_context_data(**kwargs)
+        # context['item_form'] = ManagementUpdate()
+        context['exclude_management_fields'] = ["user", "contract", "id", "timestamp"]
+        context["contract_id"] = self.kwargs['id']
+        contract = Contract.objects.filter(id=self.kwargs['id']).first()
+
+        #  new
+        context["formset"] = [ManagementForm(instance=instance) for instance in contract.management_set.all()]
+        context["contract"] = Contract.objects.filter(id=self.kwargs['id']).first()
+        return context
+
+
+class ManagementUpdateAllView(View):
     def post(self, request, id):
         contract_id = id
-        # check for the contract if it exists
+        # Check if the contract exists
         contract = Contract.objects.filter(id=contract_id).first()
         if not contract:
             return redirect("list_contract_management")
-        # get all the managements
-        managements = contract.management_set.all()
-        formset = FormSet(request.POST)
 
-        if formset.is_valid():
-            for form, management in zip(formset, managements):
-                form.instance.management = management  # Assign the current management instance to the form instance
-                form.save()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        # Retrieve the form data from the request body
+        form_data = json.loads(request.body)
+
+        # Perform the update operation for each form
+        for form in form_data['forms']:
+            form_id = form['id']
+            form_fields = form['fields']
+
+            # Retrieve the management instance based on the form ID
+            management_instance = Management.objects.filter(id=form_id).first()
+            if not management_instance:
+                continue
+
+            # Update the fields of the management instance
+            for field_name, field_value in form_fields.items():
+                if field_name == "id" or field_name == "timestamp" or field_name == "user" or field_name == "contract":
+                    continue
+                if not field_value:
+                    print("This is none", field_value, field_name)
+                    continue
+
+                # Check if the field is a Boolean field
+                field = Management._meta.get_field(field_name)
+                if isinstance(field, BooleanField):
+                    # Convert the field value to a Boolean
+                    field_value = field_value.lower() == "true"
+                # this set the attribute
+                setattr(management_instance, field_name, field_value)
+
+                if getattr(management_instance, field_name, field_value) != field_value:
+                    # Save the updated management instance
+                    management_instance.save()
+            management_instance.save()
+
+        return JsonResponse({'message': 'Update successful'})
 
 
 class UploadDataView(LoginRequiredMixin, View):

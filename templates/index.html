@@ -38,6 +38,9 @@
                                     </th>
 
                                     <th>
+                                        <span class="userDatatable-title">Status</span>
+                                    </th>
+                                    <th>
                                         <span class="userDatatable-title">Timestamp</span>
                                     </th>
                                     <th>
@@ -61,10 +64,24 @@
                                         </td>
                                         <td>
                                             <div class="userDatatable-content">
+                                                {% if item.status == "SUCCESS" %}
+                                                    <h4 class="badge  badge-dot--big"
+                                                        style="background-color: #1B3F7F; border-radius: 2px; width: 70px">{{ item.status }}
+                                                    </h4>
+                                                {% else %}
+                                                    <h4 class="badge  badge-dot--big"
+                                                        style="background-color: #9D2154; border-radius: 2px; width: 70px">{{ item.status }}
+                                                    </h4>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="userDatatable-content">
                                                 {{ item.timestamp }}
                                             </div>
                                         </td>
-                                        <td style="max-width: 10px">
+                                        <td style="max-width: 10px"
+                                            class="d-flex justify-content-center align-items-center  px-5">
 
                                             <form action="{% url 'contract_delete' %}" method="post">
                                                 {% csrf_token %}
@@ -73,10 +90,14 @@
 
                                                 <button type="submit"
                                                         class=" btn" style="box-shadow: none;">
-                                                    <i class="uil uil-trash-alt text-danger"></i>
+                                                    <i class="uil uil-trash-alt " style="color: #9D2154"></i>
                                                 </button>
                                             </form>
+                                            <a href="{% url "update_contract_management" item.id %}"
+                                               class=" btn" style="box-shadow: none;">
 
+                                                <i class="uil uil-edit " style="color: #1B3F7F"></i>
+                                            </a>
                                         </td>
 
                                     </tr>
@@ -101,23 +122,23 @@
                         {% csrf_token %}
 
                         <div class="row px-3 mx-auto">
-                            <div class="col-12 col-md-4  form-group mb-25">
+                            <div class="col-12 col-md-4  form-group mb-md-5   mt-2 ">
                                 <label>Contract name</label>
                                 <input class="form-control form-control-lg" type="text"
                                        name="name"
                                        placeholder="contract name">
                             </div>
-                            <div class="col-12 col-md-4 form-group mb-25">
+                            <div class="col-12 col-md-4 form-group  mb-md-5   mt-2">
                                 <label>Rental File</label>
                                 <input class="form-control form-control-lg" type="file"
                                        name="property_file"
                                        placeholder="file">
                             </div>
 
-                            <div class="col-12 col-md-4 form-group mb-25">
-                                  <label>{{ ""}}</label>
+                            <div class="col-12 col-md-4 form-group  mb-md-5  mt-2">
+                                <label>{{ "" }}</label>
                                 <button type="submit"
-                                        class="btn btn-lg btn-danger btn-submit" style="background-color:#870303">
+                                        class="btn btn-lg btn-danger btn-submit" style="background-color:#9D2154">
                                     Upload
                                 </button>
                             </div>

@@ -10,6 +10,10 @@ class Contract(models.Model):
     currently we are using two tables for the check this is used to get the history of thr data
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="contracts")
+    status = models.CharField(max_length=250, default="PENDING", choices=(
+        ("PENDING", "PENDING"),
+        ("SUCCESS", "SUCCESS")
+    ))
     name = models.CharField(max_length=250, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 

@@ -1,11 +1,14 @@
 from django.urls import path
 
-from .views import UploadDataView, ManagementListView, ContractDeleteView, create_user, ManagementUpdateAllView
+from .views import UploadDataView, ManagementListView, ContractDeleteView, create_user, ManagementUpdateAllView, \
+    ManagementUpdateView
 
 urlpatterns = [
     path("", UploadDataView.as_view(), name="upload_data"),
     path("update_all_management/<int:id>/", ManagementUpdateAllView.as_view(), name="update_all_management"),
+    path("update_all_management/<int:id>/", ManagementUpdateAllView.as_view(), name="update_all_management"),
     path('create_user/', create_user, name='create_user'),
     path("contract_delete/", ContractDeleteView.as_view(), name="contract_delete"),
-    path("list_contract/<int:id>/", ManagementListView.as_view(), name="list_contract_management")
+    path("list_contract/<int:id>/", ManagementListView.as_view(), name="list_contract_management"),
+    path("update_contract/<int:id>/", ManagementUpdateView.as_view(), name="update_contract_management")
 ]
