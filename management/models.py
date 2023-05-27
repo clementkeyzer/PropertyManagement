@@ -24,7 +24,7 @@ class Management(models.Model):
     """
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="managements")
-    lease_id = models.CharField(max_length=250, )
+    lease_id = models.CharField(max_length=250, blank=True, null=True)
     lease_start_date = models.DateField(blank=True, null=True)
     first_day_of_term_date = models.DateField(blank=True, null=True)
     last_day_of_term_date = models.DateField(blank=True, null=True)
@@ -88,9 +88,10 @@ class ManagementRule(models.Model):
     """
     this is used to make rules which applies to each individual
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     gross_area_then_net_area = models.BooleanField(default=False)
     is_vacant_then_vacancy_reason = models.BooleanField(default=False)
     #  if the option type and by is provided then the date must also be provided
     option_then_date_provided = models.BooleanField(default=False)
+    # if index_value and index_frequency is provided then the date must also be provided
     index_then_date = models.BooleanField(default=False)

@@ -98,6 +98,7 @@
                 </div>
                 <div class="card-body">
                     <div class="basic-form-wrapper" style="max-width: 99%">
+
                         <form action="{% url "contract_rules" %}" method="post" class="form">
                             {% csrf_token %}
 
@@ -137,26 +138,12 @@
                                             <div id="div_id_gross_area_then_net_area" class="form-check"><input
                                                     type="checkbox" name="gross_area_then_net_area"
                                                     class="checkboxinput form-check-input"
+                                                    {% if management_rule.gross_area_then_net_area %}
+                                                    checked
+                                                    {% endif %}
                                                     id="id_gross_area_then_net_area"></div>
 
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td><p><b>PROPERTY</b></p></td>
-
-                                        <td style="word-break: break-word;"> If Is
-                                            vacant is true or checked
-                                            the vacancy reason
-                                            must be provided
-                                        </td>
-                                        <td style="min-width:50px;max-width: 50px">
-                                            <div id="id_is_vacant_then_vacancy_reason" class="form-check"><input
-                                                    type="checkbox" name="is_vacant_then_vacancy_reason"
-                                                    class="checkboxinput form-check-input"
-                                                    id="id_is_vacant_then_vacancy_reason"></div>
-
-                                        </td>
-
                                     </tr>
                                     <tr>
                                         <td><p><b>LEASE</b></p></td>
@@ -171,24 +158,49 @@
                                             <div id="div_id_option_then_date_provided" class="form-check"><input
                                                     type="checkbox" name="option_then_date_provided"
                                                     class="checkboxinput form-check-input"
+                                                    {% if management_rule.option_then_date_provided %}
+                                                    checked
+                                                    {% endif %}
                                                     id="id_option_then_date_provided"></div>
 
                                         </td>
 
                                     </tr>
+
                                     <tr>
-                                        <td><p><b>LEASE</b></p></td>
+                                        <td><p><b>PROPERTY</b></p></td>
+
+                                        <td style="word-break: break-word;"> If Is
+                                            vacant is true or checked
+                                            the vacancy reason
+                                            must be provided
+                                        </td>
+                                        <td style="min-width:50px;max-width: 50px">
+                                            <div id="id_is_vacant_then_vacancy_reason" class="form-check"><input
+                                                    type="checkbox" name="is_vacant_then_vacancy_reason"
+                                                    class="checkboxinput form-check-input"
+                                                    {% if management_rule.is_vacant_then_vacancy_reason %}
+                                                    checked
+                                                    {% endif %}
+                                                    id="id_is_vacant_then_vacancy_reason"></div>
+
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><p><b>Indexation</b></p></td>
 
                                         <td style="word-break: break-word;overflow-wrap: break-word;">
-                                            IF there is
-                                            an index on the
-                                            contract THEN there must
-                                            also be an index date and an index type
+                                            If index_value and index_frequency is provided then the date must also be
+                                            provided
                                         </td>
                                         <td style="">
                                             <div id="div_id_option_then_date_provided" class="form-check"><input
                                                     type="checkbox" name="index_then_date"
                                                     class="checkboxinput form-check-input"
+                                                    {% if management_rule.index_then_date %}
+                                                    checked
+                                                    {% endif %}
                                                     id="id_index_then_date"></div>
                                         </td>
 

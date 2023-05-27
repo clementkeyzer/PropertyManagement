@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from .forms import DataStructureForm, DataStructureRequiredFieldForm
+from .mixins import AdminRequiredMixin
 from .models import DataStructure, DataStructureRequiredField
 
 
@@ -33,7 +34,7 @@ class DataStructureUpdateView(LoginRequiredMixin, View):
         return redirect("update_data_structure")
 
 
-class UpdateRetrieveRequiredFieldsView(LoginRequiredMixin, View):
+class UpdateRetrieveRequiredFieldsView(LoginRequiredMixin,AdminRequiredMixin, View):
     """
     this is used to update required fields
     """

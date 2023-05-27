@@ -1,13 +1,15 @@
+import csv
 import json
 import operator
 import re
 from datetime import datetime
 from functools import reduce
+from io import TextIOWrapper
 
 from django.db.models import Q
 from openpyxl import load_workbook
 
-from management.models import Contract
+from management.models import Contract, ManagementRule
 from structures.models import DataStructureRequiredField
 
 
@@ -37,6 +39,42 @@ def excel_to_dict_list(excel_file):
         data.append(row_data)
 
     return data
+
+
+def csv_to_dict_list(csv_file):
+    data = []
+
+    reader = csv.reader(TextIOWrapper(csv_file, encoding='utf-8'))
+    raw_headers = next(reader)  # Read the first row as headers
+    headers = [convert_string(header) for header in raw_headers]  # Clean the headers using convert_string function
+
+    for row in reader:
+        row_data = {}
+        for header, value in zip(headers, row):
+            row_data[header] = value
+        data.append(row_data)
+
+    return data
+
+
+def convert_file_to_dictionary(file):
+    if str(file).endswith(".csv"):
+        data = csv_to_dict_list(file)
+    elif str(file).endswith(".xlsx") or str(file).endswith(".xls"):
+        data = excel_to_dict_list(file)
+    else:
+        raise ValueError("Unsupported file format")
+
+    return data
+
+
+def convert_date_format(input_string):
+    try:
+        # Assuming the input string is in the "YYYY/MM/DD" format
+        date_object = datetime.strptime(input_string, "%Y/%m/%d")
+        return date_object.strftime("%Y-%m-%d")
+    except:
+        return None
 
 
 def convert_string_int_to_bool(value):
@@ -112,14 +150,39 @@ def check_validation_on_management(contract: Contract):
     :param contract:
     :return:
     """
+
+    rule = ManagementRule.objects.filter(user=contract.user).first()
+    if not rule:
+        rule = ManagementRule.objects.create(user=contract.user)
     managements = contract.management_set.all()
     # loop through the management and check for the required stuff in each row
     counter = 0
     errors = []
+
     for management in managements:
         counter += 1
-        # check is vacant
-        if management.is_vacant:
-            if not management.vacancy_reason:
-                errors.append(f"Vacancy reason is needed if is vacant which is true is provided in row i {counter} ")
+        # check is vacant on rule
+        if rule.is_vacant_then_vacancy_reason:
+            if management.is_vacant:
+                if not management.vacancy_reason:
+                    errors.append(
+                        f"Vacancy reason is needed if is vacant which is true is provided in row  {counter} ")
+        #  check for gross area and net area
+        if rule.gross_area_then_net_area:
+            if management.gross_area and not management.net_area:
+                errors.append(f"Net Area need to be provided in row  {counter} if Gross Area is provided ")
+            if management.net_area and not management.gross_area:
+                errors.append(f"Gross Area need to be provided in row  {counter} if Net Area is provided ")
+        # check for Option
+        if rule.option_then_date_provided:
+            # option_type_landlord_tenant_mutual and option_type_break_purchase_renew  is provided then there must be
+            # date
+            if (management.option_type_landlord_tenant_mutual or management.option_type_break_purchase_renew):
+                if not management.option_to_date or not management.option_from_date:
+                    errors.append(f"Option from date or Option to date need to be provided on row {counter}")
+        # check for index
+        if rule.index_then_date:
+            if management.index_type or management.index_value:
+                if not management.index_date:
+                    errors.append(f"Index date needs to be provided if the value exists on row {counter}")
     return errors

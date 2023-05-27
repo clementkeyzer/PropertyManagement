@@ -17,7 +17,7 @@ from structures.models import DataStructure
 from .forms import UserCreationCustomForm, ManagementForm, ManagementRuleForm
 from .models import Contract, Management, ManagementRule
 from .utils import excel_to_dict_list, convert_string_int_to_bool, convert_string, query_items, \
-    check_required_field_to_management
+    check_required_field_to_management, convert_file_to_dictionary, convert_date_format, check_validation_on_management
 
 FormSet = formset_factory(ManagementForm, extra=0)
 
@@ -192,19 +192,19 @@ class UploadContractView(LoginRequiredMixin, View):
     def post(self, request):
         global contract
         if request.method == 'POST' and request.FILES['property_file']:
-            excel_file = request.FILES['property_file']
+            property_file = request.FILES['property_file']
             contract_name = request.POST.get("name")
             data_structure_id = DataStructure.objects.filter(user=self.request.user).first().id
 
-            if not contract_name or not excel_file or not data_structure_id:
+            if not contract_name or not property_file or not data_structure_id:
                 messages.warning(request, "Contract name or Excel File is required")
                 return redirect("upload_data")
 
             try:
-                excel_datas = excel_to_dict_list(excel_file)
                 contract = Contract.objects.create(name=contract_name, user=self.request.user)
+                property_datas = convert_file_to_dictionary(property_file)
 
-                for data in excel_datas:
+                for data in property_datas:
                     structure = DataStructure.objects.filter(id=data_structure_id, user=self.request.user).first()
                     management = Management()
 
@@ -217,8 +217,11 @@ class UploadContractView(LoginRequiredMixin, View):
                         converted_field_name = convert_string(user_field_name)
                         management_value = data.get(converted_field_name)
 
-                        if isinstance(field, models.BooleanField):
+                        #  we get attribute to be able to set the right value
+                        if isinstance(management._meta.get_field(field_name), models.BooleanField):
                             setattr(management, field_name, convert_string_int_to_bool(management_value))
+                        elif isinstance(management._meta.get_field(field_name), models.DateField):
+                            setattr(management, field_name, convert_date_format(management_value))
                         else:
                             setattr(management, field_name, management_value)
 
@@ -229,7 +232,7 @@ class UploadContractView(LoginRequiredMixin, View):
                 return redirect("validate_contract", contract.id)
             except Exception as e:
                 contract.delete()
-                messages.error(request, f'Error uploading Excel file: {e}')
+                messages.error(request, f'Error uploading file: {e}')
                 return redirect("upload_data")
         return redirect("upload_data")
 
@@ -246,8 +249,9 @@ class ContractRulesView(LoginRequiredMixin, View):
         :return:
         """
         if ManagementRule.objects.count() < 1:
-            ManagementRule.objects.create(user=self.request.user)
-        management_rule = ManagementRule.objects.filter(user=self.request.user).first()
+            management_rule = ManagementRule.objects.create(user=self.request.user)
+        else:
+            management_rule = ManagementRule.objects.filter(user=self.request.user).first()
         form = ManagementRuleForm(instance=management_rule)
         context = {
             "form": form,
@@ -282,16 +286,21 @@ class ValidateContractView(LoginRequiredMixin, View):
         errors = []
         # First we check for required fields
         check_errors = check_required_field_to_management(contract)
+        # user custom validation
+        validate_errors = check_validation_on_management(contract)
         #  check if the length of the error is greater than zero if it is then
         #  we need to direct the user to the update page
         errors += check_errors
+        errors += validate_errors
         if len(errors) > 0:
+            contract.status = "PENDING"
+            contract.save()
             for error in errors:
                 messages.error(request, error)
             return redirect("contract_update", contract.id)
         contract.status = "SUCCESS"
         contract.save()
-        messages.info(request, "Contract  has been validated and current have no error")
+        messages.info(request, "The contract has been validated and currently has no errors")
         return redirect("contract_detail", contract.id)
 
 

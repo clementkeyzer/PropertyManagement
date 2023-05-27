@@ -1,0 +1,8 @@
+
+When adding new fields  there are severplaces it needs to be added
+
+1) The management Model
+2) The management form (If its an integer or a boolean it  must be added in the management form)
+3) The DataStructure Model
+4) The DataStructureRequiredField   model
+5) It need to be added in the data structure form in datastructure.html page
