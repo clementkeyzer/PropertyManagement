@@ -93,15 +93,17 @@ def check_required_field_to_management(contract: Contract):
     required_fields = DataStructureRequiredField.objects.first()
     if not required_fields:
         required_fields = DataStructureRequiredField.objects.create()
-
+    errors = []
+    counter = 0
     for management in managements:
+        counter += 1
         for field in required_fields._meta.fields:
-            if field.name == 'id' or field.name == "timestamp":
+            if field.name == 'id' or field.name == "timestamp" or field.name == "user" or field.name == "contract":
                 continue
             if getattr(required_fields, field.name):
                 if getattr(management, field.name) is None or getattr(management, field.name) == "":
-                    return False, field.name
-    return True, None
+                    errors.append(f"{field.name}  cant be none please update this on the excel on row {counter}")
+    return errors
 
 
 def check_validation_on_management(contract: Contract):
@@ -119,5 +121,5 @@ def check_validation_on_management(contract: Contract):
         # check is vacant
         if management.is_vacant:
             if not management.vacancy_reason:
-                errors.append(f"Vacancy reason needed in row {counter}")
-        pass
+                errors.append(f"Vacancy reason is needed if is vacant which is true is provided in row i {counter} ")
+    return errors

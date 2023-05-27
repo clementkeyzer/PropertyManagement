@@ -1,9 +1,10 @@
 # forms.py
 from django import forms
-from .models import Management
+from .models import Management, ManagementRule
 
 
 class UserCreationCustomForm(forms.Form):
+    """this form is used to create new user"""
     email = forms.EmailField(required=True)
     is_staff = forms.BooleanField(required=False)
     is_superuser = forms.BooleanField(required=False)
@@ -72,3 +73,12 @@ class ManagementForm(forms.ModelForm):
         widgets = {
             'date_field': forms.DateInput(format='%y-%m-%d'),  # Specify the desired display format for the date field
         }
+
+
+class ManagementRuleForm(forms.ModelForm):
+    """
+    this  form is used to update rules
+    """
+    class Meta:
+        model = ManagementRule
+        fields = "__all__"

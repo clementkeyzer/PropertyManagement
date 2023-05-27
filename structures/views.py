@@ -30,7 +30,7 @@ class DataStructureUpdateView(LoginRequiredMixin, View):
             data_structure.user = self.request.user  # Assign the logged-in user
             data_structure.save()
             messages.success(request, "Successfully Update Structure")
-        return redirect("create_data_structure")
+        return redirect("update_data_structure")
 
 
 class UpdateRetrieveRequiredFieldsView(LoginRequiredMixin, View):

@@ -128,10 +128,16 @@
                         </a>
                     </li>
 
-                    <li class="{% if request.resolver_match.view_name == 'create_data_structure' %}active{% endif %}">
+                    <li class="{% if request.resolver_match.view_name == 'update_data_structure' %}active{% endif %}">
                         <a href="{% url "update_data_structure" %}">
                             <span class="nav-icon uil uil-columns"></span>
                             <span class="menu-text">Mapping</span>
+                        </a>
+                    </li>
+                    <li class="{% if request.resolver_match.view_name == 'contract_rules' %}active{% endif %}">
+                        <a href="{% url "contract_rules" %}">
+                            <span class="nav-icon uil uil-analytics"></span>
+                            <span class="menu-text">Contract Rule</span>
                         </a>
                     </li>
                     {% if reqeuest.user.is_staff or request.user.is_superuser %}
@@ -141,6 +147,7 @@
                                 <span class="menu-text">Create User</span>
                             </a>
                         </li>
+
                         <li class="{% if request.resolver_match.view_name == 'update_structure_required_fields' %}active{% endif %}">
                             <a href="{% url "update_structure_required_fields" %}">
                                 <span class="nav-icon uil uil-analytics"></span>
@@ -178,7 +185,14 @@
                             <div class="alert
                                     alert-success text-white
                                     p-2 alert-dismissible fade show text-center text-capitalize shadow-sm" role="alert"
-                                 style="">
+                                 style="background-color: #1B3F7F">
+                                {{ message }}
+                            </div>
+                        {% else %}
+                            <div class="alert
+                                    alert-success text-white
+                                    p-2 alert-dismissible fade show text-center text-capitalize shadow-sm" role="alert"
+                                 style="background-color: #9D2154">
                                 {{ message }}
                             </div>
                         {% endif %}
@@ -239,21 +253,6 @@
 <script src="{% static "js/plugins.min.js" %}"></script>
 <script src="{% static "js/script.min.js" %}"></script>
 
-{% if messages %}
-    {% for message in messages %}
-        {% if message.tags == "error" %}
-            <script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: '{{ message }}',
-                    {#footer: 'Please correct the excel format.'#}
-                })
-
-            </script>
-        {% endif %}
-    {% endfor %}
-{% endif %}
 
 </body>
 

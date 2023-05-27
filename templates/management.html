@@ -77,44 +77,40 @@
             </div>
             <div class="card-body p-0 pe-2">
                 <div class="table-responsive " style="margin-bottom: 50px">
-                    <form id="updateForm" method="post" action="{% url 'update_all_management' contract.id %}"
-                    >
-                        {% csrf_token %}
-                        <div class="table-container">
-                            <table class="table table-bordered table-social">
-                                <thead>
-                                <tr>
-                                    <th scope="row" rowspan="3">{{ Counter }}</th>
-                                    {% for field in object_list|first|get_all_fields %}
-                                        {% if field.name not in exclude_management_fields %}
-                                            <th scope="row" rowspan="3"
-                                                style="font-weight: bolder">{{ field.verbose_name|title }}</th>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
-                                </thead>
-                                <tbody>
 
-                                {% for item in object_list %}
-                                    <tr>
-                                        <td style="min-width: 100px">{{ forloop.counter }}</td>
-                                        {% with item|get_all_field_values as field_values %}
-                                            {% with item|get_all_fields as fields %}
-                                                {% for field_value, field in field_values|zip_fields_values:fields %}
-                                                    {% if field.name not in exclude_management_fields %}
-                                                        <td style="min-width: 200px">{{ field_value }}</td>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            {% endwith %}
-                                        {% endwith %}
-                                    </tr>
+                    <div class="table-container">
+                        <table class="table table-bordered table-social">
+                            <thead>
+                            <tr>
+                                <th scope="row" rowspan="3">{{ Counter }}</th>
+                                {% for field in object_list|first|get_all_fields %}
+                                    {% if field.name not in exclude_management_fields %}
+                                        <th scope="row" rowspan="3"
+                                            style="font-weight: bolder">{{ field.verbose_name|title }}</th>
+                                    {% endif %}
                                 {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                            </tr>
+                            </thead>
+                            <tbody>
 
+                            {% for item in object_list %}
+                                <tr>
+                                    <td style="min-width: 100px">{{ forloop.counter }}</td>
+                                    {% with item|get_all_field_values as field_values %}
+                                        {% with item|get_all_fields as fields %}
+                                            {% for field_value, field in field_values|zip_fields_values:fields %}
+                                                {% if field.name not in exclude_management_fields %}
+                                                    <td style="min-width: 200px">{{ field_value }}</td>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
-                    </form>
 
                 </div>
 

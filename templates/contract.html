@@ -47,12 +47,12 @@
                                     <tr>
                                         <td>
                                             <div class="userDatatable-content">
-                                                <a href="{% url "list_contract_management" item.id %}"> {{ forloop.counter }}</a>
+                                                <a href="{% url "contract_detail" item.id %}"> {{ forloop.counter }}</a>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="userDatatable-content">
-                                                <a href="{% url "list_contract_management" item.id %}">{{ item.name }}</a>
+                                                <a href="{% url "contract_detail" item.id %}">{{ item.name }}</a>
                                             </div>
                                         </td>
                                         <td>

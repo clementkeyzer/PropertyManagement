@@ -77,6 +77,7 @@
             border: 1px solid #ccc; /* Set the border style */
             border-radius: 4px; /* Add rounded corners to the border */
             padding: 8px; /* Add padding to the input */
+            min-width: 200px;
         }
 
         input:focus {
@@ -89,19 +90,7 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-lg-12">
-            <div class="breadcrumb-main">
-                <h4 class="text-capitalize breadcrumb-title">Form</h4>
-                <div class="breadcrumb-action justify-content-center flex-wrap">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><i class="uil uil-estate"></i>Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Form</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
+
         <div class="col-12 d-flex justify-content-center align-items-center">
             <div class="card card-default card-md mb-4">
                 <div class="card-header">
@@ -127,12 +116,13 @@
 
                                         <th>
                                             <span class="userDatatable-title"
-                                                  style="font-weight: bolder;font-size: 20px;min-width: 300px">Oscre Table And Header
-                                            </span>
+                                                  style="font-weight: bolder;font-size: 20px;min-width: 300px">Oscre Table And
+                                                Header</span>
+
                                         </th>
                                         <th>
                                             <span class="userDatatable-title"
-                                                  style="font-weight: bolder;font-size: 20px;min-width: 300px">Your Header</span>
+                                                  style="font-weight: bolder;font-size: 20px;min-width: 200px">Your Header</span>
                                         </th>
                                         <th>
                                             <span class="userDatatable-title"
@@ -145,18 +135,19 @@
 
                                     </tr>
                                     </thead>
+
                                     <tbody>
                                     <tr>
-                                        <td></td>
+                                        <td><p><b>LEASE</b></p></td>
 
                                         <td style="min-width:150px"> Lease ID</td>
                                         <td style="min-width:150px"> Lease | LeaseID</td>
                                         <td style="min-width:150px">
-                                        <span class=" text-796">
+
                                             <input
                                                     type="text" name="lease_id" value="{{ data_structure.lease_id }}"
                                                     size="40"
-                                                    class="form-control text"></span>
+                                                    class="form-control text">
                                         </td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width:150px">YES</td>
@@ -166,12 +157,11 @@
 
                                         <td style="min-width:150px"> Lease start date</td>
                                         <td style="min-width:150px"> Lease | DateOfLeaseDate</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-797"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="lease_start_date"
                                                 value="{{ data_structure.lease_start_date }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -182,11 +172,11 @@
                                         <td style="min-width:150px"> First day of term date</td>
                                         <td style="min-width:150px"> Lease | FirstDayOfTermDate</td>
                                         <td style="min-width:150px">
-                                        <span class=" text-798"><input
-                                                type="text" name="first_day_of_term_date"
-                                                value="{{ data_structure.first_day_of_term_date }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                            <input
+                                                    type="text" name="first_day_of_term_date"
+                                                    value="{{ data_structure.first_day_of_term_date }}"
+                                                    size="40"
+                                                    class="form-control text"></td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -195,11 +185,10 @@
 
                                         <td style="min-width:150px"> Last day of term date</td>
                                         <td style="min-width:150px"> Lease | LastDayOfTermDate</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-799"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="last_day_of_term_date"
                                                 value="{{ data_structure.last_day_of_term_date }}" size="40"
-                                                class="form-control text valid"></span>
+                                                class="form-control text valid">
                                         </td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width: 150px">if known</td>
@@ -210,10 +199,10 @@
                                         <td style="min-width:150px"> Lease expiration date</td>
                                         <td style="min-width:150px"> Lease | ExpirationDate</td>
                                         <td style="min-width:150px">
-                                        <span class=" text-800"><input
-                                                type="text" name="lease_expiration_date"
-                                                value="{{ data_structure.lease_expiration_date }}" size="40"
-                                                class="form-control text"></span></td>
+                                            <input
+                                                    type="text" name="lease_expiration_date"
+                                                    value="{{ data_structure.lease_expiration_date }}" size="40"
+                                                    class="form-control text"></td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -223,11 +212,11 @@
                                         <td style="min-width:150px"> Rent security</td>
                                         <td style="min-width:150px"> RentSecurity | ProvidedAmount</td>
                                         <td style="min-width:150px">
-                                        <span class=" text-801"><input
-                                                type="text" name="rent_security"
-                                                value="{{ data_structure.rent_security }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                            <input
+                                                    type="text" name="rent_security"
+                                                    value="{{ data_structure.rent_security }}"
+                                                    size="40"
+                                                    class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -236,11 +225,10 @@
 
                                         <td style="min-width:150px"> Rent security type</td>
                                         <td style="min-width:150px"> RentSecurity | SecurityTypeCode</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-802"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="rent_security_type"
                                                 value="{{ data_structure.rent_security_type }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -251,11 +239,11 @@
                                         </td>
                                         <td style="min-width:150px"> Tenant id</td>
                                         <td style="min-width:150px"> Tenant | TenantID</td>
-                                        <td style="min-width:150px"><span class=" text-803">
-                                        <input
-                                                type="text" name="tenant_id" value="{{ data_structure.tenant_id }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px">
+                                            <input
+                                                    type="text" name="tenant_id" value="{{ data_structure.tenant_id }}"
+                                                    size="40"
+                                                    class="form-control text"></td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -264,11 +252,12 @@
 
                                         <td style="min-width:150px"> Tenant name</td>
                                         <td style="min-width:150px"> Tenant | Name</td>
-                                        <td style="min-width:150px"><span class=" text-804">
-                                        <input
-                                                type="text" name="tenant_name" value="{{ data_structure.tenant_name }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px">
+                                            <input
+                                                    type="text" name="tenant_name"
+                                                    value="{{ data_structure.tenant_name }}"
+                                                    size="40"
+                                                    class="form-control text"></td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -277,12 +266,11 @@
 
                                         <td style="min-width:150px"> Is company</td>
                                         <td style="min-width:150px"> Tenant | IsCompany</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-805"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="is_company"
                                                 value="{{ data_structure.is_company }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> BIT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -293,11 +281,10 @@
                                         </td>
                                         <td style="min-width:150px"> Option from date</td>
                                         <td style="min-width:150px"> LeaseOption | FromDate</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-806"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="option_from_date"
                                                 value="{{ data_structure.option_from_date }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -306,11 +293,10 @@
 
                                         <td style="min-width:150px"> Option to date</td>
                                         <td style="min-width:150px"> LeaseOption | ToDate</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-807"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="option_to_date"
                                                 value="{{ data_structure.option_to_date }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -319,11 +305,10 @@
 
                                         <td style="min-width:150px"> Option type break purchase renew</td>
                                         <td style="min-width:150px"> LeaseOption | TypeCode</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-808"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="option_type_break_purchase_renew"
                                                 value="{{ data_structure.option_type_break_purchase_renew }}"
-                                                size="40" class="form-control text"></span>
+                                                size="40" class="form-control text">
                                         </td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
@@ -333,11 +318,10 @@
 
                                         <td style="min-width:150px"> Option type landlord tenant mutual</td>
                                         <td style="min-width:150px"> LeaseOption | OptionByCode</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-809"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="option_type_landlord_tenant_mutual"
                                                 value="{{ data_structure.option_type_landlord_tenant_mutual }}"
-                                                size="40" class="form-control text"></span>
+                                                size="40" class="form-control text">
                                         </td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
@@ -347,10 +331,10 @@
 
                                         <td style="min-width:150px"> Term</td>
                                         <td style="min-width:150px"> LeaseOption | Term</td>
-                                        <td style="min-width:150px"><span class=" text-810">
-                                        <input
-                                                type="text" name="term" value="{{ data_structure.term }}" size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px">
+                                            <input
+                                                    type="text" name="term" value="{{ data_structure.term }}" size="40"
+                                                    class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -359,12 +343,11 @@
 
                                         <td style="min-width:150px"> Notice term</td>
                                         <td style="min-width:150px"> LeaseOption | NoticeTerm</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-811"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="notice_term"
                                                 value="{{ data_structure.notice_term }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -373,11 +356,10 @@
 
                                         <td style="min-width:150px"> Notice term date</td>
                                         <td style="min-width:150px"> LeaseOption | NoticeTermDate</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-812"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="notice_term_date"
                                                 value="{{ data_structure.notice_term_date }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -386,11 +368,10 @@
 
                                         <td style="min-width:150px"> Notice term frequency</td>
                                         <td style="min-width:150px"> LeaseOption | TermFrequencyCode</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-813"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="notice_term_frequency"
                                                 value="{{ data_structure.notice_term_frequency }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -401,11 +382,10 @@
                                         </td>
                                         <td style="min-width:150px"> Fund id</td>
                                         <td style="min-width:150px"> All tables | FundID</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-814"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="fund_id" value="{{ data_structure.fund_id }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -414,12 +394,11 @@
 
                                         <td style="min-width:150px"> Property id</td>
                                         <td style="min-width:150px"> All tables | PropertyID</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-815"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="property_id"
                                                 value="{{ data_structure.property_id }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -428,11 +407,10 @@
 
                                         <td style="min-width:150px"> Unit id</td>
                                         <td style="min-width:150px"> All tables | UnitID</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-816"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="unit_id" value="{{ data_structure.unit_id }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -441,11 +419,10 @@
 
                                         <td style="min-width:150px"> Unit type</td>
                                         <td style="min-width:150px"> Unit | UnitType</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-817"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="unit_type" value="{{ data_structure.unit_type }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -454,12 +431,11 @@
 
                                         <td style="min-width:150px"> Gross area</td>
                                         <td style="min-width:150px"> Unit | GrossArea</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-818"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="gross_area"
                                                 value="{{ data_structure.gross_area }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -468,11 +444,10 @@
 
                                         <td style="min-width:150px"> Net area</td>
                                         <td style="min-width:150px"> Unit | NetArea</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-819"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="net_area" value="{{ data_structure.net_area }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -481,11 +456,10 @@
 
                                         <td style="min-width:150px"> Is vacant</td>
                                         <td style="min-width:150px"> Unit | Vacant</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-820"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="is_vacant" value="{{ data_structure.is_vacant }}"
                                                 size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> BIT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -494,11 +468,10 @@
 
                                         <td style="min-width:150px"> Vacancy reason</td>
                                         <td style="min-width:150px"> Unit | VacancyNote</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-821"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="vacancy_reason"
                                                 value="{{ data_structure.vacancy_reason }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width: 150px">required if IsVacant = 1</td>
                                     </tr>
@@ -509,11 +482,10 @@
                                         </td>
                                         <td style="min-width:150px"> Income category rent amount</td>
                                         <td style="min-width:150px"> LeaseCharge | Amount</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-822"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="income_category_rent_amount"
                                                 value="{{ data_structure.income_category_rent_amount }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -522,11 +494,10 @@
 
                                         <td style="min-width:150px"> Income category service charges amount</td>
                                         <td style="min-width:150px"> LeaseCharge | Amount</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-823"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="income_category_service_charges_amount"
                                                 value="{{ data_structure.income_category_service_charges_amount }}"
-                                                size="40" class="form-control text"></span>
+                                                size="40" class="form-control text">
                                         </td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
@@ -536,11 +507,10 @@
 
                                         <td style="min-width:150px"> Income category others amount</td>
                                         <td style="min-width:150px"> LeaseCharge | Amount</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-824"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="income_category_others_amount"
                                                 value="{{ data_structure.income_category_others_amount }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -549,11 +519,10 @@
 
                                         <td style="min-width:150px"> Income category discount amount</td>
                                         <td style="min-width:150px"> LeaseCharge | Amount</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-825"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="income_category_discount_amount"
                                                 value="{{ data_structure.income_category_discount_amount }}"
-                                                size="40" class="form-control text"></span>
+                                                size="40" class="form-control text">
                                         </td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
@@ -563,11 +532,10 @@
 
                                         <td style="min-width:150px"> Term frequency</td>
                                         <td style="min-width:150px"> LeaseCharge | TermFrequency</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-826"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="term_frequency"
                                                 value="{{ data_structure.term_frequency }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -576,11 +544,10 @@
 
                                         <td style="min-width:150px"> Charge frequency</td>
                                         <td style="min-width:150px"> LeaseCharge | ChargeFrequency</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-827"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="charge_frequency"
                                                 value="{{ data_structure.charge_frequency }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -589,11 +556,10 @@
 
                                         <td style="min-width:150px"> Value added tax</td>
                                         <td style="min-width:150px"> LeaseCharge | VATCode</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-828"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="value_added_tax"
                                                 value="{{ data_structure.value_added_tax }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> BIT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -602,11 +568,10 @@
 
                                         <td style="min-width:150px"> Value added tax rate</td>
                                         <td style="min-width:150px"> LeaseCharge | VATRate</td>
-                                        <td style="min-width:150px"><span
-                                                class=" text-829"><input
+                                        <td style="min-width:150px"><input
                                                 type="text" name="value_added_tax_rate"
                                                 value="{{ data_structure.value_added_tax_rate }}" size="40"
-                                                class="form-control text"></span></td>
+                                                class="form-control text"></td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -615,10 +580,11 @@
 
                                         <td style="min-width:150px"> Start payment schedule</td>
                                         <td style="min-width:150px"> LeaseCharge | StartPaymentSchedule</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="start_payment_schedule"
-                                                value="{{ data_structure.start_payment_schedule }}" size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="start_payment_schedule"
+                                                                           value="{{ data_structure.start_payment_schedule }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -627,10 +593,11 @@
 
                                         <td style="min-width:150px"> End payment schedule</td>
                                         <td style="min-width:150px"> LeaseCharge | EndPaymentSchedule</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="end_payment_schedule"
-                                                value="{{ data_structure.end_payment_schedule }}" size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="end_payment_schedule"
+                                                                           value="{{ data_structure.end_payment_schedule }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width: 150px">if known</td>
                                     </tr>
@@ -639,10 +606,11 @@
 
                                         <td style="min-width:150px"> Currency</td>
                                         <td style="min-width:150px"> LeaseCharge | CurrencyCode</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="currency" value="{{ data_structure.currency }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="currency"
+                                                                           value="{{ data_structure.currency }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width:150px">YES</td>
                                     </tr>
@@ -653,11 +621,11 @@
                                         </td>
                                         <td style="min-width:150px"> Index series</td>
                                         <td style="min-width:150px"> Indexation | IndexSeries</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="index_series"
-                                                value="{{ data_structure.index_series }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="index_series"
+                                                                           value="{{ data_structure.index_series }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -666,11 +634,11 @@
 
                                         <td style="min-width:150px"> Index type</td>
                                         <td style="min-width:150px"> Indexation | IndexType</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="index_type"
-                                                value="{{ data_structure.index_type }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="index_type"
+                                                                           value="{{ data_structure.index_type }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> VARCHAR</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -679,11 +647,11 @@
 
                                         <td style="min-width:150px"> Start date</td>
                                         <td style="min-width:150px"> Indexation | StartDate</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="start_date"
-                                                value="{{ data_structure.start_date }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="start_date"
+                                                                           value="{{ data_structure.start_date }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -692,10 +660,11 @@
 
                                         <td style="min-width:150px"> Index frequency</td>
                                         <td style="min-width:150px"> Indexation | IndexFrequency</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="index_frequency"
-                                                value="{{ data_structure.index_frequency }}" size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="index_frequency"
+                                                                           value="{{ data_structure.index_frequency }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -704,11 +673,11 @@
 
                                         <td style="min-width:150px"> Index date</td>
                                         <td style="min-width:150px"> Indexation | IndexDate</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="index_date"
-                                                value="{{ data_structure.index_date }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="index_date"
+                                                                           value="{{ data_structure.index_date }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -717,11 +686,11 @@
 
                                         <td style="min-width:150px"> Index value</td>
                                         <td style="min-width:150px"> Indexation | Value</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="index_value"
-                                                value="{{ data_structure.index_value }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="index_value"
+                                                                           value="{{ data_structure.index_value }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -730,11 +699,11 @@
 
                                         <td style="min-width:150px"> Next index date</td>
                                         <td style="min-width:150px"> Indexation | Value</td>
-                                        <td style="min-width:150px"><span class=" "><input
-                                                type="text" name="next_index_date"
-                                                value="{{ data_structure.next_index_date }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
+                                        <td style="min-width:150px"><input type="text" name="next_index_date"
+                                                                           value="{{ data_structure.next_index_date }}"
+                                                                           size="40"
+                                                                           class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> YYYY-MM-DD</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -743,12 +712,11 @@
                                         <td style="min-width:150px"> Next index value</td>
                                         <td style="min-width:150px"> Indexation | IndexDate</td>
                                         <td style="min-width:150px">
-                                            <span
-                                                    class=" "><input
-                                                    type="text" name="next_index_value"
-                                                    value="{{ data_structure.next_index_value }}"
-                                                    size="40"
-                                                    class="form-control text"></span></td>
+                                            <input type="text" name="next_index_value"
+                                                   value="{{ data_structure.next_index_value }}"
+                                                   size="40"
+                                                   class="form-control text">
+                                        </td>
                                         <td style="min-width:150px"> INT</td>
                                         <td style="min-width: 150px">if applicable</td>
                                     </tr>
@@ -770,537 +738,3 @@
     </div>
 
 {% endblock %}
-<div class="row">
-    <div class="col-10 form-basic text-dark" style="font-size: 14px;
-                                                                font-weight: 500;">
-        <div class="row">
-            <div class="col-12 col-md-3 mb-4 fw-bold">
-                <h3>Description</h3>
-            </div>
-            <div class="col-12 col-md-3 mb-4 fw-bold">
-                <h3>OSCRE<br>table and field</h3>
-
-            </div>
-            <div class="col-12 col-md-3 mb-4 fw-bold">
-                <h3>Your header</h3>
-            </div>
-            <div class="col-12 col-md-3 mb-4 fw-bold">
-                <h3>Format | Required</h3>
-
-            </div>
-        </div>
-        <p><b>LEASE</b></p>
-        <tr>
-            <td style="min-width:150px"> Lease ID</td>
-            <td style="min-width:150px"> Lease | LeaseID</td>
-            <td style="min-width:150px">
-                                        <span class=" text-796">
-                                            <input
-                                                    type="text" name="lease_id" value="{{ data_structure.lease_id }}"
-                                                    size="40"
-                                                    class="form-control text"></span>
-            </td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Lease start date</td>
-            <td style="min-width:150px"> Lease | DateOfLeaseDate</td>
-            <td style="min-width:150px"><span
-                    class=" text-797"><input
-                    type="text" name="lease_start_date"
-                    value="{{ data_structure.lease_start_date }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-
-        <tr>
-            <td style="min-width:150px"> First day of term date</td>
-            <td style="min-width:150px"> Lease | FirstDayOfTermDate</td>
-            <td style="min-width:150px">
-                                        <span class=" text-798"><input
-                                                type="text" name="first_day_of_term_date"
-                                                value="{{ data_structure.first_day_of_term_date }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Last day of term date</td>
-            <td style="min-width:150px"> Lease | LastDayOfTermDate</td>
-            <td style="min-width:150px"><span
-                    class=" text-799"><input
-                    type="text" name="last_day_of_term_date"
-                    value="{{ data_structure.last_day_of_term_date }}" size="40"
-                    class="form-control text valid"></span>
-            </td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width: 150px">if known</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Lease expiration date</td>
-            <td style="min-width:150px"> Lease | ExpirationDate</td>
-            <td style="min-width:150px">
-                                        <span class=" text-800"><input
-                                                type="text" name="lease_expiration_date"
-                                                value="{{ data_structure.lease_expiration_date }}" size="40"
-                                                class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Rent security</td>
-            <td style="min-width:150px"> RentSecurity | ProvidedAmount</td>
-            <td style="min-width:150px">
-                                        <span class=" text-801"><input
-                                                type="text" name="rent_security"
-                                                value="{{ data_structure.rent_security }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Rent security type</td>
-            <td style="min-width:150px"> RentSecurity | SecurityTypeCode</td>
-            <td style="min-width:150px"><span
-                    class=" text-802"><input
-                    type="text" name="rent_security_type"
-                    value="{{ data_structure.rent_security_type }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <p><b>TENANT</b></p>
-        <tr>
-            <td style="min-width:150px"> Tenant id</td>
-            <td style="min-width:150px"> Tenant | TenantID</td>
-            <td style="min-width:150px"><span class=" text-803">
-                                        <input
-                                                type="text" name="tenant_id" value="{{ data_structure.tenant_id }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Tenant name</td>
-            <td style="min-width:150px"> Tenant | Name</td>
-            <td style="min-width:150px"><span class=" text-804">
-                                        <input
-                                                type="text" name="tenant_name" value="{{ data_structure.tenant_name }}"
-                                                size="40"
-                                                class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Is company</td>
-            <td style="min-width:150px"> Tenant | IsCompany</td>
-            <td style="min-width:150px"><span
-                    class=" text-805"><input
-                    type="text" name="is_company" value="{{ data_structure.is_company }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> BIT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <p><b>LEASE OPTION</b></p>
-        <tr>
-            <td style="min-width:150px"> Option from date</td>
-            <td style="min-width:150px"> LeaseOption | FromDate</td>
-            <td style="min-width:150px"><span
-                    class=" text-806"><input
-                    type="text" name="option_from_date"
-                    value="{{ data_structure.option_from_date }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Option to date</td>
-            <td style="min-width:150px"> LeaseOption | ToDate</td>
-            <td style="min-width:150px"><span
-                    class=" text-807"><input
-                    type="text" name="option_to_date"
-                    value="{{ data_structure.option_to_date }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Option type break purchase renew</td>
-            <td style="min-width:150px"> LeaseOption | TypeCode</td>
-            <td style="min-width:150px"><span
-                    class=" text-808"><input
-                    type="text" name="option_type_break_purchase_renew"
-                    value="{{ data_structure.option_type_break_purchase_renew }}"
-                    size="40" class="form-control text"></span>
-            </td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Option type landlord tenant mutual</td>
-            <td style="min-width:150px"> LeaseOption | OptionByCode</td>
-            <td style="min-width:150px"><span
-                    class=" text-809"><input
-                    type="text" name="option_type_landlord_tenant_mutual"
-                    value="{{ data_structure.option_type_landlord_tenant_mutual }}"
-                    size="40" class="form-control text"></span>
-            </td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Term</td>
-            <td style="min-width:150px"> LeaseOption | Term</td>
-            <td style="min-width:150px"><span class=" text-810">
-                                        <input
-                                                type="text" name="term" value="{{ data_structure.term }}" size="40"
-                                                class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Notice term</td>
-            <td style="min-width:150px"> LeaseOption | NoticeTerm</td>
-            <td style="min-width:150px"><span
-                    class=" text-811"><input
-                    type="text" name="notice_term" value="{{ data_structure.notice_term }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Notice term date</td>
-            <td style="min-width:150px"> LeaseOption | NoticeTermDate</td>
-            <td style="min-width:150px"><span
-                    class=" text-812"><input
-                    type="text" name="notice_term_date"
-                    value="{{ data_structure.notice_term_date }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Notice term frequency</td>
-            <td style="min-width:150px"> LeaseOption | TermFrequencyCode</td>
-            <td style="min-width:150px"><span
-                    class=" text-813"><input
-                    type="text" name="notice_term_frequency"
-                    value="{{ data_structure.notice_term_frequency }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <p><b>UNIT</b></p>
-        <tr>
-            <td style="min-width:150px"> Fund id</td>
-            <td style="min-width:150px"> All tables | FundID</td>
-            <td style="min-width:150px"><span
-                    class=" text-814"><input
-                    type="text" name="fund_id" value="{{ data_structure.fund_id }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Property id</td>
-            <td style="min-width:150px"> All tables | PropertyID</td>
-            <td style="min-width:150px"><span
-                    class=" text-815"><input
-                    type="text" name="property_id" value="{{ data_structure.property_id }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Unit id</td>
-            <td style="min-width:150px"> All tables | UnitID</td>
-            <td style="min-width:150px"><span
-                    class=" text-816"><input
-                    type="text" name="unit_id" value="{{ data_structure.unit_id }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Unit type</td>
-            <td style="min-width:150px"> Unit | UnitType</td>
-            <td style="min-width:150px"><span
-                    class=" text-817"><input
-                    type="text" name="unit_type" value="{{ data_structure.unit_type }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Gross area</td>
-            <td style="min-width:150px"> Unit | GrossArea</td>
-            <td style="min-width:150px"><span
-                    class=" text-818"><input
-                    type="text" name="gross_area" value="{{ data_structure.gross_area }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Net area</td>
-            <td style="min-width:150px"> Unit | NetArea</td>
-            <td style="min-width:150px"><span
-                    class=" text-819"><input
-                    type="text" name="net_area" value="{{ data_structure.net_area }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Is vacant</td>
-            <td style="min-width:150px"> Unit | Vacant</td>
-            <td style="min-width:150px"><span
-                    class=" text-820"><input
-                    type="text" name="is_vacant" value="{{ data_structure.is_vacant }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> BIT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Vacancy reason</td>
-            <td style="min-width:150px"> Unit | VacancyNote</td>
-            <td style="min-width:150px"><span
-                    class=" text-821"><input
-                    type="text" name="vacancy_reason"
-                    value="{{ data_structure.vacancy_reason }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width: 150px">required if IsVacant = 1</td>
-        </tr>
-        <p><b>LEASE CHARGE</b></p>
-        <tr>
-            <td style="min-width:150px"> Income category rent amount</td>
-            <td style="min-width:150px"> LeaseCharge | Amount</td>
-            <td style="min-width:150px"><span
-                    class=" text-822"><input
-                    type="text" name="income_category_rent_amount"
-                    value="{{ data_structure.income_category_rent_amount }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Income category service charges amount</td>
-            <td style="min-width:150px"> LeaseCharge | Amount</td>
-            <td style="min-width:150px"><span
-                    class=" text-823"><input
-                    type="text" name="income_category_service_charges_amount"
-                    value="{{ data_structure.income_category_service_charges_amount }}"
-                    size="40" class="form-control text"></span>
-            </td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Income category others amount</td>
-            <td style="min-width:150px"> LeaseCharge | Amount</td>
-            <td style="min-width:150px"><span
-                    class=" text-824"><input
-                    type="text" name="income_category_others_amount"
-                    value="{{ data_structure.income_category_others_amount }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: jpx">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Income category discount amount</td>
-            <td style="min-width:150px"> LeaseCharge | Amount</td>
-            <td style="min-width:150px"><span
-                    class=" text-825"><input
-                    type="text" name="income_category_discount_amount"
-                    value="{{ data_structure.income_category_discount_amount }}"
-                    size="40" class="form-control text"></span>
-            </td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: jpx">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Term frequency</td>
-            <td style="min-width:150px"> LeaseCharge | TermFrequency</td>
-            <td style="min-width:150px"><span
-                    class=" text-826"><input
-                    type="text" name="term_frequency"
-                    value="{{ data_structure.term_frequency }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Charge frequency</td>
-            <td style="min-width:150px"> LeaseCharge | ChargeFrequency</td>
-            <td style="min-width:150px"><span
-                    class=" text-827"><input
-                    type="text" name="charge_frequency"
-                    value="{{ data_structure.charge_frequency }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Value added tax</td>
-            <td style="min-width:150px"> LeaseCharge | VATCode</td>
-            <td style="min-width:150px"><span
-                    class=" text-828"><input
-                    type="text" name="value_added_tax"
-                    value="{{ data_structure.value_added_tax }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> BIT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Value added tax rate</td>
-            <td style="min-width:150px"> LeaseCharge | VATRate</td>
-            <td style="min-width:150px"><span
-                    class=" text-829"><input
-                    type="text" name="value_added_tax_rate"
-                    value="{{ data_structure.value_added_tax_rate }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Start payment schedule</td>
-            <td style="min-width:150px"> LeaseCharge | StartPaymentSchedule</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="start_payment_schedule"
-                    value="{{ data_structure.start_payment_schedule }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> End payment schedule</td>
-            <td style="min-width:150px"> LeaseCharge | EndPaymentSchedule</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="end_payment_schedule"
-                    value="{{ data_structure.end_payment_schedule }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width: jpx">if known</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Currency</td>
-            <td style="min-width:150px"> LeaseCharge | CurrencyCode</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="currency" value="{{ data_structure.currency }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width:150px">YES</td>
-        </tr>
-        <p><b>INDEXATION</b></p>
-        <tr>
-            <td style="min-width:150px"> Index series</td>
-            <td style="min-width:150px"> Indexation | IndexSeries</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="index_series"
-                    value="{{ data_structure.index_series }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width: jpx">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Index type</td>
-            <td style="min-width:150px"> Indexation | IndexType</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="index_type" value="{{ data_structure.index_type }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> VARCHAR</td>
-            <td style="min-width: jpx">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Start date</td>
-            <td style="min-width:150px"> Indexation | StartDate</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="start_date" value="{{ data_structure.start_date }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width: jpx">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Index frequency</td>
-            <td style="min-width:150px"> Indexation | IndexFrequency</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="index_frequency"
-                    value="{{ data_structure.index_frequency }}" size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Index date</td>
-            <td style="min-width:150px"> Indexation | IndexDate</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="index_date" value="{{ data_structure.index_date }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Index value</td>
-            <td style="min-width:150px"> Indexation | Value</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="index_value" value="{{ data_structure.index_value }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Next index date</td>
-            <td style="min-width:150px"> Indexation | Value</td>
-            <td style="min-width:150px"><span class=" "><input
-                    type="text" name="next_index_date"
-                    value="{{ data_structure.next_index_date }}"
-                    size="40"
-                    class="form-control text"></span></td>
-            <td style="min-width:150px"> YYYY-MM-DD</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-        <tr>
-            <td style="min-width:150px"> Next index value</td>
-            <td style="min-width:150px"> Indexation | IndexDate</td>
-            <td style="min-width:150px">
-                                            <span
-                                                    class=" "><input
-                                                    type="text" name="next_index_value"
-                                                    value="{{ data_structure.next_index_value }}"
-                                                    size="40"
-                                                    class="form-control text"></span></td>
-            <td style="min-width:150px"> INT</td>
-            <td style="min-width: 150px">if applicable</td>
-        </tr>
-
-
-    </div>
-    <div class="col-2">
-        <button class="btn btn-primary"
-                style="position: fixed;bottom: 100px;z-index: 9999;width: 10%"
-        >Save
-        </button>
-    </div>
-</div>

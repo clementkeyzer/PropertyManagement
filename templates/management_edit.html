@@ -60,7 +60,7 @@
 
         input:focus {
             outline: none; /* Remove the default focus outline */
-            border-color: #007bff; /* Change the border color when the input is focused */
+            border-color: #1B3F7F; /* Change the border color when the input is focused */
             box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Add a box shadow when the input is focused */
         }
 
@@ -78,7 +78,7 @@
             </div>
             <div class="card-body p-0 pe-2">
                 <div class="table-responsive " style="margin-bottom: 50px">
-                    <form id="updateForm" method="post" action="{% url 'update_all_management' contract.id %}"
+                    <form id="updateForm" method="post" action="{% url 'contract_update_api' contract.id %}"
                     >
                         {% csrf_token %}
                         <div class="table-container">
@@ -113,12 +113,18 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="d-flex justify-content-between align-items-center"
+                             style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;">
 
-                        <button class="btn " id="updateButton"
-                                style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;
-                                background-color: #0173BA;color: white"
-                        >Save
-                        </button>
+                            <a href="{% url "validate_contract" contract.id %}" class="btn mx-2 "
+                               style="background-color: #9D2154;color: white"
+                            >Validate
+                            </a>
+                            <button class="btn " id="updateButton"
+                                    style=" background-color: #1B3F7F;color: white"
+                            >Save
+                            </button>
+                        </div>
 
                     </form>
 
