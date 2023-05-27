@@ -20,28 +20,12 @@
 
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.0/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.0/dist/sweetalert2.min.js"></script>
 
     <style>
         body {
             font-family: 'Cairo', sans-serif;
         }
 
-        /* Set the background color of the SweetAlert overlay to black */
-        .swal-overlay {
-            background-color: rgba(0, 0, 0, 0.6) !important;
-        }
-
-        /* Set the background color of the SweetAlert dialog box to dark gray */
-        .swal-modal {
-            background-color: #333333 !important;
-        }
-
-        /* Set the text color of the SweetAlert message and buttons to white */
-        .swal-text, .swal-button {
-            color: #ffffff !important;
-        }
 
     </style>
     {% block css %}
@@ -78,7 +62,7 @@
                         <a href="javascript:;" class="nav-item-toggle"><img
                                 src="{% static 'img/favicon.ico' %}" alt=""
                                 class=" rounded-circle">
-                            <span class="nav-item__title">{{ request.user.username }}<i
+                            <span class="nav-item__title">{{ request.user.email }}<i
                                     class="las la-angle-down nav-item__arrow"></i></span>
                         </a>
                         <div class="dropdown-parent-wrapper">
@@ -88,7 +72,7 @@
                                         <img src="{% static 'img/favicon.ico' %}" alt="" class="rounded-circle">
                                     </div>
                                     <div>
-                                        <h6>{{ request.user.username }}</h6>
+                                        <h6>{{ request.user.email }}</h6>
                                     </div>
                                 </div>
                                 <div class="nav-author__options">
@@ -187,6 +171,11 @@
                                     p-2 alert-dismissible fade show text-center text-capitalize shadow-sm" role="alert"
                                  style="background-color: #1B3F7F">
                                 {{ message }}
+
+                                <button type="button" class="btn-close text-capitalize" data-bs-dismiss="alert"
+                                        aria-label="Close">
+                                    <img src="{% static "img/svg/x.svg" %}" alt="x" class="svg" aria-hidden="true">
+                                </button>
                             </div>
                         {% else %}
                             <div class="alert
@@ -194,6 +183,11 @@
                                     p-2 alert-dismissible fade show text-center text-capitalize shadow-sm" role="alert"
                                  style="background-color: #9D2154">
                                 {{ message }}
+
+                                <button type="button" class="btn-close text-capitalize" data-bs-dismiss="alert"
+                                        aria-label="Close">
+                                    <img src="{% static "img/svg/x.svg" %}" alt="x" class="svg" aria-hidden="true">
+                                </button>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -257,3 +251,5 @@
 </body>
 
 </html>
+
+

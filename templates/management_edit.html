@@ -51,6 +51,7 @@
             z-index: 1;
         }
 
+
         input {
             border: 1px solid #ccc; /* Set the border style */
             border-radius: 4px; /* Add rounded corners to the border */
@@ -98,7 +99,7 @@
                                 {% for form in formset %}
 
                                     <tr>
-                                        <td style="min-width: 20px">{{ forloop.counter }}</td>
+                                        <td class="sticky_counter" style="min-width: 20px">{{ forloop.counter }}</td>
                                         <input type="hidden" name="id" value="{{ form.instance.id }}">
                                         {% for field in form.visible_fields %}
                                             {% if field.name != "contract"  and field.name != "user" and field.name != "timestamp" %}

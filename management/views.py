@@ -1,4 +1,5 @@
 import json
+import random
 
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
@@ -183,6 +184,10 @@ class UploadContractView(LoginRequiredMixin, View):
     """
 
     def get(self, request):
+        # create the structure for the user if not exists
+        if not DataStructure.objects.filter(user=self.request.user).first():
+            DataStructure.objects.create(user=self.request.user)
+        # get the contract
         contracts = Contract.objects.filter(user=self.request.user)
         context = {
             "contracts": contracts,
@@ -315,15 +320,19 @@ def create_user(request):
         form = UserCreationCustomForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get("email")
-            username = email.split("@")[0]
+            username = convert_string(email)
             password = form.cleaned_data.get("password")
             confirm_password = form.cleaned_data.get("confirm_password")
             is_staff = form.cleaned_data.get("is_staff")
             is_superuser = form.cleaned_data.get("is_superuser")
             if password != confirm_password:
                 messages.warning(request, "Password missmatch")
+                return redirect('create_user')
             if User.objects.filter(email=email).exists():
                 messages.warning(request, "Email already exists")
+                return redirect('create_user')
+            if User.objects.filter(username=username).exists():
+                username = username + str(random.randint(99999, 99999999))
             if is_superuser == True and request.user.is_superuser == False:
                 #  a staff user must not be able to create a superuser
                 messages.warning(request, "You dont have access to create a super user")
