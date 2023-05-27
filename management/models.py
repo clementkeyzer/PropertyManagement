@@ -17,6 +17,9 @@ class Contract(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.name} - {self.user}"
+
 
 class Management(models.Model):
     """
@@ -95,3 +98,4 @@ class ManagementRule(models.Model):
     option_then_date_provided = models.BooleanField(default=False)
     # if index_value and index_frequency is provided then the date must also be provided
     index_then_date = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
