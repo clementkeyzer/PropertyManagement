@@ -34286,7 +34286,7 @@ body:after {
     --color-footer-divider: #353b58;
     --color-footer-title: var(--color-white);
     --color-footer-link-hover: var(--color-white);
-    --color-primary: #8231D3;
+    --color-primary: #001938;
     --color-secondary: #5840FF;
     --color-success: #01B81A;
     --color-info: #00AAFF;
@@ -34297,7 +34297,7 @@ body:after {
     --color-warnings: #FFBB00;
     --color-dangers: #FF0F0F;
     --color-purple: #A722F6;
-    --bg-primary: #8231D3;
+    --bg-primary: #001938;
     --bg-secondary: #5840FF;
     --bg-success: #01B81A;
     --bg-info: #00AAFF;
