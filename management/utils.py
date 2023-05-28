@@ -71,6 +71,8 @@ def convert_file_to_dictionary(file):
 def convert_date_format(input_string):
     try:
         # Assuming the input string is in the "YYYY/MM/DD" format
+        if isinstance(input_string, datetime):
+            return input_string
         date_object = datetime.strptime(input_string, "%Y/%m/%d")
         return date_object.strftime("%Y-%m-%d")
     except:
