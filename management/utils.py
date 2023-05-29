@@ -12,6 +12,8 @@ from openpyxl import load_workbook
 from management.models import Contract, ManagementRule
 from structures.models import DataStructureRequiredField
 
+from django.forms.models import model_to_dict
+
 
 class DateTimeEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -75,6 +77,17 @@ def convert_date_format(input_string):
             return input_string
         date_object = datetime.strptime(input_string, "%Y/%m/%d")
         return date_object.strftime("%Y-%m-%d")
+    except:
+        return None
+
+
+def convert_string_to_int(value):
+    """the check if the value is a string or int and returns the it of the value or none"""
+    try:
+        # try converting the value to int
+        value = str(value).replace(",", "")
+        value = float(value)
+        return value
     except:
         return None
 
@@ -146,6 +159,22 @@ def check_required_field_to_management(contract: Contract):
     return errors
 
 
+def check_header_in_structure(headers, structure):
+    # Assuming you have a Django instance called 'instance' of some model
+    fields = [field.name for field in structure._meta.get_fields()]
+    data_dict = model_to_dict(structure, fields=fields)
+    new_dict = {convert_string(key): value for key, value in data_dict.items()}
+
+    error_list = []
+    for item in headers:
+        if item != "" and item != None:
+            exist = new_dict.get(item, False)
+            if not exist:
+                error_list.append(
+                    f"Invalid file header: '{item}'. Please provide a valid header for the corresponding column in your Excel file.")
+    return error_list
+
+
 def check_validation_on_management(contract: Contract):
     """
     this is used to validate the management model with the default value that is supposed to be there
@@ -153,9 +182,9 @@ def check_validation_on_management(contract: Contract):
     :return:
     """
 
-    rule = ManagementRule.objects.filter(user=contract.user).first()
+    rule = ManagementRule.objects.first()
     if not rule:
-        rule = ManagementRule.objects.create(user=contract.user)
+        rule = ManagementRule.objects.create()
     managements = contract.management_set.all()
     # loop through the management and check for the required stuff in each row
     counter = 0
@@ -168,23 +197,30 @@ def check_validation_on_management(contract: Contract):
             if management.is_vacant:
                 if not management.vacancy_reason:
                     errors.append(
-                        f"Vacancy reason is needed if is vacant which is true is provided in row  {counter} ")
+                        f"Vacancy reason is needed for row {counter} when 'Vacant' is set to True. ")
         #  check for gross area and net area
         if rule.gross_area_then_net_area:
-            if management.gross_area and not management.net_area:
-                errors.append(f"Net Area need to be provided in row  {counter} if Gross Area is provided ")
-            if management.net_area and not management.gross_area:
-                errors.append(f"Gross Area need to be provided in row  {counter} if Net Area is provided ")
+            if not management.gross_area and not management.net_area:
+                errors.append(f"Net Area needs to be provided in row {counter} if Gross Area is provided.")
+            if management.gross_area:
+                if management.gross_area < 1 and not management.net_area:
+                    errors.append(
+                        f"Gross Area cannot be less than zero if Net Area is not provided in row {counter}.")
+            if management.net_area:
+                if management.net_area < 1 and not management.gross_area:
+                    errors.append(
+                        f"Net Area cannot be less than zero if Gross Area is not provided in row {counter}.")
         # check for Option
         if rule.option_then_date_provided:
             # option_type_landlord_tenant_mutual and option_type_break_purchase_renew  is provided then there must be
             # date
-            if (management.option_type_landlord_tenant_mutual or management.option_type_break_purchase_renew):
+            if management.option_type_landlord_tenant_mutual or management.option_type_break_purchase_renew:
                 if not management.option_to_date or not management.option_from_date:
-                    errors.append(f"Option from date or Option to date need to be provided on row {counter}")
+                    errors.append(
+                        f"Either the Option from date or the Option to date needs to be provided on row {counter}.")
         # check for index
         if rule.index_then_date:
             if management.index_type or management.index_value:
                 if not management.index_date:
-                    errors.append(f"Index date needs to be provided if the value exists on row {counter}")
+                    errors.append(f"Index date needs to be provided if a value exists on row {counter}.")
     return errors

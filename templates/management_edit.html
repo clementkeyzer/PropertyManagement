@@ -48,9 +48,17 @@
             position: sticky;
             top: 0;
             background-color: #fff;
-            z-index: 1;
+            z-index: 3;
         }
 
+        .sticky-counter {
+            position: sticky;
+            left: 0; /* Stick the column to the left */
+            background-color: white !important;
+            font-weight: bold;
+            z-index: 2;
+            min-width: 20px; /* Set a fixed width for the counter column */
+        }
 
         input {
             border: 1px solid #ccc; /* Set the border style */
@@ -89,7 +97,7 @@
                                     <th scope="row" rowspan="3">{{ Counter }}</th>
                                     {% for field in object_list|first|get_all_fields %}
                                         {% if field.name not in exclude_management_fields %}
-                                            <th scope="row" rowspan="3">{{ field.verbose_name|title }}</th>
+                                            <th scope="row" rowspan="3" style="font-weight: bold">{{ field.verbose_name|title }}</th>
                                         {% endif %}
                                     {% endfor %}
                                 </tr>
@@ -99,7 +107,7 @@
                                 {% for form in formset %}
 
                                     <tr>
-                                        <td class="sticky_counter" style="min-width: 20px">{{ forloop.counter }}</td>
+                                        <td class="sticky-counter">{{ forloop.counter }}</td>
                                         <input type="hidden" name="id" value="{{ form.instance.id }}">
                                         {% for field in form.visible_fields %}
                                             {% if field.name != "contract"  and field.name != "user" and field.name != "timestamp" %}
@@ -117,14 +125,15 @@
                         <div class="d-flex justify-content-between align-items-center"
                              style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;">
 
-                            <a href="{% url "validate_contract" contract.id %}" class="btn mx-2 "
-                               style="background-color: #9D2154;color: white"
-                            >Validate
-                            </a>
+
                             <button class="btn " id="updateButton"
                                     style=" background-color: #1B3F7F;color: white"
                             >Save
                             </button>
+                            <a href="{% url "validate_contract" contract.id %}" class="btn mx-2 "
+                               style="background-color: #9D2154;color: white"
+                            >Validate
+                            </a>
                         </div>
 
                     </form>

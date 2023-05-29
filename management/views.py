@@ -14,11 +14,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import ListView
 
+from structures.mixins import AdminRequiredMixin
 from structures.models import DataStructure
 from .forms import UserCreationCustomForm, ManagementForm, ManagementRuleForm
 from .models import Contract, Management, ManagementRule
 from .utils import excel_to_dict_list, convert_string_int_to_bool, convert_string, query_items, \
-    check_required_field_to_management, convert_file_to_dictionary, convert_date_format, check_validation_on_management
+    check_required_field_to_management, convert_file_to_dictionary, convert_date_format, check_validation_on_management, \
+    convert_string_to_int, check_header_in_structure
 
 FormSet = formset_factory(ManagementForm, extra=0)
 
@@ -207,10 +209,14 @@ class UploadContractView(LoginRequiredMixin, View):
 
             try:
                 contract = Contract.objects.create(name=contract_name, user=self.request.user)
-                property_datas = convert_file_to_dictionary(property_file)
+                structure = DataStructure.objects.filter(id=data_structure_id, user=self.request.user).first()
 
+                property_datas = convert_file_to_dictionary(property_file)
+                #  validate the headers
+                headers = property_datas[0].keys()
+                error_list = check_header_in_structure(headers=headers, structure=structure)
+                # loop through the property data
                 for data in property_datas:
-                    structure = DataStructure.objects.filter(id=data_structure_id, user=self.request.user).first()
                     management = Management()
 
                     for field in structure._meta.get_fields():
@@ -227,6 +233,9 @@ class UploadContractView(LoginRequiredMixin, View):
                             setattr(management, field_name, convert_string_int_to_bool(management_value))
                         elif isinstance(management._meta.get_field(field_name), models.DateField):
                             setattr(management, field_name, convert_date_format(management_value))
+                        elif isinstance(management._meta.get_field(field_name), models.DecimalField):
+
+                            setattr(management, field_name, convert_string_to_int(management_value))
                         else:
                             setattr(management, field_name, management_value)
 
@@ -234,6 +243,11 @@ class UploadContractView(LoginRequiredMixin, View):
                     management.user = self.request.user
                     management.save()
 
+                # loop through the error for header check
+                for item in error_list:
+                    messages.error(request, item)
+                    if len(error_list) > 15:
+                        return redirect("upload_data")
                 return redirect("validate_contract", contract.id)
             except Exception as e:
                 contract.delete()
@@ -242,7 +256,7 @@ class UploadContractView(LoginRequiredMixin, View):
         return redirect("upload_data")
 
 
-class ContractRulesView(LoginRequiredMixin, View):
+class ContractRulesView(LoginRequiredMixin, AdminRequiredMixin, View):
     """
     this is used to add rules to the contract  remove and the user is also able to view his or her rules
     """
@@ -254,9 +268,9 @@ class ContractRulesView(LoginRequiredMixin, View):
         :return:
         """
         if ManagementRule.objects.count() < 1:
-            management_rule = ManagementRule.objects.create(user=self.request.user)
+            management_rule = ManagementRule.objects.create()
         else:
-            management_rule = ManagementRule.objects.filter(user=self.request.user).first()
+            management_rule = ManagementRule.objects.first()
         form = ManagementRuleForm(instance=management_rule)
         context = {
             "form": form,
@@ -266,13 +280,12 @@ class ContractRulesView(LoginRequiredMixin, View):
 
     def post(self, request):
         """the post request"""
-        management_rule = ManagementRule.objects.filter(user=self.request.user).first()
+        management_rule = ManagementRule.objects.first()
 
         form = ManagementRuleForm(data=self.request.POST, instance=management_rule)
         if form.is_valid():
-            data_structure_form = form.save(commit=False)
-            data_structure_form.user = self.request.user  # Assign the logged-in user
-            data_structure_form.save()
+            management_rule_form = form.save(commit=False)
+            management_rule_form.save()
             messages.success(request, "Successfully Update Structure")
         return redirect("contract_rules")
 
@@ -305,7 +318,7 @@ class ValidateContractView(LoginRequiredMixin, View):
             return redirect("contract_update", contract.id)
         contract.status = "SUCCESS"
         contract.save()
-        messages.info(request, "The contract has been validated and currently has no errors")
+        messages.info(request, "The contract has been validated and is error-free.")
         return redirect("contract_detail", contract.id)
 
 
@@ -335,7 +348,7 @@ def create_user(request):
                 username = username + str(random.randint(99999, 99999999))
             if is_superuser == True and request.user.is_superuser == False:
                 #  a staff user must not be able to create a superuser
-                messages.warning(request, "You dont have access to create a super user")
+                messages.warning(request, "You do not have sufficient privileges to create a superuser.")
                 return redirect('create_user')
             else:
                 user = User.objects.create_user(

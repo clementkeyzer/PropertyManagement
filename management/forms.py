@@ -27,6 +27,8 @@ class ManagementForm(forms.ModelForm):
     start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
     index_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
     next_index_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
+    start_payment_schedule = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
+    end_payment_schedule = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
 
     #  all the decimal add here
     rent_security = forms.DecimalField(max_digits=10, decimal_places=2,
@@ -66,6 +68,8 @@ class ManagementForm(forms.ModelForm):
                                      widget=forms.NumberInput(attrs={'class': 'form-control'}))
     next_index_value = forms.DecimalField(max_digits=10, decimal_places=2,
                                           widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    notice_term_frequency = forms.DecimalField(max_digits=10, decimal_places=2,
+                                               widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Management
@@ -79,6 +83,7 @@ class ManagementRuleForm(forms.ModelForm):
     """
     this  form is used to update rules
     """
+
     class Meta:
         model = ManagementRule
         fields = "__all__"
