@@ -129,3 +129,4 @@ class DataStructureRequiredField(models.Model):
     index_value = models.BooleanField(default=False)
     next_index_date = models.BooleanField(default=False)
     next_index_value = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)

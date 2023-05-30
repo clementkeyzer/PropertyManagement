@@ -6,6 +6,7 @@ from .models import DataStructure, DataStructureRequiredField
 
 class DataStructureAdmin(admin.ModelAdmin):
     list_display = [
+        "timestamp",
         "user",
         "lease_id",
         "lease_start_date",
@@ -23,6 +24,7 @@ admin.site.register(DataStructure, DataStructureAdmin)
 
 class DataStructureRequiredFieldAdmin(admin.ModelAdmin):
     list_display = [
+        "timestamp",
         "lease_id",
         "lease_start_date",
         "first_day_of_term_date",

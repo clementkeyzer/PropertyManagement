@@ -19,12 +19,14 @@ admin.site.register(Contract, ContractAdmin)
 
 
 class ManagementRuleAdmin(admin.ModelAdmin):
-    list_display = ("user",
-                    "gross_area_then_net_area",
-                    "is_vacant_then_vacancy_reason",
-                    "option_then_date_provided",
-                    "timestamp",
-                    )
+    list_display = (
+        "timestamp",
+        "user",
+        "gross_area_then_net_area",
+        "is_vacant_then_vacancy_reason",
+        "option_then_date_provided",
+
+    )
     list_filter = ("user",
                    "gross_area_then_net_area",
                    "is_vacant_then_vacancy_reason",
@@ -37,6 +39,7 @@ admin.site.register(ManagementRule, ManagementRuleAdmin)
 
 class ManagementRuleAdmin(admin.ModelAdmin):
     list_display = [
+        "timestamp",
         "contract",
         "user",
         "lease_id",
