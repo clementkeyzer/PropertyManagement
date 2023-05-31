@@ -129,10 +129,10 @@ def query_items(query, item):
     query_list = sorted(query_list, key=lambda x: x[-1])
     query = reduce(
         operator.or_,
-        (Q(rent_security=x) |
-         Q(rent_security_type=x) |
-         Q(option_type_break_purchase_renew=x) |
-         Q(option_type_break_purchase_renew=[x]) for x in query_list)
+        (Q(user__email__icontains=x) |
+         Q(status__icontains=x) |
+         Q(name__icontains=x) |
+         Q(name=[x]) for x in query_list)
     )
     object_list = item.filter(query).distinct()
     return object_list

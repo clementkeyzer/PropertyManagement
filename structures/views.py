@@ -34,7 +34,7 @@ class DataStructureUpdateView(LoginRequiredMixin, View):
         return redirect("update_data_structure")
 
 
-class UpdateRetrieveRequiredFieldsView(LoginRequiredMixin,AdminRequiredMixin, View):
+class AdminUpdateRetrieveRequiredFieldsView(LoginRequiredMixin, AdminRequiredMixin, View):
     """
     this is used to update required fields
     """
@@ -51,7 +51,7 @@ class UpdateRetrieveRequiredFieldsView(LoginRequiredMixin,AdminRequiredMixin, Vi
         context = {
             "form": form
         }
-        return render(request, "update_required_fields.html", context)
+        return render(request, "admin_update_required_fields.html", context)
 
     def post(self, request):
         data_structure_required_field = DataStructureRequiredField.objects.first()

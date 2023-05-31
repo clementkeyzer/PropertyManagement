@@ -105,29 +105,40 @@
             <div class="sidebar__menu-group">
                 <ul class="sidebar_nav">
 
-                    <li class="{% if request.resolver_match.view_name == 'upload_data' %}active{% endif %}">
-                        <a href="{% url "upload_data" %}">
-                            <span class="nav-icon uil uil-create-dashboard"></span>
-                            <span class="menu-text">Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="{% if request.resolver_match.view_name == 'update_data_structure' %}active{% endif %}">
-                        <a href="{% url "update_data_structure" %}">
-                            <span class="nav-icon uil uil-columns"></span>
-                            <span class="menu-text">Mapping</span>
-                        </a>
-                    </li>
 
                     {% if reqeuest.user.is_staff or request.user.is_superuser %}
-                        <li class="{% if request.resolver_match.view_name == 'create_user' %}active{% endif %}">
-                            <a href="{% url "create_user" %}">
-                                <span class="nav-icon uil uil-user-plus"></span>
+                        <li class="{% if request.resolver_match.view_name == 'admin_dashboard' %}active{% endif %}">
+                            <a href="{% url "admin_dashboard" %}">
+                                <span class="nav-icon uil uil-create-dashboard"></span>
+                                <span class="menu-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="{% if request.resolver_match.view_name == 'upload_data' %}active{% endif %}">
+                            <a href="{% url "upload_data" %}">
+                                <span class="nav-icon uil uil-file-contract"></span>
+                                <span class="menu-text">Rental Roll </span>
+                            </a>
+                        </li>
+                        <li class="{% if request.resolver_match.view_name == 'admin_list_uploads' %}active{% endif %}">
+                            <a href="{% url "admin_list_uploads" %}">
+                                <span class="nav-icon uil uil-upload"></span>
+                                <span class="menu-text">Uploads</span>
+                            </a>
+                        </li>
+                        <li class="{% if request.resolver_match.view_name == 'admin_mapping' %}active{% endif %}">
+                            <a href="{% url "admin_mapping" %}">
+                                <span class="nav-icon uil  uil-columns "></span>
+                                <span class="menu-text">Mapping</span>
+                            </a>
+                        </li>
+                        <li class="{% if request.resolver_match.view_name == 'admin_list_users' %}active{% endif %}">
+                            <a href="{% url "admin_list_users" %}">
+                                <span class="nav-icon uil  uil-user-plus"></span>
                                 <span class="menu-text">Create User</span>
                             </a>
                         </li>
-                        <li class="{% if request.resolver_match.view_name == 'contract_rules' %}active{% endif %}">
-                            <a href="{% url "contract_rules" %}">
+                        <li class="{% if request.resolver_match.view_name == 'admin_contract_rules' %}active{% endif %}">
+                            <a href="{% url "admin_contract_rules" %}">
                                 <span class="nav-icon uil uil-user-exclamation"></span>
                                 <span class="menu-text">Rule</span>
                             </a>
@@ -136,6 +147,21 @@
                             <a href="{% url "update_structure_required_fields" %}">
                                 <span class="nav-icon uil uil-analytics"></span>
                                 <span class="menu-text">Required Fields</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        {% comment %} For Normal User Dashboard  {% endcomment %}
+                        <li class="{% if request.resolver_match.view_name == 'upload_data' %}active{% endif %}">
+                            <a href="{% url "upload_data" %}">
+                                <span class="nav-icon uil uil-create-dashboard"></span>
+                                <span class="menu-text">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="{% if request.resolver_match.view_name == 'update_data_structure' %}active{% endif %}">
+                            <a href="{% url "update_data_structure" %}">
+                                <span class="nav-icon uil uil-columns"></span>
+                                <span class="menu-text">Mapping</span>
                             </a>
                         </li>
 

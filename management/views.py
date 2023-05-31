@@ -1,10 +1,7 @@
 import json
-import random
 
 from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import BooleanField
 from django.forms import formset_factory
@@ -14,11 +11,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import ListView
 
-from structures.mixins import AdminRequiredMixin
 from structures.models import DataStructure
-from .forms import UserCreationCustomForm, ManagementForm, ManagementRuleForm
-from .models import Contract, Management, ManagementRule
-from .utils import excel_to_dict_list, convert_string_int_to_bool, convert_string, query_items, \
+from .forms import ManagementForm
+from .models import Contract, Management
+from .utils import convert_string_int_to_bool, convert_string, query_items, \
     check_required_field_to_management, convert_file_to_dictionary, convert_date_format, check_validation_on_management, \
     convert_string_to_int, check_header_in_structure
 
@@ -246,7 +242,9 @@ class UploadContractView(LoginRequiredMixin, View):
                 # loop through the error for header check
                 for item in error_list:
                     messages.error(request, item)
+                    # if the error is too much redirect back to home page to upload again
                     if len(error_list) > 15:
+                        contract.delete()
                         return redirect("upload_data")
                 return redirect("validate_contract", contract.id)
             except Exception as e:
@@ -255,39 +253,6 @@ class UploadContractView(LoginRequiredMixin, View):
                 return redirect("upload_data")
         return redirect("upload_data")
 
-
-class ContractRulesView(LoginRequiredMixin, AdminRequiredMixin, View):
-    """
-    this is used to add rules to the contract  remove and the user is also able to view his or her rules
-    """
-
-    def get(self, request):
-        """
-        this is used to get the rules for the  management
-        :param request:
-        :return:
-        """
-        if ManagementRule.objects.count() < 1:
-            management_rule = ManagementRule.objects.create()
-        else:
-            management_rule = ManagementRule.objects.first()
-        form = ManagementRuleForm(instance=management_rule)
-        context = {
-            "form": form,
-            "management_rule": management_rule
-        }
-        return render(request, "management_rule.html", context)
-
-    def post(self, request):
-        """the post request"""
-        management_rule = ManagementRule.objects.first()
-
-        form = ManagementRuleForm(data=self.request.POST, instance=management_rule)
-        if form.is_valid():
-            management_rule_form = form.save(commit=False)
-            management_rule_form.save()
-            messages.success(request, "Successfully Update Structure")
-        return redirect("contract_rules")
 
 
 class ValidateContractView(LoginRequiredMixin, View):
@@ -320,49 +285,3 @@ class ValidateContractView(LoginRequiredMixin, View):
         contract.save()
         messages.info(request, "The contract has been validated and is error-free.")
         return redirect("contract_detail", contract.id)
-
-
-@user_passes_test(lambda u: u.is_staff or u.is_superuser)
-def create_user(request):
-    """
-    this is used to create a new user
-    :param request:
-    :return:
-    """
-    if request.method == 'POST':
-        form = UserCreationCustomForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get("email")
-            username = convert_string(email)
-            password = form.cleaned_data.get("password")
-            confirm_password = form.cleaned_data.get("confirm_password")
-            is_staff = form.cleaned_data.get("is_staff")
-            is_superuser = form.cleaned_data.get("is_superuser")
-            if password != confirm_password:
-                messages.warning(request, "Password missmatch")
-                return redirect('create_user')
-            if User.objects.filter(email=email).exists():
-                messages.warning(request, "Email already exists")
-                return redirect('create_user')
-            if User.objects.filter(username=username).exists():
-                username = username + str(random.randint(99999, 99999999))
-            if is_superuser == True and request.user.is_superuser == False:
-                #  a staff user must not be able to create a superuser
-                messages.warning(request, "You do not have sufficient privileges to create a superuser.")
-                return redirect('create_user')
-            else:
-                user = User.objects.create_user(
-                    username=username,
-                    email=email,
-                    is_staff=is_staff,
-                    is_superuser=is_superuser)
-                user.set_password(password)
-                user.save()
-                messages.info(request, "Successfully add user")
-            return redirect('create_user')  # Redirect to a success page or any other URL
-        else:
-            messages.error(request, "An error Please provide the right data")
-    else:
-        form = UserCreationCustomForm()
-
-    return render(request, 'added_user.html', {'form': form})

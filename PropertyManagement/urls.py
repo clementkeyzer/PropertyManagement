@@ -8,6 +8,7 @@ admin_url = config('ADMIN_URL', default='admin_dont_url')
 urlpatterns = [
     path(f'{admin_url}/', admin.site.urls, name='admin'),
     path('', include('management.urls')),
+    path('', include('admin_dashboard.urls')),
     path('structures/', include('structures.urls')),
     path('accounts/', include('allauth.urls')),
 ]
