@@ -10,6 +10,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from django.views import View
 from django.views.generic import ListView
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 from structures.models import DataStructure
 from .forms import ManagementForm
@@ -19,6 +22,11 @@ from .utils import convert_string_int_to_bool, convert_string, query_items, \
     convert_string_to_int, check_header_in_structure
 
 FormSet = formset_factory(ManagementForm, extra=0)
+
+
+def custom_logout(request):
+    logout(request)
+    return redirect('upload_data')  # Redirect to the desired URL after logout
 
 
 class ContractDeleteView(View):
@@ -182,6 +190,9 @@ class UploadContractView(LoginRequiredMixin, View):
     """
 
     def get(self, request):
+        # redirect the user to admin dashboard
+        if request.user.is_staff or request.user.is_superuser:
+            return redirect("admin_dashboard")
         # create the structure for the user if not exists
         if not DataStructure.objects.filter(user=self.request.user).first():
             DataStructure.objects.create(user=self.request.user)
@@ -252,7 +263,6 @@ class UploadContractView(LoginRequiredMixin, View):
                 messages.error(request, f'Error uploading file: {e}')
                 return redirect("upload_data")
         return redirect("upload_data")
-
 
 
 class ValidateContractView(LoginRequiredMixin, View):

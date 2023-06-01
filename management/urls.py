@@ -1,10 +1,11 @@
 from django.urls import path
 
 from .views import UploadContractView, ContractDetailView, ContractDeleteView, UpdateAllContractAPIView, \
-    ContractUpdateView, ValidateContractView
+    ContractUpdateView, ValidateContractView, custom_logout
 
 urlpatterns = [
     path("", UploadContractView.as_view(), name="upload_data"),
+    path("custom_logout", custom_logout, name="custom_logout"),
     path("contract_update_api/<int:id>/", UpdateAllContractAPIView.as_view(), name="contract_update_api"),
     path("validate_contract/<int:id>/", ValidateContractView.as_view(), name="validate_contract"),
     path("contract_delete/", ContractDeleteView.as_view(), name="contract_delete"),

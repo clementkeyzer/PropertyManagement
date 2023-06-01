@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="{% static "css/plugin.min.css" %}">
     <link rel="stylesheet" href="{% static "style.css" %}">
+    <link rel="stylesheet" href="{% static "css/custom_style.css" %}">
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" type="image/x-icon"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +25,19 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
+            font-weight: normal;
+        }
+
+        b, strong {
+            font-weight: normal;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: normal;
+        }
+
+        .bold {
+            font-weight: normal;
         }
 
 
@@ -77,7 +91,7 @@
                                 </div>
                                 <div class="nav-author__options">
 
-                                    <a href="{% url "account_logout" %}" class="nav-author__signout">
+                                    <a href="{% url "custom_logout" %}" class="nav-author__signout">
                                         <i class="uil uil-sign-out-alt"></i> Sign Out</a>
                                 </div>
                             </div>
@@ -113,12 +127,7 @@
                                 <span class="menu-text">Dashboard</span>
                             </a>
                         </li>
-                        <li class="{% if request.resolver_match.view_name == 'upload_data' %}active{% endif %}">
-                            <a href="{% url "upload_data" %}">
-                                <span class="nav-icon uil uil-file-contract"></span>
-                                <span class="menu-text">Rental Roll </span>
-                            </a>
-                        </li>
+
                         <li class="{% if request.resolver_match.view_name == 'admin_list_uploads' %}active{% endif %}">
                             <a href="{% url "admin_list_uploads" %}">
                                 <span class="nav-icon uil uil-upload"></span>
@@ -175,8 +184,8 @@
                         </li>
 
                     {% else %}
-                        <li class="{% if request.resolver_match.view_name == 'account_logout' %}active{% endif %}">
-                            <a href="{% url "account_logout" %}">
+                        <li class="{% if request.resolver_match.view_name == 'custom_logout' %}active{% endif %}">
+                            <a href="{% url "custom_logout" %}">
                                 <span class="nav-icon uil uil-sign-out-alt"></span>
                                 <span class="menu-text">Logout </span>
                             </a>
@@ -192,6 +201,7 @@
                 {% if messages %}
                     {% for message in messages %}
                         {% if message.tags == "info" or message.tags == 'success' %}
+
                             <div class="alert
                                     alert-success text-white
                                     p-2 alert-dismissible fade show text-center text-capitalize shadow-sm" role="alert"
@@ -225,7 +235,7 @@
             </div>
         </div>
     </div>
-    <footer class="footer-wrapper">
+    {% comment %} <footer class="footer-wrapper">
         <div class="footer-wrapper__inside">
             <div class="container-fluid">
                 <div class="row">
@@ -254,7 +264,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer>{% endcomment %}
 </main>
 <div id="overlayer">
     <div class="loader-overlay">

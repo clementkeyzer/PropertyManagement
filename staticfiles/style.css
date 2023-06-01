@@ -9661,8 +9661,8 @@ body.top-menu .navbar-left .customizer-trigger + .top-menu {
 }
 
 .t-thead-bg .selling-table-wrap .table--default tr td:last-child {
-    padding-right: 15px;
-    padding-left: 15px
+    /*padding-right: 15px;*/
+    /*padding-left: 15px*/
 }
 
 .t-thead-bg .selling-table-wrap table thead tr {
@@ -20544,11 +20544,11 @@ td.order-summery .total > div {
 }
 
 .selling-table-wrap table thead tr th {
-    font-size: 12px;
-    font-weight: 500;
+    /*font-size: 12px;*/
+    /*font-weight: 500;*/
     line-height: 18px;
-    color: var(--color-light);
-    text-transform: uppercase;
+    /*color: var(--color-light);*/
+    /*text-transform: uppercase;*/
     padding: 11px 15px
 }
 
@@ -34141,7 +34141,7 @@ body:after {
     --color-footer-divider: #353b58;
     --color-footer-title: var(--color-white);
     --color-footer-link-hover: var(--color-white);
-    --color-primary: #8231D3;
+    --color-primary: #9D2154;
     --color-secondary: #5840FF;
     --color-success: #01B81A;
     --color-info: #00AAFF;
