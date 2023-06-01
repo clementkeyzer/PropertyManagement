@@ -208,20 +208,18 @@ class UploadContractView(LoginRequiredMixin, View):
         if request.method == 'POST' and request.FILES['property_file']:
             property_file = request.FILES['property_file']
             contract_name = request.POST.get("name")
-            data_structure_id = DataStructure.objects.filter(user=self.request.user).first().id
 
-            if not contract_name or not property_file or not data_structure_id:
+            if not contract_name or not property_file:
                 messages.warning(request, "Contract name or Excel File is required")
                 return redirect("upload_data")
 
             try:
                 contract = Contract.objects.create(name=contract_name, user=self.request.user)
-                structure = DataStructure.objects.filter(id=data_structure_id, user=self.request.user).first()
+                structure = DataStructure.objects.filter(user=self.request.user).first()
 
-                property_datas = convert_file_to_dictionary(property_file)
+                property_datas, header_dictionary = convert_file_to_dictionary(property_file)
                 #  validate the headers
-                headers = property_datas[0].keys()
-                error_list = check_header_in_structure(headers=headers, structure=structure)
+                error_list = check_header_in_structure(headers=header_dictionary, structure=structure)
                 # loop through the property data
                 for data in property_datas:
                     management = Management()

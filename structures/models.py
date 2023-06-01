@@ -77,9 +77,6 @@ class DataStructure(models.Model):
         return self._form
 
 
-
-
-
 class DataStructureRequiredField(models.Model):
     """
     the datastructure of the property management
@@ -130,3 +127,17 @@ class DataStructureRequiredField(models.Model):
     next_index_date = models.BooleanField(default=False)
     next_index_value = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+def post_save_create_data_structure(sender, instance, *args, **kwargs):
+    """
+    This creates a user data structurw once a user is being created
+    :param instance:  the user created or updated
+    """
+    if instance:
+        data_structure = DataStructure.objects.filter(user=instance).first()
+        if not data_structure:
+            DataStructure.objects.create(user=instance)
+
+
+post_save.connect(post_save_create_data_structure, sender=User)

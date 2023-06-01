@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.shortcuts import redirect
 
 
 class AdminRequiredMixin(UserPassesTestMixin):
@@ -11,3 +13,5 @@ class AdminRequiredMixin(UserPassesTestMixin):
             return True
         if self.request.user.is_staff:
             return True
+        messages.error(self.request, "You dont have permission to view the previous page")
+        return redirect("upload_data")

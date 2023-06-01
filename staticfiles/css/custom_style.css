@@ -47,16 +47,6 @@ td {
 }
 
 
-.sticky-counter {
-    position: sticky;
-    left: 0; /* Stick the column to the left */
-    background-color: white !important;
-    font-weight: bold;
-    z-index: 2;
-    min-width: 20px; /* Set a fixed width for the counter column */
-}
-
-
 input {
     border: 1px solid #ccc; /* Set the border style */
     border-radius: 4px; /* Add rounded corners to the border */
@@ -67,7 +57,25 @@ input {
 input:focus {
     outline: none; /* Remove the default focus outline */
     /*border-color: #1B3F7F !important; !* Change the border color when the input is focused *!*/
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Add a box shadow when the input is focused */
+    box-shadow: #9D2154; /* Add a box shadow when the input is focused */
 }
 
 
+td {
+    text-align: left !important;
+    font-weight: 200 !important;
+}
+
+th {
+    text-align: left !important;
+    font-weight: bolder !important;
+}
+
+.sticky-counter {
+    position: sticky;
+    left: 0; /* Stick the column to the left */
+    background-color: white !important;
+    font-weight: bold;
+    z-index: 2;
+    min-width: 20px !important; /* Set a fixed width for the counter column */
+}

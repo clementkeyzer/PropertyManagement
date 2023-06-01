@@ -2,6 +2,19 @@
 {% load crispy_forms_filters %}
 {% load custom_filters %}
 
+{% block css %}
+    <style>
+
+        .table-container {
+            height: auto; /* Set the desired height */
+            overflow-y: scroll; /* Enable vertical scrolling */
+            scrollbar-width: thin; /* Set the width of the scrollbar */
+            scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
+        }
+
+
+    </style>
+{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -13,8 +26,8 @@
                     Uploads
                 </div>
                 <div class="card-body p-0">
-                    <div class="table4 p-25 mb-30">
-                        <div class="table-responsive">
+                    <div class="table4 p-25 mb-30 table-container">
+                        <div class="table-container">
                             <table class="table mb-0">
                                 <thead>
                                 <tr class="userDatatable-header">

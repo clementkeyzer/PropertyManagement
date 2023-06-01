@@ -52,7 +52,7 @@
                                         <input type="hidden" name="id" value="{{ form.instance.id }}">
                                         {% for field in form.visible_fields %}
                                             {% if   field.name not in exclude_management_fields %}
-                                                <td style="min-width: 100px">
+                                                <td style="min-width: 100px;">
 
                                                     {% crispy_field field form_show_labels=False %}
                                                 </td>

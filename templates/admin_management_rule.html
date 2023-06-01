@@ -99,7 +99,7 @@
                 <div class="card-body">
                     <div class="basic-form-wrapper" style="max-width: 99%">
 
-                        <form action="{% url "admin_contract_rules" %}" method="post" class="form">
+                        <form action="{% url "admin_contract_rules_detail" management_rule.id %}" method="post" class="form">
                             {% csrf_token %}
 
                             <div class=" table-container">

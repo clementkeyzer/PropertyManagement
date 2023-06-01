@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
 
 
 # Create your models here.
@@ -99,3 +100,17 @@ class ManagementRule(models.Model):
     # if index_value and index_frequency is provided then the date must also be provided
     index_then_date = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+def post_save_create_management_rule(sender, instance, *args, **kwargs):
+    """
+    This creates a user  management rule once a user is being created
+    :param instance:  the user created or updated
+    """
+    if instance:
+        management_rule = ManagementRule.objects.filter(user=instance).first()
+        if not management_rule:
+            ManagementRule.objects.create(user=instance)
+
+
+post_save.connect(post_save_create_management_rule, sender=User)

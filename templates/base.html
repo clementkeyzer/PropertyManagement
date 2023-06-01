@@ -137,19 +137,19 @@
                         <li class="{% if request.resolver_match.view_name == 'admin_mapping' %}active{% endif %}">
                             <a href="{% url "admin_mapping" %}">
                                 <span class="nav-icon uil  uil-columns "></span>
-                                <span class="menu-text">Mapping</span>
+                                <span class="menu-text">Mappings</span>
                             </a>
                         </li>
                         <li class="{% if request.resolver_match.view_name == 'admin_list_users' %}active{% endif %}">
                             <a href="{% url "admin_list_users" %}">
                                 <span class="nav-icon uil  uil-user-plus"></span>
-                                <span class="menu-text">Create User</span>
+                                <span class="menu-text"> Users</span>
                             </a>
                         </li>
                         <li class="{% if request.resolver_match.view_name == 'admin_contract_rules' %}active{% endif %}">
                             <a href="{% url "admin_contract_rules" %}">
                                 <span class="nav-icon uil uil-user-exclamation"></span>
-                                <span class="menu-text">Rule</span>
+                                <span class="menu-text">Rules</span>
                             </a>
                         </li>
                         <li class="{% if request.resolver_match.view_name == 'update_structure_required_fields' %}active{% endif %}">

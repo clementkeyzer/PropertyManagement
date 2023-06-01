@@ -192,40 +192,6 @@ class AdminContractUpdateView(LoginRequiredMixin, AdminRequiredMixin, ListView):
         return context
 
 
-class AdminContractRulesView(LoginRequiredMixin, AdminRequiredMixin, View):
-    """
-    this is used to add rules to the contract  remove and the user is also able to view his or her rules
-    """
-
-    def get(self, request):
-        """
-        this is used to get the rules for the  management
-        :param request:
-        :return:
-        """
-        if ManagementRule.objects.count() < 1:
-            management_rule = ManagementRule.objects.create()
-        else:
-            management_rule = ManagementRule.objects.first()
-        form = ManagementRuleForm(instance=management_rule)
-        context = {
-            "form": form,
-            "management_rule": management_rule
-        }
-        return render(request, "admin_management_rule.html", context)
-
-    def post(self, request):
-        """the post request"""
-        management_rule = ManagementRule.objects.first()
-
-        form = ManagementRuleForm(data=self.request.POST, instance=management_rule)
-        if form.is_valid():
-            management_rule_form = form.save(commit=False)
-            management_rule_form.save()
-            messages.success(request, "Successfully Update Structure")
-        return redirect("admin_contract_rules")
-
-
 class AdminListUserView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     """
         This is used to view the users
@@ -307,3 +273,50 @@ def admin_create_user(request):
                 messages.info(request, "Successfully add user")
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class AdminListUserRulesView(LoginRequiredMixin, AdminRequiredMixin, ListView):
+    queryset = ManagementRule.objects.all()
+    paginate_by = 50
+    template_name = "admin_list_user_rules.html"
+
+
+class AdminContractRulesDetailView(LoginRequiredMixin, AdminRequiredMixin, View):
+    """
+    this is used to add rules to the contract  remove and the user is also able to view his or her rules
+    """
+
+    def get(self, request, id):
+        """
+        this is used to get the rules for the  management
+        :param request:
+        :return:
+        """
+
+        management_rule = ManagementRule.objects.filter(id=id).first()
+        if not management_rule:
+            messages.error(request, "Rule does not exist")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        form = ManagementRuleForm(instance=management_rule)
+        context = {
+            "form": form,
+            "management_rule": management_rule
+        }
+        return render(request, "admin_management_rule.html", context)
+
+    def post(self, request, id):
+        """the post request"""
+        management_rule = ManagementRule.objects.filter(id=id).first()
+        user = management_rule.user
+        if not management_rule:
+            messages.error(request, "Rule does not exist")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        form = ManagementRuleForm(data=self.request.POST, instance=management_rule)
+        if form.is_valid():
+            management_rule_form = form.save(commit=False)
+            management_rule_form.user = user
+            management_rule_form.save()
+            messages.success(request, "Successfully Update Structure")
+        return redirect("admin_contract_rules")

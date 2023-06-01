@@ -28,6 +28,12 @@ def excel_to_dict_list(excel_file):
 
     headers = [convert_string(cell.value) for cell in ws[1]]  # Assuming the headers are in the second row
     data = []
+    #  create custom header for check
+    header_dictionary = []
+    for item in ws[1]:
+        if item:
+            header_dictionary.append({convert_string(item): item})
+
     for row in ws.iter_rows(min_row=2):  # Assuming the data starts from the third row
         row_data = {}
         all_none = True
@@ -40,7 +46,7 @@ def excel_to_dict_list(excel_file):
             break
         data.append(row_data)
 
-    return data
+    return data, header_dictionary
 
 
 def csv_to_dict_list(csv_file):
@@ -49,25 +55,29 @@ def csv_to_dict_list(csv_file):
     reader = csv.reader(TextIOWrapper(csv_file, encoding='utf-8'))
     raw_headers = next(reader)  # Read the first row as headers
     headers = [convert_string(header) for header in raw_headers]  # Clean the headers using convert_string function
-
+    #  create custom header for check
+    header_dictionary = []
+    for item in raw_headers:
+        if item:
+            header_dictionary.append({convert_string(item): item})
     for row in reader:
         row_data = {}
         for header, value in zip(headers, row):
             row_data[header] = value
         data.append(row_data)
 
-    return data
+    return data, header_dictionary
 
 
 def convert_file_to_dictionary(file):
     if str(file).endswith(".csv"):
-        data = csv_to_dict_list(file)
+        data, header_dictionary = csv_to_dict_list(file)
     elif str(file).endswith(".xlsx") or str(file).endswith(".xls"):
-        data = excel_to_dict_list(file)
+        data, header_dictionary = excel_to_dict_list(file)
     else:
         raise ValueError("Unsupported file format")
 
-    return data
+    return data, header_dictionary
 
 
 def convert_date_format(input_string):
@@ -166,12 +176,14 @@ def check_header_in_structure(headers, structure):
     new_dict = {convert_string(key): value for key, value in data_dict.items()}
 
     error_list = []
-    for item in headers:
-        if item != "" and item != None:
-            exist = new_dict.get(item, False)
-            if not exist:
-                error_list.append(
-                    f"Invalid file header: '{item}'. Please provide a valid header for the corresponding column in your Excel file.")
+    for header in headers:
+        for key, value in header.items():
+            # Perform operations with key and value
+            if key != "" and key != None:
+                exist = new_dict.get(key, False)
+                if not exist:
+                    error_list.append(
+                        f"Invalid file header: '{value}'. Please provide a valid header for the corresponding column in your Excel file.")
     return error_list
 
 
@@ -182,9 +194,9 @@ def check_validation_on_management(contract: Contract):
     :return:
     """
 
-    rule = ManagementRule.objects.first()
+    rule = ManagementRule.objects.filter(user=contract.user).first()
     if not rule:
-        rule = ManagementRule.objects.create()
+        rule = ManagementRule.objects.create(user=contract.user)
     managements = contract.management_set.all()
     # loop through the management and check for the required stuff in each row
     counter = 0

@@ -11,8 +11,17 @@
             text-align: left !important;
             font-weight: bolder !important;
         }
+
+        .table-container {
+            height: auto; /* Set the desired height */
+            overflow-y: scroll; /* Enable vertical scrolling */
+            scrollbar-width: thin; /* Set the width of the scrollbar */
+            scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
+        }
     </style>
 {% endblock %}
+
+
 {% block content %}
     <div class="demo7 mb-25 t-thead-bg">
         <div class="container-fluid">
@@ -86,64 +95,62 @@
                             <h6>{% comment %}Recent Users{% endcomment %}</h6>
                         </div>
                         <div class="card-body p-0">
-                            <div class="">
-                                <div class="table-responsive">
-                                    <table class="table table--default table-borderless">
-                                        <thead>
+                            <div class="table-container">
+                                <table class="table table--default table-borderless">
+                                    <thead>
+                                    <tr>
+                                        <th style="font-weight: bolder !important;">Email</th>
+                                        <th>Username</th>
+                                        <th>Last Logged In</th>
+                                        <th>Staff</th>
+                                        <th>Super User</th>
+                                        <th>Date Joined</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in users %}
                                         <tr>
-                                            <th style="font-weight: bolder !important;">Email</th>
-                                            <th>Username</th>
-                                            <th>Last Logged In</th>
-                                            <th>Staff</th>
-                                            <th>Super User</th>
-                                            <th>Date Joined</th>
+
+                                            <td>{{ user.email }}</td>
+                                            <td>
+                                                {{ user.username }}
+                                            </td>
+                                            <td>{{ user.last_login }}</td>
+
+                                            <td>
+                                                {% if user.is_staff %}
+                                                    <h4 class="badge  badge-dot--big"
+                                                        style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                        True
+                                                    </h4>
+                                                {% else %}
+                                                    <h4 class="badge  badge-dot--big"
+                                                        style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                        False
+                                                    </h4>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if user.is_superuser %}
+                                                    <h4 class="badge  badge-dot--big"
+                                                        style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                        True
+                                                    </h4>
+                                                {% else %}
+                                                    <h4 class="badge  badge-dot--big"
+                                                        style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                        False
+                                                    </h4>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ user.date_joined }}</td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for user in users %}
-                                            <tr>
 
-                                                <td>{{ user.email }}</td>
-                                                <td>
-                                                    {{ user.username }}
-                                                </td>
-                                                <td>{{ user.last_login }}</td>
-
-                                                <td>
-                                                    {% if user.is_staff %}
-                                                        <h4 class="badge  badge-dot--big"
-                                                            style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
-                                                            True
-                                                        </h4>
-                                                    {% else %}
-                                                        <h4 class="badge  badge-dot--big"
-                                                            style="background-color: #9D2154; border-radius: 2px; width: 70px">
-                                                            False
-                                                        </h4>
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    {% if user.is_superuser %}
-                                                        <h4 class="badge  badge-dot--big"
-                                                            style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
-                                                            True
-                                                        </h4>
-                                                    {% else %}
-                                                        <h4 class="badge  badge-dot--big"
-                                                            style="background-color: #9D2154; border-radius: 2px; width: 70px">
-                                                            False
-                                                        </h4>
-                                                    {% endif %}
-                                                </td>
-                                                <td>{{ user.date_joined }}</td>
-                                            </tr>
-
-                                        {% endfor %}
+                                    {% endfor %}
 
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
 
                         </div>
@@ -155,66 +162,64 @@
                             <h6>{% comment %}Recent Uploads{% endcomment %}</h6>
                         </div>
                         <div class="card-body p-0">
-                            <div class="">
-                                <div class="table-responsive">
-                                    <table class="table table--default table-borderless">
-                                        <thead>
+                            <div class="table-container">
+                                <table class="table table--default table-borderless">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Rental Count</th>
+                                        <th>Timestamp</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for contract in contracts %}
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Status</th>
-                                            <th>Rental Count</th>
-                                            <th>Timestamp</th>
-                                            <th>Action</th>
+                                            <td>{{ contract.name }}</td>
+                                            <td>
+                                                {% if contract.status == "SUCCESS" %}
+                                                    <h4 class="badge  badge-dot--big"
+                                                        style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                        SUCCESS
+                                                    </h4>
+                                                {% else %}
+                                                    <h4 class="badge  badge-dot--big"
+                                                        style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                        PENDING
+                                                    </h4>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ contract.management_set.count }}</td>
+                                            <td>{{ contract.timestamp }}</td>
+                                            <td style="max-width: 10px"
+                                                class="d-flex justify-content-center align-items-center  px-5">
+
+                                                <form action="{% url 'admin_delete_contract' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" value="{{ contract.id }}"
+                                                           name="contract_id">
+
+                                                    <button type="submit"
+                                                            class=" btn" style="box-shadow: none;">
+                                                        <i class="uil uil-trash-alt " style="color: #9D2154"></i>
+                                                    </button>
+                                                </form>
+                                                <a href="{% url "admin_contract_update" contract.id %}"
+                                                   class="btn btn-sm"
+
+                                                ><i class="uil uil-edit "
+                                                    style="color: #1B3F7F"></i>
+                                                </a>
+
+                                            </td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for contract in contracts %}
-                                            <tr>
-                                                <td>{{ contract.name }}</td>
-                                                <td>
-                                                    {% if contract.status == "SUCCESS" %}
-                                                        <h4 class="badge  badge-dot--big"
-                                                            style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
-                                                            SUCCESS
-                                                        </h4>
-                                                    {% else %}
-                                                        <h4 class="badge  badge-dot--big"
-                                                            style="background-color: #9D2154; border-radius: 2px; width: 70px">
-                                                            PENDING
-                                                        </h4>
-                                                    {% endif %}
-                                                </td>
-                                                <td>{{ contract.management_set.count }}</td>
-                                                <td>{{ contract.timestamp }}</td>
-                                                <td style="max-width: 10px"
-                                                    class="d-flex justify-content-center align-items-center  px-5">
 
-                                                    <form action="{% url 'admin_delete_contract' %}" method="post">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" value="{{ contract.id }}"
-                                                               name="contract_id">
-
-                                                        <button type="submit"
-                                                                class=" btn" style="box-shadow: none;">
-                                                            <i class="uil uil-trash-alt " style="color: #9D2154"></i>
-                                                        </button>
-                                                    </form>
-                                                    <a href="{% url "admin_contract_update" contract.id %}"
-                                                       class="btn btn-sm"
-
-                                                    ><i class="uil uil-edit "
-                                                        style="color: #1B3F7F"></i>
-                                                    </a>
-
-                                                </td>
-                                            </tr>
-
-                                        {% endfor %}
+                                    {% endfor %}
 
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
 
                         </div>
