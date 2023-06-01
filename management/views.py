@@ -252,9 +252,6 @@ class UploadContractView(LoginRequiredMixin, View):
                 for item in error_list:
                     messages.error(request, item)
                     # if the error is too much redirect back to home page to upload again
-                    if len(error_list) > 15:
-                        contract.delete()
-                        return redirect("upload_data")
                 return redirect("validate_contract", contract.id)
             except Exception as e:
                 contract.delete()

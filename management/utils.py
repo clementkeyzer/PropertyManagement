@@ -26,13 +26,15 @@ def excel_to_dict_list(excel_file):
     wb = load_workbook(excel_file)
     ws = wb.active
 
-    headers = [convert_string(cell.value) for cell in ws[1]]  # Assuming the headers are in the second row
     data = []
     #  create custom header for check
+    headers = []
     header_dictionary = []
-    for item in ws[1]:
-        if item:
-            header_dictionary.append({convert_string(item): item})
+    for cell in ws[1]:
+        # if there is a cell then it append it to the header  and  the header dictionary
+        if cell.value:
+            headers.append(convert_string(cell.value))
+            header_dictionary.append({convert_string(cell.value): cell.value})
 
     for row in ws.iter_rows(min_row=2):  # Assuming the data starts from the third row
         row_data = {}
@@ -179,11 +181,16 @@ def check_header_in_structure(headers, structure):
     for header in headers:
         for key, value in header.items():
             # Perform operations with key and value
-            if key != "" and key != None:
-                exist = new_dict.get(key, False)
-                if not exist:
+            if key and key != "":
+                found_key = None
+                for dict_key, dict_value in new_dict.items():
+                    if dict_value == value:
+                        found_key = dict_key
+                        break
+                if not found_key:
                     error_list.append(
-                        f"Invalid file header: '{value}'. Please provide a valid header for the corresponding column in your Excel file.")
+                        f"Invalid file header: '{value}'. Please provide a valid header for the corresponding column in your Excel file."
+                    )
     return error_list
 
 
