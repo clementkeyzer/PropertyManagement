@@ -7,9 +7,10 @@ from functools import reduce
 from io import TextIOWrapper
 
 from django.db.models import Q
+from django.http import HttpResponse
 from openpyxl import load_workbook
 
-from management.models import Contract, ManagementRule
+from management.models import Contract, ManagementRule, Management
 from structures.models import DataStructureRequiredField
 
 from django.forms.models import model_to_dict
@@ -167,7 +168,8 @@ def check_required_field_to_management(contract: Contract):
                 continue
             if getattr(required_fields, field.name):
                 if getattr(management, field.name) is None or getattr(management, field.name) == "":
-                    errors.append(f"{field.name}  cant be none please update this on the excel on row {counter}")
+                    errors.append(
+                        f"row {counter}: {field.name} is a required field. Please update below, than save and validate")
     return errors
 
 
@@ -189,7 +191,8 @@ def check_header_in_structure(headers, structure):
                         break
                 if not found_key:
                     error_list.append(
-                        f"Invalid file header: '{value}'. Please provide a valid header for the corresponding column in your Excel file."
+                        f"Invalid Header: '{value}'. Please change the mapping or provide a valid header"
+                        f" In your upload file. The current upload is cancelled."
                     )
     return error_list
 
@@ -216,11 +219,12 @@ def check_validation_on_management(contract: Contract):
             if management.is_vacant:
                 if not management.vacancy_reason:
                     errors.append(
-                        f"Vacancy reason is needed for row {counter} when 'Vacant' is set to True. ")
+                        f"row {counter}: Vacancy Reason is required if unit is vacant. Please update below, then save and validate. ")
         #  check for gross area and net area
         if rule.gross_area_then_net_area:
             if not management.gross_area and not management.net_area:
-                errors.append(f"Net Area needs to be provided in row {counter} if Gross Area is provided.")
+                errors.append(
+                    f"row {counter}: either Net or Gross area is required. Please update below, then save and validate.")
             if management.gross_area:
                 if management.gross_area < 1 and not management.net_area:
                     errors.append(
@@ -236,10 +240,33 @@ def check_validation_on_management(contract: Contract):
             if management.option_type_landlord_tenant_mutual or management.option_type_break_purchase_renew:
                 if not management.option_to_date or not management.option_from_date:
                     errors.append(
-                        f"Either the Option from date or the Option to date needs to be provided on row {counter}.")
+                        f"row {counter}: either the Option From Date or The Option To Date is required. Please update below, then save and validate.")
         # check for index
         if rule.index_then_date:
             if management.index_type or management.index_value:
                 if not management.index_date:
-                    errors.append(f"Index date needs to be provided if a value exists on row {counter}.")
+                    errors.append(f"row {counter}: Index date needs to be provided if a value exists.")
     return errors
+
+
+def export_management_csv(contract):
+    """
+    this returns the full info of all the product in csv format
+    :return:
+    """
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="Upload.csv"'
+    writer = csv.writer(response)
+
+    # Get a list of all fields of the model
+    fields = [f.name for f in Management._meta.fields if f.name not in ['id', 'user', 'contract', 'timestamp']]
+
+    # Write the header row
+    writer.writerow(fields)
+
+    # Write the data rows
+    for obj in Management.objects.filter(contract=contract):
+        row = [getattr(obj, f) for f in fields]
+        writer.writerow(row)
+    return response
+

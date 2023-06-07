@@ -81,8 +81,8 @@
                                                 {{ item.timestamp }}
                                             </div>
                                         </td>
-                                        <td style="max-width: 10px"
-                                            class="d-flex justify-content-center align-items-center  px-5">
+                                        <td
+                                                class="d-flex ">
 
                                             <form action="{% url 'contract_delete' %}" method="post">
                                                 {% csrf_token %}
@@ -90,14 +90,20 @@
                                                        name="contract_id">
 
                                                 <button type="submit"
-                                                        class=" btn" style="box-shadow: none;">
-                                                    <i class="uil uil-trash-alt " style="color: #9D2154"></i>
+                                                        style="border: none; background: none; padding: 0;">
+                                                    <i class="uil uil-trash-alt" style="color: #9D2154;"></i>
                                                 </button>
+
                                             </form>
                                             <a href="{% url "contract_update" item.id %}"
-                                               class=" btn" style="box-shadow: none;">
+                                               class=" px-2" style="box-shadow: none;">
 
-                                                <i class="uil uil-edit " style="color: #1B3F7F"></i>
+                                                <i class="uil uil-edit " style="color: #1B3F7F;"></i>
+                                            </a>
+                                            <a href="{% url "contract_download" item.id %}"
+                                               class=" " style="box-shadow: none;">
+
+                                                <i class="uil uil-file-download" style="color: #1B3F7F"></i>
                                             </a>
 
                                         </td>

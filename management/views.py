@@ -1,25 +1,25 @@
 import json
+import re
 
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.db.models import BooleanField
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render, get_object_or_404
 # Create your views here.
 from django.views import View
 from django.views.generic import ListView
-from django.contrib import messages
-from django.contrib.auth import logout
-from django.shortcuts import redirect
 
 from structures.models import DataStructure
 from .forms import ManagementForm
 from .models import Contract, Management
 from .utils import convert_string_int_to_bool, convert_string, query_items, \
     check_required_field_to_management, convert_file_to_dictionary, convert_date_format, check_validation_on_management, \
-    convert_string_to_int, check_header_in_structure
+    convert_string_to_int, check_header_in_structure, export_management_csv
 
 FormSet = formset_factory(ManagementForm, extra=0)
 
@@ -280,6 +280,9 @@ class ValidateContractView(LoginRequiredMixin, View):
         #  we need to direct the user to the update page
         errors += check_errors
         errors += validate_errors
+
+        errors = sorted(errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+
         if len(errors) > 0:
             contract.status = "PENDING"
             contract.save()
@@ -290,3 +293,17 @@ class ValidateContractView(LoginRequiredMixin, View):
         contract.save()
         messages.info(request, "The contract has been validated and is error-free.")
         return redirect("contract_detail", contract.id)
+
+
+class DownloadUploadCSVView(LoginRequiredMixin, View):
+    """
+    This is used to export the product to csv and return it to the frontend
+    """
+
+    def get(self, request, id):
+        # The get request
+        contract = Contract.objects.filter(id=id).first()
+        if not contract:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        csv = export_management_csv(contract=contract)
+        return csv

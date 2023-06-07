@@ -47,7 +47,7 @@
                             <div class=" ap-po-details-content d-flex flex-wrap justify-content-between">
                                 <div class="ap-po-details__titlebar">
                                     <h1>{{ contracts_count }}+</h1>
-                                    <p>Total Contract</p>
+                                    <p>Total Upload</p>
                                 </div>
                                 <div class="ap-po-details__icon-area">
                                     <div class="svg-icon order-bg-opacity-primary color-primary">
@@ -92,7 +92,7 @@
                 <div class="col-12 mb-25">
                     <div class="card border-0 px-25">
                         <div class="card-header px-0 border-0">
-                            <h6>Recent Users</h6>
+                            <h6>Recent User Activity</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-container">
@@ -192,26 +192,29 @@
                                             </td>
                                             <td>{{ contract.management_set.count }}</td>
                                             <td>{{ contract.timestamp }}</td>
-                                            <td style="max-width: 10px"
-                                                class="d-flex justify-content-center align-items-center  px-5">
-
+                                            <td
+                                                class="d-flex ">
                                                 <form action="{% url 'admin_delete_contract' %}" method="post">
                                                     {% csrf_token %}
                                                     <input type="hidden" value="{{ contract.id }}"
                                                            name="contract_id">
 
                                                     <button type="submit"
-                                                            class=" btn" style="box-shadow: none;">
+                                                            class=" btn"
+                                                            style="box-shadow: none;padding: 0px !important;">
                                                         <i class="uil uil-trash-alt " style="color: #9D2154"></i>
                                                     </button>
                                                 </form>
                                                 <a href="{% url "admin_contract_update" contract.id %}"
-                                                   class="btn btn-sm"
+                                                   class="btn "
 
                                                 ><i class="uil uil-edit "
-                                                    style="color: #1B3F7F"></i>
+                                                    style="color: #1B3F7F;padding: 0px"></i>
                                                 </a>
-
+                                                <a href="{% url "contract_download" contract.id %}"
+                                                   class=" btn" style="box-shadow: none;padding: 0px">
+                                                    <i class="uil uil-file-download" style="color: #1B3F7F"></i>
+                                                </a>
                                             </td>
                                         </tr>
 

@@ -101,8 +101,8 @@
                                 </td>
                                 <td>{{ contract.management_set.count }}</td>
                                 <td>{{ contract.timestamp }}</td>
-                                <td style="max-width: 10px"
-                                    class="d-flex justify-content-center align-items-center  px-5">
+                                <td
+                                        class="d-flex  ">
 
                                     <form action="{% url 'admin_delete_contract' %}" method="post">
                                         {% csrf_token %}
@@ -110,14 +110,21 @@
                                                name="contract_id">
 
                                         <button type="submit"
-                                                class=" btn" style="box-shadow: none;">
-                                            <i class="uil uil-trash-alt " style="color: #9D2154"></i>
+                                                class=" btn" style="box-shadow: none;padding: 0">
+                                            <i class="uil uil-trash-alt " style="color: #9D2154;"></i>
                                         </button>
                                     </form>
-                                    <a href="{% url "admin_contract_update" contract.id %}" class="btn btn-sm"
+                                    <a href="{% url "admin_contract_update" contract.id %}" class="btn "
+                                       style="padding: 0"
 
                                     ><i class="uil uil-edit "
-                                        style="color: #1B3F7F"></i>
+                                        style="color: #1B3F7F;"></i>
+                                    </a>
+
+                                    <a href="{% url "contract_download" contract.id %}"
+                                       class=" btn" style="box-shadow: none;padding: 0">
+
+                                        <i class="uil uil-file-download" style="color: #1B3F7F;"></i>
                                     </a>
 
 
