@@ -1,3 +1,4 @@
+import codecs
 import csv
 import json
 import operator
@@ -264,7 +265,7 @@ def export_management_csv(contract):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="{contract.name}.csv"'
     # Specify the encoding as utf-8
-    response.write('\ufeff'.encode('utf-8-sig'))  # Add the BOM (Byte Order Mark) for UTF-8 encoding
+    response.write('\ufeff'.encode('utf-8'))  # Add the BOM (Byte Order Mark) for UTF-8 encoding
 
     writer = csv.writer(response)
 
@@ -279,3 +280,4 @@ def export_management_csv(contract):
         row = [getattr(obj, f) for f in fields]
         writer.writerow(row)
     return response
+
