@@ -190,13 +190,16 @@ def check_required_field_to_management(contract: Contract):
     counter = 0
     for management in managements:
         counter += 1
-        for field in required_fields._meta.fields:
-            if field.name == 'id' or field.name == "timestamp" or field.name == "user" or field.name == "contract":
-                continue
-            if getattr(required_fields, field.name):
-                if getattr(management, field.name) is None or getattr(management, field.name) == "":
-                    errors.append(
-                        f"row {counter}: {field.name} is a required field. Please update below, then save and validate")
+        try:
+            for field in required_fields._meta.fields:
+                if field.name == 'id' or field.name == "timestamp" or field.name == "user" or field.name == "contract":
+                    continue
+                if getattr(required_fields, field.name):
+                    if getattr(management, field.name) is None or getattr(management, field.name) == "":
+                        errors.append(
+                            f"row {counter}: {field.name} is a required field. Please update below, then save and validate")
+        except:
+            pass
     return errors
 
 

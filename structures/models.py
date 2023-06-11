@@ -107,7 +107,7 @@ class DataStructureRequiredField(models.Model):
     net_area = models.BooleanField(default=True)
     vacant = models.BooleanField(default=True)
     vacancy_note = models.BooleanField(default=False)
-    income_category_rent_amount = models.BooleanField(default=True)
+    amount_rent = models.BooleanField(default=True)
     amount_service_charge = models.BooleanField(default=False)
     amount_others = models.BooleanField(default=False)
     income_category_discount_amount = models.BooleanField(default=False)
