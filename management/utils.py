@@ -86,6 +86,10 @@ def convert_date_format(input_string):
         # Assuming the input string is in the "YYYY/MM/DD" format
         if isinstance(input_string, datetime):
             return input_string
+        # Check if the input string is already in the desired format
+        if re.match(r"\d{4}-\d{2}-\d{2}", input_string):
+            return input_string
+
         date_object = datetime.strptime(input_string, "%Y/%m/%d")
         return date_object.strftime("%Y-%m-%d")
     except:
@@ -107,11 +111,18 @@ def convert_string_int_to_bool(value):
     """the check if the value is a string or int and returns the bool of it"""
     try:
         # try converting the value to int
-        value = int(value)
-        if value == 0:
+        if type(value) == bool:
+            return value
+        elif value == 0:
             return False
         elif value == 1:
             return True
+        elif value.lower() == "false":
+            return False
+        elif value.lower() == "true":
+            return True
+        else:
+            return False
     except:
         return False
 
@@ -253,7 +264,7 @@ def export_management_csv(contract):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="{contract.name}.csv"'
     # Specify the encoding as utf-8
-    response.write('\ufeff'.encode('utf-8'))  # Add the BOM (Byte Order Mark) for UTF-8 encoding
+    response.write('\ufeff'.encode('utf-8-sig'))  # Add the BOM (Byte Order Mark) for UTF-8 encoding
 
     writer = csv.writer(response)
 
