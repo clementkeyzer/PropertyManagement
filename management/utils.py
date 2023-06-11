@@ -4,9 +4,8 @@ import operator
 import re
 from datetime import datetime
 from functools import reduce
-from io import StringIO, TextIOWrapper
+from io import TextIOWrapper
 
-import pandas as pd
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
@@ -69,34 +68,6 @@ def csv_to_dict_list(csv_file):
         data.append(row_data)
 
     return data, header_dictionary
-
-
-"""
-def csv_to_dict_list(csv_file):
-    data = []
-
-    # Read the in-memory file as a string
-    csv_string = csv_file.read().decode('utf-8')
-
-    # Create a StringIO object from the string
-    csv_data = StringIO(csv_string)
-
-    df = pd.read_csv(csv_data)
-
-    headers = [convert_string(header) for header in df.columns]  # Clean the headers using convert_string function
-    #  create custom header for check
-    header_dictionary = []
-    for item in df.columns:
-        if item:
-            header_dictionary.append({convert_string(item): item})
-    for _, row in df.iterrows():
-        row_data = {}
-        for header in headers:
-            row_data[header] = row[header]
-        data.append(row_data)
-
-    return data, header_dictionary
-"""
 
 
 def convert_file_to_dictionary(file):

@@ -1,7 +1,6 @@
-import csv
+import json
 import json
 import re
-from io import TextIOWrapper
 
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -16,9 +15,9 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView
 
+from management.models import Contract, Management
 from structures.models import DataStructure
 from .forms import ManagementForm
-from .models import Contract, Management
 from .utils import convert_string_int_to_bool, convert_string, query_items, \
     check_required_field_to_management, convert_file_to_dictionary, convert_date_format, check_validation_on_management, \
     convert_string_to_int, check_header_in_structure, export_management_csv
@@ -216,11 +215,10 @@ class UploadContractView(LoginRequiredMixin, View):
                 return redirect("upload_data")
 
             try:
-                contract = Contract.objects.create(name=contract_name, user=self.request.user, file=property_file)
+                contract = Contract.objects.create(name=contract_name, user=self.request.user)
                 structure = DataStructure.objects.filter(user=self.request.user).first()
 
                 property_datas, header_dictionary = convert_file_to_dictionary(property_file)
-
                 #  validate the headers
                 error_list = check_header_in_structure(headers=header_dictionary, structure=structure)
                 # loop through the property data
@@ -254,6 +252,7 @@ class UploadContractView(LoginRequiredMixin, View):
                 # loop through the error for header check
                 for item in error_list:
                     messages.error(request, item)
+                    # if the error is too much redirect back to home page to upload again
                 return redirect("validate_contract", contract.id)
             except Exception as e:
                 contract.delete()
