@@ -1,0 +1,192 @@
+{
+  "id": 2,
+  "user": 2,
+  "leaseid": "lease_id",
+  "dateofleasedate": "date_of_lease_date",
+  "firstdayoftermdate": "first_day_of_term_date",
+  "lastdayoftermdate": "last_day_of_term_date",
+  "leaseexpirationdate": "lease_expiration_date",
+  "requiredamount": "required_amount",
+  "securitytypecode": "security_type_code",
+  "tenantid": "tenant_id",
+  "tenantname": "tenant_name",
+  "iscompany": "is_company",
+  "fromdate": "from_date",
+  "todate": "to_date",
+  "typecode": "type_code",
+  "optionbycode": "option_by_code",
+  "term": "term",
+  "noticeterm": "notice_term",
+  "noticetermdate": "notice_term_date",
+  "termfrequency": "term_frequency",
+  "fundid": "fund_id",
+  "propertyid": "property_id",
+  "unitid": "unit_id",
+  "unittype": "unit_type",
+  "grossarea": "gross_area",
+  "netarea": "net_area",
+  "vacant": "vacant",
+  "vacancynote": "vacancy_note",
+  "amountrent": "amount_rent",
+  "amountservicecharge": "amount_service_charge",
+  "amountothers": "amount_others",
+  "amountdiscount": "amount_discount",
+  "chargefrequency": "charge_frequency",
+  "vatcode": "vat_code",
+  "vatrate": "vat_rate",
+  "vatamount": "vat_amount",
+  "startpaymentschedule": "start_payment_schedule",
+  "endpaymentschedule": "end_payment_schedule",
+  "currencycode": "currency_code",
+  "indexseries": "index_series",
+  "indextype": "index_type",
+  "startdate": "start_date",
+  "indexfrequency": "index_frequency",
+  "indexdate": "index_date",
+  "value": "value",
+  "valuesr2": "value_sr2",
+  "indexdatesr2": "index_date_sr2"
+}
+[
+  {
+    None: None
+  },
+  {
+    "leaseid": "lease_id"
+  },
+  {
+    "dateofleasedate": "date_of_lease_date"
+  },
+  {
+    "firstdayoftermdate": "first_day_of_term_date"
+  },
+  {
+    "lastdayoftermdate": "last_day_of_term_date"
+  },
+  {
+    "leaseexpirationdate": "lease_expiration_date"
+  },
+  {
+    "rentsecurity": "rent_security "
+  },
+  {
+    "rentsecuritytype": "rent_security_type"
+  },
+  {
+    "tenantid": "tenant_id"
+  },
+  {
+    "tenantname": "tenant_name"
+  },
+  {
+    "iscompany": "is_company"
+  },
+  {
+    "fromdate": "from_date"
+  },
+  {
+    "todate": "to_date"
+  },
+  {
+    "typecode": "type_code"
+  },
+  {
+    "optionbycode": "option_by_code"
+  },
+  {
+    "term": "term"
+  },
+  {
+    "noticeterm": "notice_term"
+  },
+  {
+    "noticetermdate": "notice_term_date"
+  },
+  {
+    "termfrequency": "term_frequency"
+  },
+  {
+    "fundid": "fund_id"
+  },
+  {
+    "propertyid": "property_id "
+  },
+  {
+    "unitid": "unit_id"
+  },
+  {
+    "unittype": "unit_type"
+  },
+  {
+    "grossarea": "gross_area "
+  },
+  {
+    "netarea": "net_area"
+  },
+  {
+    "vacant": "vacant"
+  },
+  {
+    "vacancynote": "vacancy_note"
+  },
+  {
+    "amountrent": "amount_rent"
+  },
+  {
+    "amountservicecharge": "amount_service_charge"
+  },
+  {
+    "amountothers": "amount_others"
+  },
+  {
+    "amountdiscount": "amount_discount"
+  },
+  {
+    "termfrequency": "term_frequency"
+  },
+  {
+    "chargefrequency": "charge_frequency"
+  },
+  {
+    "vatcode": "vat_code"
+  },
+  {
+    "vatrate": "vat_rate"
+  },
+  {
+    "vatamount": "vat_amount"
+  },
+  {
+    "startpaymentschedule": "start_payment_schedule"
+  },
+  {
+    "endpaymentschedule": "end_payment_schedule"
+  },
+  {
+    "currencycode": "currency_code"
+  },
+  {
+    "indexseries": "index_series"
+  },
+  {
+    "indextype": "index_type"
+  },
+  {
+    "startdate": "start_date"
+  },
+  {
+    "indexfrequency": "index_frequency"
+  },
+  {
+    "indexdate": "index_date"
+  },
+  {
+    "value": "value"
+  },
+  {
+    "valuesr2": "value_sr2"
+  },
+  {
+    "indexdatesr2": "index_date_sr2"
+  }
+]

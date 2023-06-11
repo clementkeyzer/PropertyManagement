@@ -12,8 +12,10 @@ from django.views.generic import ListView
 
 from admin_dashboard.utils import user_percentage_increase_since_last_month, \
     contract_percentage_increase_since_last_month
-from management.forms import ManagementForm, ManagementRuleForm, UserCreationCustomForm
+from management.forms import ManagementForm, ManagementRuleForm
+from users.forms import UserCreationCustomForm
 from management.models import Contract, Management, ManagementRule
+from users.models import UserProfile
 from management.utils import query_items, convert_string
 from structures.forms import DataStructureForm
 from structures.mixins import AdminRequiredMixin
@@ -244,6 +246,7 @@ def admin_create_user(request):
         if form.is_valid():
             email = form.cleaned_data.get("email")
             username = form.cleaned_data.get("username")
+            organisation_name = form.cleaned_data.get("organisation_name")
             first_name = form.cleaned_data.get("first_name")
             last_name = form.cleaned_data.get("last_name")
             password = form.cleaned_data.get("password")
@@ -252,6 +255,9 @@ def admin_create_user(request):
 
             if User.objects.filter(email=email).exists():
                 messages.warning(request, "Email already exists")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            if UserProfile.objects.filter(organisation_name=organisation_name).exists():
+                messages.warning(request, "organisation name already exists")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             if User.objects.filter(username=username).exists():
                 messages.warning(request, "Username already exists")
@@ -270,7 +276,14 @@ def admin_create_user(request):
                     is_superuser=is_superuser)
                 user.set_password(password)
                 user.save()
+                user_profile = user.user_profile
+                user_profile.organisation_name = organisation_name
+                user_profile.save()
                 messages.info(request, "Successfully add user")
+        else:
+            # if there was an error submitting the form
+            for error in form.errors:
+                messages.warning(request, f"{error}: {form.errors[error][0]}")
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 

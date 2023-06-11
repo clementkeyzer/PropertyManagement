@@ -15,7 +15,37 @@
 
     <link rel="icon" type="image/png" sizes="16x16" href="{% static "img/favicon.png" %}">
 
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.0/css/line.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.0/css/line.css">
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            font-weight: normal;
+        }
+
+        b, strong {
+            font-weight: normal;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: normal;
+            font-family: "Cairo", sans-serif;
+        }
+
+        .bold {
+            font-weight: normal;
+        }
+
+        td {
+            max-height: 50px !important; /* Adjust the value as needed */
+            overflow: hidden;
+        }
+
+
+    </style>
     {% block extra_head %}
 
     {% endblock %}

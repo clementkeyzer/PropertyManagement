@@ -9,7 +9,7 @@ class DataStructureAdmin(admin.ModelAdmin):
         "timestamp",
         "user",
         "lease_id",
-        "lease_start_date",
+        "date_of_lease_date",
         "first_day_of_term_date",
         "last_day_of_term_date",
     ]
@@ -26,7 +26,7 @@ class DataStructureRequiredFieldAdmin(admin.ModelAdmin):
     list_display = [
         "timestamp",
         "lease_id",
-        "lease_start_date",
+        "date_of_lease_date",
         "first_day_of_term_date",
     ]
     list_filter = [

@@ -11646,7 +11646,7 @@ body.top-menu .navbar-left .customizer-trigger + .top-menu {
 }
 
 .table-social {
-    min-height: 382px
+    /*min-height: 382px*/
 }
 
 .table-social th {
@@ -11780,7 +11780,8 @@ body.top-menu .navbar-left .customizer-trigger + .top-menu {
 
 .table--default td,
 .table--default th {
-    padding: 16px 15px
+    /*padding: 16px 15px*/
+    padding: 10px
 }
 
 .table-borderless tr:last-child {

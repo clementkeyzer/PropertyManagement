@@ -4,16 +4,16 @@ import operator
 import re
 from datetime import datetime
 from functools import reduce
-from io import TextIOWrapper
+from io import StringIO, TextIOWrapper
 
+import pandas as pd
 from django.db.models import Q
+from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from openpyxl import load_workbook
 
 from management.models import Contract, ManagementRule, Management
 from structures.models import DataStructureRequiredField
-
-from django.forms.models import model_to_dict
 
 
 class DateTimeEncoder(json.JSONEncoder):
@@ -33,9 +33,8 @@ def excel_to_dict_list(excel_file):
     header_dictionary = []
     for cell in ws[1]:
         # if there is a cell then it append it to the header  and  the header dictionary
-        if cell.value:
-            headers.append(convert_string(cell.value))
-            header_dictionary.append({convert_string(cell.value): cell.value})
+        headers.append(convert_string(cell.value))
+        header_dictionary.append({convert_string(cell.value): cell.value})
 
     for row in ws.iter_rows(min_row=2):  # Assuming the data starts from the third row
         row_data = {}
@@ -70,6 +69,34 @@ def csv_to_dict_list(csv_file):
         data.append(row_data)
 
     return data, header_dictionary
+
+
+"""
+def csv_to_dict_list(csv_file):
+    data = []
+
+    # Read the in-memory file as a string
+    csv_string = csv_file.read().decode('utf-8')
+
+    # Create a StringIO object from the string
+    csv_data = StringIO(csv_string)
+
+    df = pd.read_csv(csv_data)
+
+    headers = [convert_string(header) for header in df.columns]  # Clean the headers using convert_string function
+    #  create custom header for check
+    header_dictionary = []
+    for item in df.columns:
+        if item:
+            header_dictionary.append({convert_string(item): item})
+    for _, row in df.iterrows():
+        row_data = {}
+        for header in headers:
+            row_data[header] = row[header]
+        data.append(row_data)
+
+    return data, header_dictionary
+"""
 
 
 def convert_file_to_dictionary(file):
@@ -125,7 +152,7 @@ def convert_string(input_string):
     lowercase_string = input_string.lower()
 
     # Remove non-alphabetic characters
-    cleaned_string = re.sub('[^a-z]', '', lowercase_string)
+    cleaned_string = re.sub('[^a-z0-9]', '', lowercase_string)
 
     return cleaned_string
 
@@ -169,7 +196,7 @@ def check_required_field_to_management(contract: Contract):
             if getattr(required_fields, field.name):
                 if getattr(management, field.name) is None or getattr(management, field.name) == "":
                     errors.append(
-                        f"row {counter}: {field.name} is a required field. Please update below, than save and validate")
+                        f"row {counter}: {field.name} is a required field. Please update below, then save and validate")
     return errors
 
 
@@ -184,15 +211,10 @@ def check_header_in_structure(headers, structure):
         for key, value in header.items():
             # Perform operations with key and value
             if key and key != "":
-                found_key = None
-                for dict_key, dict_value in new_dict.items():
-                    if dict_value == value:
-                        found_key = dict_key
-                        break
-                if not found_key:
+                if not new_dict.get(key):
                     error_list.append(
                         f"Invalid Header: '{value}'. Please change the mapping or provide a valid header"
-                        f" In your upload file. The current upload is cancelled."
+                        f" In your upload file."
                     )
     return error_list
 
@@ -216,8 +238,8 @@ def check_validation_on_management(contract: Contract):
         counter += 1
         # check is vacant on rule
         if rule.is_vacant_then_vacancy_reason:
-            if management.is_vacant:
-                if not management.vacancy_reason:
+            if management.vacant:
+                if not management.vacancy_note:
                     errors.append(
                         f"row {counter}: Vacancy Reason is required if unit is vacant. Please update below, then save and validate. ")
         #  check for gross area and net area
@@ -237,13 +259,13 @@ def check_validation_on_management(contract: Contract):
         if rule.option_then_date_provided:
             # option_type_landlord_tenant_mutual and option_type_break_purchase_renew  is provided then there must be
             # date
-            if management.option_type_landlord_tenant_mutual or management.option_type_break_purchase_renew:
-                if not management.option_to_date or not management.option_from_date:
+            if management.option_by_code or management.type_code:
+                if not management.to_date or not management.from_date:
                     errors.append(
                         f"row {counter}: either the Option From Date or The Option To Date is required. Please update below, then save and validate.")
         # check for index
         if rule.index_then_date:
-            if management.index_type or management.index_value:
+            if management.index_type or management.value:
                 if not management.index_date:
                     errors.append(f"row {counter}: Index date needs to be provided if a value exists.")
     return errors
@@ -255,7 +277,10 @@ def export_management_csv(contract):
     :return:
     """
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="Upload.csv"'
+    response['Content-Disposition'] = f'attachment; filename="{contract.name}.csv"'
+    # Specify the encoding as utf-8
+    response.write('\ufeff'.encode('utf-8'))  # Add the BOM (Byte Order Mark) for UTF-8 encoding
+
     writer = csv.writer(response)
 
     # Get a list of all fields of the model
@@ -269,4 +294,3 @@ def export_management_csv(contract):
         row = [getattr(obj, f) for f in fields]
         writer.writerow(row)
     return response
-

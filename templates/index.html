@@ -45,6 +45,9 @@
                                         <span class="userDatatable-title">Timestamp</span>
                                     </th>
                                     <th>
+                                        <span class="userDatatable-title">Rows</span>
+                                    </th>
+                                    <th>
                                         <span class="userDatatable-title">Action</span>
                                     </th>
 
@@ -79,6 +82,11 @@
                                         <td>
                                             <div class="userDatatable-content">
                                                 {{ item.timestamp }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                {{ item.management_set.count }}
                                             </div>
                                         </td>
                                         <td
@@ -131,13 +139,13 @@
 
                         <div class="row px-3 mx-auto">
                             <div class="col-12 col-md-4  form-group mb-md-5   mt-2 ">
-                                <label>Rental roll name</label>
+                                <label>Rent roll name</label>
                                 <input class="form-control form-control-lg" type="text"
                                        name="name"
                                        placeholder="Rent roll name">
                             </div>
                             <div class="col-12 col-md-4 form-group  mb-md-5   mt-2">
-                                <label>Rental roll file</label>
+                                <label>Rent roll file</label>
                                 <input class="form-control form-control-lg" type="file"
                                        name="property_file"
                                        placeholder="file">

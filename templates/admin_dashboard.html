@@ -168,7 +168,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Status</th>
-                                        <th>Rental Count</th>
+                                        <th>Rows</th>
                                         <th>Timestamp</th>
                                         <th>Action</th>
                                     </tr>
@@ -193,26 +193,26 @@
                                             <td>{{ contract.management_set.count }}</td>
                                             <td>{{ contract.timestamp }}</td>
                                             <td
-                                                class="d-flex ">
+                                                    class="d-flex ">
                                                 <form action="{% url 'admin_delete_contract' %}" method="post">
                                                     {% csrf_token %}
                                                     <input type="hidden" value="{{ contract.id }}"
                                                            name="contract_id">
 
                                                     <button type="submit"
-                                                            class=" btn"
-                                                            style="box-shadow: none;padding: 0px !important;">
+                                                            class=""
+                                                            style="border: none;padding: 0px !important;">
                                                         <i class="uil uil-trash-alt " style="color: #9D2154"></i>
                                                     </button>
                                                 </form>
                                                 <a href="{% url "admin_contract_update" contract.id %}"
-                                                   class="btn "
+                                                   class=" px-2" style="padding: 0px"
 
                                                 ><i class="uil uil-edit "
-                                                    style="color: #1B3F7F;padding: 0px"></i>
+                                                    style="color: #1B3F7F;"></i>
                                                 </a>
                                                 <a href="{% url "contract_download" contract.id %}"
-                                                   class=" btn" style="box-shadow: none;padding: 0px">
+                                                   class="" style="box-shadow: none;padding: 0px">
                                                     <i class="uil uil-file-download" style="color: #1B3F7F"></i>
                                                 </a>
                                             </td>

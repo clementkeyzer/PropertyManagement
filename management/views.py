@@ -1,5 +1,7 @@
+import csv
 import json
 import re
+from io import TextIOWrapper
 
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -214,10 +216,11 @@ class UploadContractView(LoginRequiredMixin, View):
                 return redirect("upload_data")
 
             try:
-                contract = Contract.objects.create(name=contract_name, user=self.request.user)
+                contract = Contract.objects.create(name=contract_name, user=self.request.user, file=property_file)
                 structure = DataStructure.objects.filter(user=self.request.user).first()
 
                 property_datas, header_dictionary = convert_file_to_dictionary(property_file)
+
                 #  validate the headers
                 error_list = check_header_in_structure(headers=header_dictionary, structure=structure)
                 # loop through the property data
@@ -251,7 +254,6 @@ class UploadContractView(LoginRequiredMixin, View):
                 # loop through the error for header check
                 for item in error_list:
                     messages.error(request, item)
-                    # if the error is too much redirect back to home page to upload again
                 return redirect("validate_contract", contract.id)
             except Exception as e:
                 contract.delete()
@@ -289,9 +291,10 @@ class ValidateContractView(LoginRequiredMixin, View):
             for error in errors:
                 messages.error(request, error)
             return redirect("contract_update", contract.id)
-        contract.status = "SUCCESS"
-        contract.save()
-        messages.info(request, "The contract has been validated and is error-free.")
+        else:
+            contract.status = "SUCCESS"
+            contract.save()
+            # messages.info(request, "The contract has been validated and is error-free.")
         return redirect("contract_detail", contract.id)
 
 

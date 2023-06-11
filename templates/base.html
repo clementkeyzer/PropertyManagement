@@ -45,8 +45,9 @@
         }
 
         td {
-            max-height: 75px; /* Adjust the value as needed */
+            max-height: 50px !important; /* Adjust the value as needed */
             overflow: hidden;
+            padding: 10px !important;
         }
 
 
@@ -85,17 +86,24 @@
                         <a href="javascript:;" class="nav-item-toggle"><img
                                 src="{% static 'img/favicon.ico' %}" alt=""
                                 class=" rounded-circle">
-                            <span class="nav-item__title">{{ request.user.email }}<i
+                            <span class="nav-item__title">{{ request.user.username }}<i
                                     class="las la-angle-down nav-item__arrow"></i></span>
                         </a>
                         <div class="dropdown-parent-wrapper">
                             <div class="dropdown-wrapper">
                                 <div class="nav-author__info">
                                     <div class="author-img">
-                                        <img src="{% static 'img/favicon.ico' %}" alt="" class="rounded-circle">
+
+                                        <img
+                                                {% if request.user.user_profile.profileImageURL %}
+                                                    src="{{ request.user.user_profile.profileImageURL }}"
+                                                {% else %}
+                                                    src="{% static 'img/favicon.ico' %}"
+                                                {% endif %}
+                                                    alt="" class="rounded-circle">
                                     </div>
                                     <div>
-                                        <h6>{{ request.user.email }}</h6>
+                                        <a href="{% url "user_profile" %}"><h6>{{ request.user.username }}</h6></a>
                                     </div>
                                 </div>
                                 <div class="nav-author__options">
