@@ -186,6 +186,7 @@ def check_required_field_to_management(contract: Contract):
     return errors
 
 
+"""
 def check_header_in_structure(headers, structure):
     # Assuming you have a Django instance called 'instance' of some model
     fields = [field.name for field in structure._meta.get_fields()]
@@ -202,6 +203,34 @@ def check_header_in_structure(headers, structure):
                         f"Invalid Header: '{value}'. Please change the mapping or provide a valid header"
                         f" In your upload file."
                     )
+    return error_list
+"""
+
+
+def check_header_in_structure(headers, structure):
+    # Assuming you have a Django instance called 'instance' of some model
+    fields = [field.name for field in structure._meta.get_fields()]
+    data_dict = model_to_dict(structure, fields=fields)
+    new_dict = {convert_string(key): value for key, value in data_dict.items()}
+
+    error_list = []
+    try:
+        for header in headers:
+            for key, value in header.items():
+                # Perform operations with key and value
+                if key and key != "":
+                    found_key = None
+                    for dict_key, dict_value in new_dict.items():
+                        if str(dict_value).lower() == str(value).lower():
+                            found_key = dict_key
+                            break
+                    if not found_key:
+                        error_list.append(
+                            f"Invalid Header: '{value}'. Please change the mapping or provide a valid header"
+                            f" In your upload file. The current upload is cancelled."
+                        )
+    except:
+        pass
     return error_list
 
 
@@ -280,4 +309,3 @@ def export_management_csv(contract):
         row = [getattr(obj, f) for f in fields]
         writer.writerow(row)
     return response
-
