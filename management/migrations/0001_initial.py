@@ -7,7 +7,6 @@ import management.models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -246,9 +245,9 @@ class Migration(migrations.Migration):
                         blank=True, decimal_places=2, max_digits=10, null=True
                     ),
                 ),
-                ("value_sr2", models.DateField(blank=True, null=True)),
+                ("index_date_sr2", models.DateField(blank=True, null=True)),
                 (
-                    "index_date_sr2",
+                    "value_sr2",
                     models.DecimalField(
                         blank=True, decimal_places=2, max_digits=10, null=True
                     ),
