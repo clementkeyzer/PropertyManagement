@@ -18,9 +18,9 @@ class ManagementForm(forms.ModelForm):
     notice_term_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
     start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
     index_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
-    value_sr2 = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
     start_payment_schedule = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
     end_payment_schedule = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
+    index_date_sr2 = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), input_formats=['%y-%m-%d'])
 
     #  all the decimal add here
     required_amount = forms.DecimalField(max_digits=10, decimal_places=2,
@@ -60,10 +60,8 @@ class ManagementForm(forms.ModelForm):
                                          widget=forms.NumberInput(attrs={'class': 'form-control'}))
     value = forms.DecimalField(max_digits=10, decimal_places=2,
                                widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    value = forms.DecimalField(max_digits=10, decimal_places=2,
-                               widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    term_frequency = forms.DecimalField(max_digits=10, decimal_places=2,
-                                        widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    value_sr2 = forms.DecimalField(max_digits=10, decimal_places=2,
+                                   widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Management

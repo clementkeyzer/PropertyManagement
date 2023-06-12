@@ -116,9 +116,9 @@ class Management(models.Model):
     # index_value to value
     value = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
     # next_index_date to value_sr2
-    value_sr2 = models.DateField(blank=True, null=True)
+    index_date_sr2 = models.DateField(blank=True, null=True)
     # next_index_value to index_date_sr2
-    index_date_sr2 = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
+    value_sr2 = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
 
