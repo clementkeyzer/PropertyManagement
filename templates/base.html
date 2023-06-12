@@ -83,9 +83,14 @@
 
                 <li class="nav-author">
                     <div class="dropdown-custom">
-                        <a href="javascript:;" class="nav-item-toggle"><img
-                                src="{% static 'img/favicon.ico' %}" alt=""
-                                class=" rounded-circle">
+                        <a href="{% url "user_profile" %}" class="nav-item-toggle"><img
+                                {% if request.user.user_profile.profileImageURL %}
+                                    src="{{ request.user.user_profile.profileImageURL }}"
+                                {% else %}
+                                    src="{% static 'img/favicon.ico' %}"
+                                {% endif %}
+                                    alt=""
+                                    class=" rounded-circle">
                             <span class="nav-item__title">{{ request.user.username }}<i
                                     class="las la-angle-down nav-item__arrow"></i></span>
                         </a>

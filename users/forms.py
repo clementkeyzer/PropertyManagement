@@ -64,7 +64,7 @@ class UserCreationCustomForm(forms.Form):
     first_name = forms.SlugField(required=True)
     last_name = forms.SlugField(required=True)
     username = forms.SlugField(required=True)
-    organisation_name = forms.SlugField(required=True)
+    organisation_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
     is_staff = forms.BooleanField(required=False)
     is_superuser = forms.BooleanField(required=False)

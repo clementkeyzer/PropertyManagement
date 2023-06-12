@@ -56,6 +56,7 @@
                                         <th>Last Name</th>
                                         <th>Email</th>
                                         <th>Username</th>
+                                        <th>Organisation Name</th>
                                         <th>Last Logged In</th>
                                         <th>Staff</th>
                                         <th>Super User</th>
@@ -73,6 +74,9 @@
                                             </td>
                                             <td>
                                                 {{ user.username }}
+                                            </td>
+                                            <td>
+                                                {{ user.user_profile.organisation_name }}
                                             </td>
                                             <td>{{ user.last_login }}</td>
 

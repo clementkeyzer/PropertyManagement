@@ -256,7 +256,7 @@ def admin_create_user(request):
             if User.objects.filter(email=email).exists():
                 messages.warning(request, "Email already exists")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            if UserProfile.objects.filter(organisation_name=organisation_name).exists():
+            if UserProfile.objects.filter(organisation_name__icontains=organisation_name).exists():
                 messages.warning(request, "organisation name already exists")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             if User.objects.filter(username=username).exists():
