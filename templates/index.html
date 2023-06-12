@@ -134,21 +134,20 @@
                     New Upload
                 </div>
                 <div class="card-body p-0">
-                    <form action="." method="post" enctype="multipart/form-data">
+                    <form action="." method="post" enctype="multipart/form-data" onsubmit="syncFileInputs()">
                         {% csrf_token %}
-
+                        <input class="form-control form-control-lg" type="file" name="clone_file"
+                               style="display: none;">
                         <div class="row px-3 mx-auto">
-                            <div class="col-12 col-md-4  form-group mb-md-5   mt-2 ">
+                            <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
                                 <label>Rent roll name</label>
-                                <input class="form-control form-control-lg" type="text"
-                                       name="name"
+                                <input class="form-control form-control-lg" type="text" name="name"
                                        placeholder="Rent roll name">
                             </div>
-                            <div class="col-12 col-md-4 form-group  mb-md-5   mt-2">
+                            <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
                                 <label>Rent roll file</label>
-                                <input class="form-control form-control-lg" type="file"
-                                       name="property_file"
-                                       placeholder="file">
+                                <input class="form-control form-control-lg" type="file" name="property_file"
+                                >
                             </div>
 
                             <div class="col-12 col-md-4 form-group  mb-md-5  mt-2">
@@ -158,8 +157,11 @@
                                     Upload
                                 </button>
                             </div>
+
                         </div>
                     </form>
+
+
                 </div>
             </div>
         </div>
@@ -170,3 +172,15 @@
 
 
 
+{% block script %}
+    <script>
+        {% comment %} This is used to sync the files  by making a clone . The reason why i did it this way is because in memery file once used it becomes closed and
+        cant be open so i just need to submit two one i get the datas from it the other i save it . {% endcomment %}
+
+        function syncFileInputs() {
+            const propertyFileInput = document.querySelector('input[name="property_file"]');
+            const cloneFileInput = document.querySelector('input[name="clone_file"]');
+            cloneFileInput.files = propertyFileInput.files;
+        }
+    </script>
+{% endblock %}

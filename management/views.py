@@ -1,3 +1,4 @@
+import io
 import json
 import json
 import re
@@ -208,6 +209,7 @@ class UploadContractView(LoginRequiredMixin, View):
         global contract
         if request.method == 'POST' and request.FILES['property_file']:
             property_file = request.FILES['property_file']
+            clone_file = request.FILES['clone_file']
             contract_name = request.POST.get("name")
 
             if not contract_name or not property_file:
@@ -215,7 +217,7 @@ class UploadContractView(LoginRequiredMixin, View):
                 return redirect("upload_data")
 
             try:
-                contract = Contract.objects.create(name=contract_name, user=self.request.user)
+                contract = Contract.objects.create(name=contract_name, user=self.request.user, file=clone_file)
                 structure = DataStructure.objects.filter(user=self.request.user).first()
 
                 property_datas, header_dictionary = convert_file_to_dictionary(property_file)
@@ -249,7 +251,6 @@ class UploadContractView(LoginRequiredMixin, View):
                     management.user = self.request.user
                     management.save()
 
-                # loop through the error for header check
                 for item in error_list:
                     messages.error(request, item)
                     # if the error is too much redirect back to home page to upload again

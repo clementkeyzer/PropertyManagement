@@ -9,9 +9,13 @@ from django.db.models.signals import post_save
 def user_contract_file_upload_path(instance, filename):
     # Construct the file path based on the user's username and the original filename
     current_datetime = datetime.now()
+    #  get a formatted date time for easy arrangement
     formatted_datetime = current_datetime.strftime("%Y-%m-%dT%H-%M")
+    #  use the user organisation name for it
     organisation_name = str(instance.user.user_profile.organisation_name).replace(" ", "_")
-    return f'{organisation_name}/{formatted_datetime}__{instance.name}'
+    #  get the file extension
+    file_extension = filename.split(".")[-1]
+    return f'{organisation_name}/{formatted_datetime}__{instance.name}.{file_extension}'
 
 
 class Contract(models.Model):
