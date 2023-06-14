@@ -76,6 +76,8 @@
                         <thead>
                         <tr>
                             <th>Name</th>
+                            <th>User</th>
+
                             <th>Status</th>
                             <th>Row</th>
                             <th>Timestamp</th>
@@ -86,6 +88,8 @@
                         {% for contract in object_list %}
                             <tr>
                                 <td>{{ contract.name }}</td>
+
+                                <td>{{ contract.user }}</td>
                                 <td>
                                     {% if contract.status == "SUCCESS" %}
                                         <h4 class="badge  badge-dot--big"
@@ -177,7 +181,7 @@
         <div class="col-12">
             <div class="card card-default card-md mb-4">
                 <div class="card-header  py-20">
-                    <h6>Managements</h6>
+                    <h6>Rows</h6>
                 </div>
                 <div class="card-body">
                     <div class="tab-wrapper">

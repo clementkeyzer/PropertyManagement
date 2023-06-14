@@ -13,7 +13,6 @@
         }
 
 
-
     </style>
 {% endblock %}
 
@@ -21,9 +20,9 @@
     <div class="col-12 mt-30">
         <div class="card border-0">
             <div class="card-header">
-                <h6>Property Management</h6>
+                <h6>{{ contract.name }}</h6>
                 <div class="card-extra">
-
+                    <strong> Created: </strong> {{ contract.timestamp|timesince }} ago
                 </div>
             </div>
             <div class="card-body p-0 pe-2">
@@ -38,7 +37,8 @@
                                     <th scope="row" rowspan="3">{{ Counter }}</th>
                                     {% for field in object_list|first|get_all_fields %}
                                         {% if field.name not in exclude_management_fields %}
-                                            <th scope="row" rowspan="3" style="font-weight: bold">{{ field.verbose_name|title }}</th>
+                                            <th scope="row" rowspan="3"
+                                                style="font-weight: bold">{{ field.verbose_name|title }}</th>
                                         {% endif %}
                                     {% endfor %}
                                 </tr>

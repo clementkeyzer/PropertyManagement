@@ -30,12 +30,48 @@
 {% endblock %}
 {% block content %}
     <div class="row">
+        <div class="col-lg-12">
+            <div class="breadcrumb-main">
+                <h4 class="text-capitalize breadcrumb-title">Mapping</h4>
+                <div class="breadcrumb-action justify-content-center flex-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url "admin_dashboard" %}"><i
+                                    class="uil uil-estate"></i>Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">mapping</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class=" p-4 ml-3">
+                <p>In order to report properly, we conform to the OSCRE Industry Data Model. OSCRE is the international
+                    standard for corporate real estate and real estate investment.
+                    To make sure your values end up in the right places, we need to map your columns to the database
+                    standard.
+                    Type the header of your upload in the appropriate boxes. You can overwrite the suggested column
+                    names.
+                </p>
 
+                <strong style="font-weight: bolder ;"> Important notes:</strong>
+                <ul style="list-style: circle;">
+                    <li>Your upload must be in Excel format and have the .xlsx or .csv extension</li>
+                    <li>In case of .xlsx, your workbook can only have 1 sheet</li>
+                    <li>Your upload must have 1 header row</li>
+                    <li>The format of your upload must be consistent; If the format of your upload changes, you will
+                        need to
+                        adjust
+                        the mapping here.
+                    </li>
+                    <li>Feel free to reach out and we will send you an Excel template with explanations.</li>
+                </ul>
+
+            </div>
+        </div>
         <div class="col-12 d-flex justify-content-center align-items-center">
             <div class="card card-default card-md mb-4">
-                <div class="card-header">
-                    <h6> Mapping</h6>
-                </div>
+
                 <div class="card-body">
                     <div class="basic-form-wrapper" style="max-width: 99%">
                         <form action="{% url "update_data_structure" %}" method="post" class="form">

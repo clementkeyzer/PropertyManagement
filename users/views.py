@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -46,6 +47,10 @@ class ChangeUserPassword(LoginRequiredMixin, View):
             user = self.request.user
             user.set_password(password)
             user.save()
+            user = authenticate(request, username=user.username, password=password,
+                                backend='django.contrib.auth.backends.ModelBackend')
+            if user is not None:
+                login(request, user)
             messages.info(request, "Successfully Update password")
         else:
             for error in form.errors:

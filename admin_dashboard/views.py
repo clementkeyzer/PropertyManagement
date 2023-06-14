@@ -2,18 +2,20 @@ import json
 import random
 
 from django.contrib import messages
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
 
 from admin_dashboard.utils import user_percentage_increase_since_last_month, \
     contract_percentage_increase_since_last_month
 from management.forms import ManagementForm, ManagementRuleForm
-from users.forms import UserCreationCustomForm
+from users.forms import UserCreationCustomForm, UserProfileUpdateForm, AdminUpdateUserForm
 from management.models import Contract, Management, ManagementRule
 from users.models import UserProfile
 from management.utils import query_items, convert_string
@@ -333,3 +335,52 @@ class AdminContractRulesDetailView(LoginRequiredMixin, AdminRequiredMixin, View)
             management_rule_form.save()
             messages.success(request, "Successfully Update Structure")
         return redirect("admin_contract_rules")
+
+
+class AdminUserProfileUpdateView(LoginRequiredMixin, AdminRequiredMixin, View):
+    form_class = AdminUpdateUserForm
+    template_name = 'admin_update_user.html'
+
+    def get(self, request, id):
+        user_profile = get_object_or_404(UserProfile, user_id=id)
+        form = self.form_class(instance=user_profile)
+        return render(request, "admin_update_user.html",
+                      {'form': form, "user_profile": user_profile,
+                       "user": user_profile.user})
+
+    def post(self, request, id):
+        user_profile = get_object_or_404(UserProfile, user_id=id)
+        user = user_profile.user
+        form = self.form_class(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            password = form.cleaned_data.get("password")
+            if password is not None or password != "":
+                user.set_password(password)
+                user.save()
+                if self.request.user == user:
+                    user = authenticate(request, username=user.username, password=password,
+                                        backend='django.contrib.auth.backends.ModelBackend')
+                    if user is not None:
+                        login(request, user)
+            messages.info(request, "Successfully Update User")
+        else:
+            for error in form.errors:
+                messages.warning(request, f"{error}: {form.errors[error][0]}")
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class AdminUserDeleteView(LoginRequiredMixin, AdminRequiredMixin, View):
+    """
+    this is used to delete a Contract
+    """
+
+    def post(self, request):
+        #  this  deletes a redirect back to the page
+        item_id = request.POST.get("user_id")
+        if item_id:
+            user = User.objects.filter(id=item_id).first()
+            if user:
+                user.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

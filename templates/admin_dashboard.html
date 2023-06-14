@@ -13,7 +13,7 @@
         }
 
         .table-container {
-            height: auto; /* Set the desired height */
+            max-height: 30vh; /* Set the desired height */
             overflow-y: scroll; /* Enable vertical scrolling */
             scrollbar-width: thin; /* Set the width of the scrollbar */
             scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
@@ -46,7 +46,7 @@
                         <div class="overview-content w-100">
                             <div class=" ap-po-details-content d-flex flex-wrap justify-content-between">
                                 <div class="ap-po-details__titlebar">
-                                    <h1>{{ contracts_count }}+</h1>
+                                    <h1>{{ contracts_count }}</h1>
                                     <p>Total Upload</p>
                                 </div>
                                 <div class="ap-po-details__icon-area">
@@ -167,6 +167,7 @@
                                     <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>User</th>
                                         <th>Status</th>
                                         <th>Rows</th>
                                         <th>Timestamp</th>
@@ -177,6 +178,8 @@
                                     {% for contract in contracts %}
                                         <tr>
                                             <td>{{ contract.name }}</td>
+                                            <td>{{ contract.user }}</td>
+
                                             <td>
                                                 {% if contract.status == "SUCCESS" %}
                                                     <h4 class="badge  badge-dot--big"

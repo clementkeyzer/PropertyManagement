@@ -294,7 +294,9 @@ class ValidateContractView(LoginRequiredMixin, View):
         else:
             contract.status = "SUCCESS"
             contract.save()
-            # messages.info(request, "The contract has been validated and is error-free.")
+            error_messages = [message for message in messages.get_messages(request) if message.level == messages.ERROR]
+            if len(error_messages) <= 0:
+                messages.info(request, "The contract has been validated and is error-free.")
         return redirect("contract_detail", contract.id)
 
 

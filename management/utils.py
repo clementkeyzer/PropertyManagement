@@ -221,7 +221,7 @@ def check_header_in_structure(headers, structure):
                 if key and key != "":
                     found_key = None
                     for dict_key, dict_value in new_dict.items():
-                        if str(dict_value).lower() == str(value).lower():
+                        if convert_string(dict_value) == convert_string(value):
                             found_key = dict_key
                             break
                     if not found_key:

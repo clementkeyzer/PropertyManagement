@@ -36,6 +36,12 @@
     background-color: #fff;
     z-index: 3;
 }
+.table--default thead th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 3;
+}
 
 table-social tbody tr:first-child td {
     color: var(--color-dark);

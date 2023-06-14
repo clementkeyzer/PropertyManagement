@@ -16,7 +16,7 @@
         }
 
         .table-container {
-            min-height: 60vh; /* Set the desired height */
+            max-height: 60vh; /* Set the desired height */
             overflow-y: scroll; /* Enable vertical scrolling */
             scrollbar-width: thin; /* Set the width of the scrollbar */
             scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
@@ -32,8 +32,9 @@
                 <div class="breadcrumb-action justify-content-center flex-wrap">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><i class="uil uil-estate"></i>Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Form</li>
+                            <li class="breadcrumb-item"><a href="{% url "admin_dashboard" %}"><i
+                                    class="uil uil-estate"></i>Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Users</li>
                         </ol>
                     </nav>
                 </div>
@@ -61,6 +62,8 @@
                                         <th>Staff</th>
                                         <th>Super User</th>
                                         <th>Date Joined</th>
+                                        <th>Action</th>
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -107,6 +110,27 @@
                                                 {% endif %}
                                             </td>
                                             <td>{{ user.date_joined }}</td>
+                                            <td class="d-flex  ">
+
+                                                <form action="{% url 'admin_delete_user' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" value="{{ user.id }}"
+                                                           name="contract_id">
+
+                                                    <button type="submit"
+                                                            class=" " style="border: none;padding: 0;color: #9D2154;">
+                                                        <i class="uil uil-trash-alt "></i>
+                                                    </button>
+                                                </form>
+                                                <a href="{% url "admin_update_user" user.id %}" class="px-2 "
+                                                   style="padding: 0;color: #1B3F7F;"><i class="uil uil-edit "></i>
+                                                </a>
+
+
+
+
+                                            </td>
+
                                         </tr>
 
                                     {% endfor %}
