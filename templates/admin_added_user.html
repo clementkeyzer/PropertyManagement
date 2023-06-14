@@ -115,7 +115,7 @@
                                                 <form action="{% url 'admin_delete_user' %}" method="post">
                                                     {% csrf_token %}
                                                     <input type="hidden" value="{{ user.id }}"
-                                                           name="contract_id">
+                                                           name="user_id">
 
                                                     <button type="submit"
                                                             class=" " style="border: none;padding: 0;color: #9D2154;">
