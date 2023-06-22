@@ -25,10 +25,7 @@ class ManagementForm(forms.ModelForm):
     #  all the decimal add here
     required_amount = forms.DecimalField(max_digits=10, decimal_places=2,
                                          widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    type_code = forms.DecimalField(max_digits=10, decimal_places=2,
-                                   widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    option_by_code = forms.DecimalField(max_digits=10, decimal_places=2,
-                                        widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
     term = forms.DecimalField(max_digits=10, decimal_places=2,
                               widget=forms.NumberInput(attrs={'class': 'form-control'}))
     notice_term = forms.DecimalField(max_digits=10, decimal_places=2,
@@ -46,22 +43,28 @@ class ManagementForm(forms.ModelForm):
                                        widget=forms.NumberInput(attrs={'class': 'form-control'}))
     amount_discount = forms.DecimalField(max_digits=10, decimal_places=2,
                                          widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    term_frequency = forms.DecimalField(max_digits=10, decimal_places=2,
-                                        widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    charge_frequency = forms.DecimalField(max_digits=10, decimal_places=2,
-                                          widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
     vat_code = forms.DecimalField(max_digits=10, decimal_places=2,
                                   widget=forms.NumberInput(attrs={'class': 'form-control'}))
     vat_rate = forms.DecimalField(max_digits=10, decimal_places=2,
                                   widget=forms.NumberInput(attrs={'class': 'form-control'}))
     vat_amount = forms.DecimalField(max_digits=10, decimal_places=2,
                                     widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    index_frequency = forms.DecimalField(max_digits=10, decimal_places=2,
-                                         widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
     value = forms.DecimalField(max_digits=10, decimal_places=2,
                                widget=forms.NumberInput(attrs={'class': 'form-control'}))
     value_sr2 = forms.DecimalField(max_digits=10, decimal_places=2,
                                    widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+    # integer field
+    type_code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    charge_frequency = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    option_by_code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    index_series = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    security_type_code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    term_frequency = forms.IntegerField(
+        widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    index_frequency = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Management

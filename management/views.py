@@ -1,4 +1,3 @@
-import io
 import json
 import json
 import re
@@ -21,7 +20,9 @@ from structures.models import DataStructure
 from .forms import ManagementForm
 from .utils import convert_string_int_to_bool, convert_string, query_items, \
     check_required_field_to_management, convert_file_to_dictionary, convert_date_format, check_validation_on_management, \
-    convert_string_to_int, check_header_in_structure, export_management_csv
+    convert_string_to_int, check_header_in_structure, export_management_csv, convert_charge_frequency, is_integer_value, \
+    convert_index_series, convert_index_type, convert_option_by_code, convert_unit_type, \
+    convert_type_code, convert_vat_code, convert_security_type_code, convert_management_value_with_field_name
 
 FormSet = formset_factory(ManagementForm, extra=0)
 
@@ -235,14 +236,21 @@ class UploadContractView(LoginRequiredMixin, View):
                         user_field_name = getattr(structure, field_name)
                         converted_field_name = convert_string(user_field_name)
                         management_value = data.get(converted_field_name)
-
+                        #  transcribe the values
+                        management_value = convert_management_value_with_field_name(field_name=field_name,
+                                                                                    management_value=management_value)
                         #  we get attribute to be able to set the right value
                         if isinstance(management._meta.get_field(field_name), models.BooleanField):
+                            # if it's a boolean field
                             setattr(management, field_name, convert_string_int_to_bool(management_value))
                         elif isinstance(management._meta.get_field(field_name), models.DateField):
+                            # if it's a date time field
                             setattr(management, field_name, convert_date_format(management_value))
                         elif isinstance(management._meta.get_field(field_name), models.DecimalField):
-
+                            # if it's a decimal field
+                            setattr(management, field_name, convert_string_to_int(management_value))
+                        elif isinstance(management._meta.get_field(field_name), models.IntegerField):
+                            # if it's a decimal field
                             setattr(management, field_name, convert_string_to_int(management_value))
                         else:
                             setattr(management, field_name, management_value)
@@ -250,6 +258,11 @@ class UploadContractView(LoginRequiredMixin, View):
                     management.contract = contract
                     management.user = self.request.user
                     management.save()
+                # check if the length of the error is greater than 50 and if it is i delete
+                if len(error_list) >= 50:
+                    contract.delete()
+                    messages.error(request, f'Error uploading file: So many errors with invalid header name')
+                    return redirect("upload_data")
 
                 for item in error_list:
                     messages.error(request, item)

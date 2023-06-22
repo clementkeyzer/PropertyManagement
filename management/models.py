@@ -62,7 +62,7 @@ class Management(models.Model):
     # rent_security to required_amount
     required_amount = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
     # rent_security_type to security_type_code
-    security_type_code = models.CharField(max_length=250, blank=True, null=True)
+    security_type_code = models.IntegerField(blank=True, null=True)
     tenant_id = models.CharField(max_length=250, blank=True, null=True)
     tenant_name = models.CharField(max_length=250, blank=True, null=True)
     is_company = models.BooleanField(blank=True, null=True)
@@ -71,14 +71,14 @@ class Management(models.Model):
     # option_to_date to to_date
     to_date = models.DateField(max_length=240, blank=True, null=True)
     # option_type_break_purchase_renew to type_code
-    type_code = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
+    type_code = models.IntegerField(blank=True, null=True)
     # option_type_landlord_tenant_mutual to option_by_code
-    option_by_code = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
+    option_by_code = models.IntegerField(blank=True, null=True)
     term = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
     notice_term = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
     notice_term_date = models.DateField(max_length=250, blank=True, null=True)
     # notice_term_frequency to term_frequency
-    term_frequency = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
+    term_frequency = models.IntegerField(blank=True, null=True)
     fund_id = models.CharField(max_length=250, blank=True, null=True)
     property_id = models.CharField(max_length=250, blank=True, null=True)
     unit_id = models.CharField(max_length=250, blank=True, null=True)
@@ -97,7 +97,7 @@ class Management(models.Model):
     amount_others = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
     # income_category_discount_amount to amount_discount
     amount_discount = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
-    charge_frequency = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
+    charge_frequency = models.IntegerField(blank=True, null=True)
     # value_added_tax to vat_code
     vat_code = models.CharField(max_length=250, blank=True, null=True)
     # value_added_tax_rate to vat_rate
@@ -108,10 +108,10 @@ class Management(models.Model):
     end_payment_schedule = models.DateField(blank=True, null=True)
     # currency to currency_code
     currency_code = models.CharField(max_length=250, blank=True, null=True)
-    index_series = models.CharField(max_length=250, blank=True, null=True)
+    index_series = models.IntegerField(blank=True, null=True)
     index_type = models.CharField(max_length=250, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
-    index_frequency = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
+    index_frequency = models.IntegerField(blank=True, null=True)
     index_date = models.DateField(blank=True, null=True)
     # index_value to value
     value = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
