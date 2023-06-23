@@ -21,6 +21,8 @@ from structures.models import DataStructure
 from users.forms import UserCreationCustomForm, AdminUpdateUserForm
 from users.models import UserProfile
 
+from .utils import lookup_excel_to_dict_list
+
 
 # Create your views here.
 class AdminDashboardView(LoginRequiredMixin, AdminRequiredMixin, View):
@@ -457,4 +459,46 @@ class ConverterTranslatorDeleteView(LoginRequiredMixin, AdminRequiredMixin, View
             convert = ConverterTranslator.objects.filter(id=item_id).first()
             if convert:
                 convert.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class ConvertUploadView(LoginRequiredMixin, AdminRequiredMixin, View):
+    """
+    this is used to make upadete to the look-up
+    """
+
+    def post(self, request):
+        file = request.FILES.get("file")
+        excel_file = lookup_excel_to_dict_list(file)
+        row = 0
+        for item in excel_file:
+            row += 1
+            convert_instance_qs = ConverterTranslator.objects.filter(
+                convert_type=item.get("converttype"),
+                supplied_value=item.get("suppliedvalue")
+            )
+            convert_instance = convert_instance_qs.first()
+            if convert_instance_qs.count() > 1:
+                # delete  other values and leave the first one
+                # Delete the rest of the instances (excluding the first one)
+                delete_instances = convert_instance_qs.exclude(id=convert_instance.id)
+                delete_instances.delete()
+
+            #  if the instance does not exist i make new one
+            if not convert_instance:
+                convert_instance = ConverterTranslator()
+                convert_instance.supplied_value = item.get("suppliedvalue")
+                convert_instance.convert_type = item.get("converttype", "STRING").upper()
+            #  check if the type matches the translation to
+            if item.get("converttype") == "INT" or item.get("converttype") == "DECIMAL":
+                # check if the value can be changed to int
+                if is_integer_value(item.get("translateto")):
+                    # Save the updated management instance for any update
+                    convert_instance.translate_to = item.get("translateto")
+                    convert_instance.save()
+                else:
+                    messages.error(request, f"Row :{row} Translate to cant be string can only be Integer or decimal ")
+            else:
+                convert_instance.translate_to = item.get("translateto")
+                convert_instance.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -6,7 +6,7 @@
 {% block css %}
     <style>
         .table-container {
-            height: 75vh; /* Set the desired height */
+            height: 50vh; /* Set the desired height */
             overflow-y: scroll; /* Enable vertical scrolling */
             scrollbar-width: thin; /* Set the width of the scrollbar */
             scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
@@ -23,7 +23,21 @@
             <div class="card-header">
                 <h6>Lookup Translation</h6>
                 <div class="card-extra">
+                    <div class="d-flex justify-content-between align-items-center"
+                         style=";">
 
+
+                        <button class="btn px-2 " id="updateButton"
+                                style=" background-color: #1B3F7F;color: white"
+                        ><i class="uil uil-save"></i>
+                        </button>
+
+                        <button class="btn px-2" id="addRowIcon"
+                                style=" background-color: #9D2154;color: white;margin-left: 10px"
+                        ><i class="uil uil-plus-square"></i>
+                        </button>
+
+                    </div>
                 </div>
             </div>
             <div class="card-body p-0 pe-2">
@@ -108,25 +122,42 @@
                             </table>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center"
-                             style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;">
-
-
-                            <button class="btn " id="updateButton"
-                                    style=" background-color: #1B3F7F;color: white"
-                            >Save
-                            </button>
-
-                            <button class="btn px-2" id="addRowIcon"
-                                    style=" background-color: #9D2154;color: white;margin-left: 10px"
-                            >Add Row
-                            </button>
-
-                        </div>
 
                     </form>
 
                 </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-12 my-5">
+        <div class="card">
+            <div class="card-header color-dark fw-500">
+                Lookup Translator
+            </div>
+            <div class="card-body p-0  ">
+                <form action="{% url "convert_upload" %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="row px-3 mx-auto m-lg-4">
+                        <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
+                            <label>File</label>
+                            <input class="form-control form-control-lg" type="file" name="file"
+                                   placeholder="Rent roll name">
+                        </div>
+
+
+                        <div class="col-12 col-md-4 form-group  mb-md-5  mt-2">
+                            <label>{{ "" }}</label>
+                            <button type="submit"
+                                    class="btn btn-lg btn-danger btn-submit" style="background-color:#9D2154">
+                                Upload
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+
 
             </div>
         </div>

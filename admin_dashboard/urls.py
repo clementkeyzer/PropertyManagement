@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import AdminUpdateUserMappingView, AdminDashboardView, AdminContractListView, AdminContractDeleteView, \
     AdminContractUpdateView, AdminContractRulesDetailView, admin_create_user, AdminListUserView, AdminListUserRulesView, \
-    AdminUserProfileUpdateView, AdminUserDeleteView, ConverterTranslatorDeleteView
+    AdminUserProfileUpdateView, AdminUserDeleteView, ConverterTranslatorDeleteView,ConvertUploadView
 
 urlpatterns = [
     path("admin_mapping", AdminUpdateUserMappingView.as_view(), name="admin_mapping"),
@@ -17,6 +17,7 @@ urlpatterns = [
          name='admin_contract_rules_detail'),
     path('admin_list_users/', AdminListUserView.as_view(), name='admin_list_users'),
     path('convert_delete/', ConverterTranslatorDeleteView.as_view(), name='convert_delete'),
+    path('convert_upload/', ConvertUploadView.as_view(), name='convert_upload'),
     path('admin_create_user/', admin_create_user, name='admin_create_user'),
 
 ]

@@ -147,12 +147,22 @@ items = [['INT', 'Anden frekvens', 0, 'andenfrekvens'], ['INT', 'Andere frequent
          ['INT', 'Dépôt', 30, 'dpt'], ['INT', 'Aucun', 40, 'aucun'], ['INT', 'Bank garanti', 10, 'bankgaranti'],
          ['INT', 'Virksomhedsgaranti', 20, 'virksomhedsgaranti'], ['INT', 'Depositum', 30, 'depositum'],
          ['INT', 'Ingen', 40, 'ingen']]
-from management.models import ConverterTranslator
 
-for item in items:
-    ConverterTranslator.objects.create(
-        convert_type=item[0],
-        supplied_value=item[1],
-        translate_to=item[2],
-        converted_string=item[3],
-    )
+import openpyxl
+def create_excel():
+    # Create a new workbook and select the active sheet
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+
+    # Write the headers
+
+    headers = ['convert_type', 'supplied_value', 'translate_to', ]
+    sheet.append(headers)
+
+    # Write the data rows
+    for row in items:
+        sheet.append(row)
+
+    # Save the workbook
+    workbook.save('items.xlsx')
+create_excel()

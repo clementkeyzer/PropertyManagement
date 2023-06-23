@@ -82,7 +82,7 @@ for row in range(2, max_row + 1):
 new_file_path = "./converted.xlsx"
 workbook.save(new_file_path)
 
-"""
+
 
 import openpyxl
 import re
@@ -134,3 +134,44 @@ for row in sheet.iter_rows(min_row=2):
     item.append(row_item)
 
 print(item)
+
+"""
+import re
+
+from openpyxl.reader.excel import load_workbook
+
+def convert_string(input_string):
+    if not input_string or input_string == "":
+        return None
+    if type(input_string) != str:
+        return input_string
+
+    lowercase_string = input_string.lower()
+    cleaned_string = re.sub('[^a-z0-9]', '', lowercase_string)
+    return cleaned_string
+
+
+def excel_to_dict_list(excel_file):
+    wb = load_workbook(excel_file)
+    ws = wb.active
+
+    data = []
+    #  create custom header for check
+    headers = []
+    for cell in ws[1]:
+        # if there is a cell then it append it to the header  and  the header dictionary
+        headers.append(convert_string(cell.value))
+
+    for row in ws.iter_rows(min_row=2):  # Assuming the data starts from the third row
+        row_data = {}
+        all_none = True
+        for header, cell in zip(headers, row):
+            # loop through the headers and the row accordingly
+            row_data[header] = cell.value
+            if cell.value is not None:
+                all_none = False
+        if all_none:
+            break
+        data.append(row_data)
+
+    return data

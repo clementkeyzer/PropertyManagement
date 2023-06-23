@@ -1,48 +1,1354 @@
-{
-  '': 'field name',
-  'Lease ID': 'LeaseSrcKey',
-  'Lease start date': 'DateOfLeaseDate',
-  'First day of term date': 'FirstDayOfTermDate',
-  'Last day of term date': 'LastDayOfTermDate',
-  'Lease expiration date': 'ExpirationDate',
-  'Rent security': 'RequiredAmount',
-  'Rent security type': 'SecurityTypeCode',
-  'Tenant ID': 'TenantSrcKey',
-  'Tenant Name': 'Name',
-  'Is company': 'IsCompany',
-  'From date': 'FromDate',
-  'To date': 'ToDate',
-  'Option type \n(break/purchase/renew)': 'TypeCode',
-  'Option by\n(landlord/tenant/mutual)': 'OptionByCode',
-  'Term': 'Term',
-  'Notice term': 'NoticeTerm',
-  'Notice term date': 'NoticeTermDate',
-  'Term frequency': 'TermFrequency',
-  'Fund ID': 'FundSrcKey',
-  'Poperty ID': 'Propertysrckey',
-  'Unit ID': 'UnitSrcKey',
-  'Unit type / use type': 'UnitType',
-  'Gross area': 'GrossArea',
-  'Net area': 'NetArea',
-  'is vacant': 'Vacant',
-  'vacancy reason': 'VacancyNote',
-  'Income category Rent\nAmount': 'AmountRent',
-  'Income category Service Charges\nAmount': 'AmountServiceCharge',
-  'Income category Others\nAmount': 'AmountOthers',
-  'Income category Discount\nAmount': 'AmountDiscount',
-  'Charge frequency': 'ChargeFrequency',
-  'VAT': 'VATCode',
-  'VAT rate': 'VATRate',
-  'VAT amount': 'VATAmount',
-  'Start payment schedule': 'StartPaymentSchedule',
-  'End payment schedule': 'EndPaymentSchedule',
-  'Currency': 'CurrencyCode',
-  'Index series': 'IndexSeries',
-  'Index type': 'IndexType',
-  'Start date': 'StartDate',
-  'Index frequency': 'IndexFrequency',
-  'Index date': 'IndexDate',
-  'Index value': 'Value',
-  'Next index date \n(i.c.o. step rent)': 'ValueSR2',
-  'Next index value\n(i.c.o. step rent)': 'IndexDateSR2'
-}
+[
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Anden frekvens",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Andere frequentie",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Andere Frequenz",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Autre fréquence",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Other Frequency",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Gebruikelijke kwartalen",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Quartiers habituels",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Sædvanlige Kvarter",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Übliche Quartiere",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Usual Quarters",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Modern Quarters",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Moderne Kvarter",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Moderne Viertel",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Moderne wijken",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Quartiers modernes",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Altschottisch",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Gammel skotsk",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Old Scottish",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Oud Schots",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Vieux écossais",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Écossais moderne",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Modern Scottish",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Moderne Schots",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Moderne skotsk",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Modernes Schottisch",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Andere kwartalen",
+    "translateto": 50
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Andere Viertel",
+    "translateto": 50
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Andre Kvarter",
+    "translateto": 50
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Autres quartiers",
+    "translateto": 50
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Other Quarters",
+    "translateto": 50
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Maandelijks",
+    "translateto": 60
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Månedlige",
+    "translateto": 60
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Mensuel",
+    "translateto": 60
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Monatlich",
+    "translateto": 60
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Monthly",
+    "translateto": 60
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Hebdomadaire",
+    "translateto": 70
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Ugentlig",
+    "translateto": 70
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Weekly",
+    "translateto": 70
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Wekelijks",
+    "translateto": 70
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Wöchentlich",
+    "translateto": 70
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Annual",
+    "translateto": 80
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Annuel",
+    "translateto": 80
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Årligt",
+    "translateto": 80
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Jaarlijks",
+    "translateto": 80
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Jährlich",
+    "translateto": 80
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Halbjährlich",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Half Yearly",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Halfjaarlijks",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Halvårligt",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Semestriel",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Dagelijks",
+    "translateto": 100
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Daglige",
+    "translateto": 100
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Daily",
+    "translateto": 100
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Quotidien",
+    "translateto": 100
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Täglich",
+    "translateto": 100
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Alle zwei Wochen",
+    "translateto": 110
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Bihebdomadaire",
+    "translateto": 110
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Fortnightly",
+    "translateto": 110
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Hver fjortende dag",
+    "translateto": 110
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Tweewekelijks",
+    "translateto": 110
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Fire Ugentlige",
+    "translateto": 120
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Four Weekly",
+    "translateto": 120
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Quatre semaines",
+    "translateto": 120
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Vier wekelijks",
+    "translateto": 120
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Vierwöchentlich",
+    "translateto": 120
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Bimensuel",
+    "translateto": 130
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Bi-monthly",
+    "translateto": 130
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "To-månedligt",
+    "translateto": 130
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Tweemaandelijks",
+    "translateto": 130
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Zweimonatlich",
+    "translateto": 130
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Andere",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Andet",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Autre",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Other",
+    "translateto": 0
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Consumentenprijsindex ",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Consumer Price Index",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "CPI",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Forbrugerprisindekset",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "IPC",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Verbraucherpreisindex",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "VPI",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Tendance",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Tendens",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Trend",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Points",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Punkte",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Punten",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Accord contractuel",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Contract agreement",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Contractafspraak",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Kontraktaftale",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Vertragsvereinbarung",
+    "translateto": 90
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Abweichend",
+    "translateto": 99
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Afwijkend",
+    "translateto": 99
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Divergent",
+    "translateto": 99
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Divergerende",
+    "translateto": 99
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Chronologique",
+    "translateto": "Chronological"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Chronologisch",
+    "translateto": "Chronological"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Fester Rhythmus",
+    "translateto": "Chronological"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Kronologisk",
+    "translateto": "Chronological"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Geografisch",
+    "translateto": "Geographically"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Geografisk",
+    "translateto": "Geographically"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Géographiquement",
+    "translateto": "Geographically"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Geographisch",
+    "translateto": "Geographically"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Percentage",
+    "translateto": "Percentage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "pourcentage",
+    "translateto": "Percentage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "procent",
+    "translateto": "Percentage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Prozent",
+    "translateto": "Percentage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Prozentsatz",
+    "translateto": "Percentage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Taksonomisk",
+    "translateto": "Taxonomic"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Taxonomique",
+    "translateto": "Taxonomic"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Taxonomisch",
+    "translateto": "Taxonomic"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Location étape",
+    "translateto": "Step rent"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Chiffre d"
+    affaires
+    loyer
+    ",
+    "translateto": "Turnover rent"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Trinleje",
+    "translateto": "Step rent"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Omsætningsleje",
+    "translateto": "Turnover rent"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Stufenmiete",
+    "translateto": "Step rent"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Umsatzmiete",
+    "translateto": "Turnover rent"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Stapsgewijze huur",
+    "translateto": "Step rent"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Omzethuur",
+    "translateto": "Turnover rent"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Nee",
+    "translateto": 0
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Nein",
+    "translateto": 0
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Njet",
+    "translateto": 0
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "No",
+    "translateto": 0
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Da",
+    "translateto": 1
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Ja",
+    "translateto": 1
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Qui",
+    "translateto": 1
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Yes",
+    "translateto": 1
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Landheer",
+    "translateto": 10
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Landlord",
+    "translateto": 10
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Udlejer",
+    "translateto": 10
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Vermieter",
+    "translateto": 10
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Huurder",
+    "translateto": 20
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Lejer",
+    "translateto": 20
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Mieter",
+    "translateto": 20
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Tenant",
+    "translateto": 20
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Either",
+    "translateto": 30
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Elke",
+    "translateto": 30
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Enten",
+    "translateto": 30
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Entweder",
+    "translateto": 30
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Begge",
+    "translateto": 40
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Beide",
+    "translateto": 40
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Both",
+    "translateto": 40
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Break",
+    "translateto": 10
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Brechen",
+    "translateto": 10
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Pause",
+    "translateto": 10
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Pauze",
+    "translateto": 10
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Aankoop",
+    "translateto": 20
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Kaufen",
+    "translateto": 20
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Køb",
+    "translateto": 20
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Purchase",
+    "translateto": 20
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Erneuern",
+    "translateto": 30
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Forny",
+    "translateto": 30
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Renew",
+    "translateto": 30
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Vernieuwen",
+    "translateto": 30
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Almindeligt område",
+    "translateto": "Common Area"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Espace commun",
+    "translateto": "Common Area"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Gemeenschappelijke ruimte",
+    "translateto": "Common Area"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Gemeinschaftsraum",
+    "translateto": "Common Area"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Couloirs",
+    "translateto": "Corridors"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Gangen",
+    "translateto": "Corridors"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Korridore",
+    "translateto": "Corridors"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Korridorer",
+    "translateto": "Corridors"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Façade",
+    "translateto": "Fasade"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Fasade",
+    "translateto": "Fasade"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Fassade",
+    "translateto": "Fasade"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "gevel",
+    "translateto": "Fasade"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Benzinestation",
+    "translateto": "Gas Station"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Station-essence",
+    "translateto": "Gas Station"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Tankstation",
+    "translateto": "Gas Station"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Tankstelle",
+    "translateto": "Gas Station"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Bon stockage",
+    "translateto": "Good stora"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "God opbevaring",
+    "translateto": "Good stora"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Goede opslag",
+    "translateto": "Good stora"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Guter Speicher",
+    "translateto": "Good stora"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Bureau",
+    "translateto": "Office"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Büro",
+    "translateto": "Office"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Kantoor",
+    "translateto": "Office"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Kontor",
+    "translateto": "Office"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Ander",
+    "translateto": "Other"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Andere",
+    "translateto": "Other"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Andet",
+    "translateto": "Other"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Autre",
+    "translateto": "Other"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Außen",
+    "translateto": "Outside"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Buiten",
+    "translateto": "Outside"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Dehors",
+    "translateto": "Outside"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Uden for",
+    "translateto": "Outside"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Parken",
+    "translateto": "Parking"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Parkeren",
+    "translateto": "Parking"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Parkering",
+    "translateto": "Parking"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Parking",
+    "translateto": "Parking"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Détail",
+    "translateto": "Retail"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Detailhandel",
+    "translateto": "Retail"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Einzelhandel",
+    "translateto": "Retail"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Dach",
+    "translateto": "Roof"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Dak",
+    "translateto": "Roof"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Tag",
+    "translateto": "Roof"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Toit",
+    "translateto": "Roof"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Sociaal",
+    "translateto": "Social"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Social",
+    "translateto": "Social"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Sozial",
+    "translateto": "Social"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Lagerung",
+    "translateto": "Storage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Opbevaring",
+    "translateto": "Storage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Opslag",
+    "translateto": "Storage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Stockage",
+    "translateto": "Storage"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Technique",
+    "translateto": "Technical"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Teknisk",
+    "translateto": "Technical"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Technisch",
+    "translateto": "Technical "
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Toiletten",
+    "translateto": "Toilets"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Toiletter",
+    "translateto": "Toilets"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Toilettes",
+    "translateto": "Toilets"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Couloirs verticaux",
+    "translateto": "Vertical Corridors"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Lodrette korridorer",
+    "translateto": "Vertical Corridors"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Verticale gangen",
+    "translateto": "Vertical Corridors"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Vertikale Korridore",
+    "translateto": "Vertical Corridors"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Woonhuis",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Wohnen",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Bolig",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Résidentiel",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Appartement",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Eengezinswoning",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "EGW",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "MGW",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Appartement",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Maison unifamiliale",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Lejlighed",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Enfamiliehus",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Wohnung",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Einfamilienhaus",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Apartment",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Single-family house",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Studio",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Bungalow",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Maisonnette",
+    "translateto": "Residential"
+  },
+  {
+    "converttype": "BOOLEAN",
+    "suppliedvalue": "Nee",
+    "translateto": 0
+  },
+  {
+    "converttype": "BOOLEAN",
+    "suppliedvalue": "Nein",
+    "translateto": 0
+  },
+  {
+    "converttype": "BOOLEAN",
+    "suppliedvalue": "Njet",
+    "translateto": 0
+  },
+  {
+    "converttype": "BOOLEAN",
+    "suppliedvalue": "No",
+    "translateto": 0
+  },
+  {
+    "converttype": "BOOLEAN",
+    "suppliedvalue": "Da",
+    "translateto": 1
+  },
+  {
+    "converttype": "BOOLEAN",
+    "suppliedvalue": "Ja",
+    "translateto": 1
+  },
+  {
+    "converttype": "BOOLEAN",
+    "suppliedvalue": "Qui",
+    "translateto": 1
+  },
+  {
+    "converttype": "BOOLEAN",
+    "suppliedvalue": "Yes",
+    "translateto": 1
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Nee",
+    "translateto": 0
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Nein",
+    "translateto": 0
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Njet",
+    "translateto": 0
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "No",
+    "translateto": 0
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Da",
+    "translateto": 1
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Ja",
+    "translateto": 1
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Qui",
+    "translateto": 1
+  },
+  {
+    "converttype": "STRING",
+    "suppliedvalue": "Yes",
+    "translateto": 1
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Bank Guarantee",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Company Guarantee",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Deposit",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Bankgarantie",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Bedrijfsgarantie",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Borg",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Geen",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Bankgarantie",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Firmengarantie",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Kaution",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Keiner",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Garantie bancaire",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Garantie Entreprise",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Dépôt",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Aucun",
+    "translateto": 40
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Bank garanti",
+    "translateto": 10
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Virksomhedsgaranti",
+    "translateto": 20
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Depositum",
+    "translateto": 30
+  },
+  {
+    "converttype": "INT",
+    "suppliedvalue": "Ingen",
+    "translateto": 40
+  }
+]
