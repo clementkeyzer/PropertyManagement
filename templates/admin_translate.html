@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load custom_filters %}
+
+{% block css %}
+    <style>
+        .table-container {
+            height: 75vh; /* Set the desired height */
+            overflow-y: scroll; /* Enable vertical scrolling */
+            scrollbar-width: thin; /* Set the width of the scrollbar */
+            scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="col-12 mt-30">
+        <div class="card border-0">
+            <div class="card-header">
+                <h6>Lookup Translation</h6>
+                <div class="card-extra">
+
+                </div>
+            </div>
+            <div class="card-body p-0 pe-2">
+                <div class="table-responsive " style="margin-bottom: 50px">
+                    <form id="updateForm" method="post" action="{% url "translate" %}">
+                        {% csrf_token %}
+
+                        <div class="table-container">
+                            <table class="table table-bordered table-social">
+                                <thead>
+                                <tr>
+                                    <th scope="row" rowspan="3">{{ Counter }}</th>
+                                    {% for field in fields %}
+                                        {% if field.name not in excluded_fields %}
+                                            <th scope="row" rowspan="3"
+                                                style="font-weight: bold">{{ field.verbose_name|title }}</th>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody id="myTableBody">
+
+                                {% for form in formset %}
+
+                                    <tr>
+                                        <td class="sticky-counter">{{ forloop.counter }}</td>
+                                        <input type="hidden" name="id" value="{{ form.instance.id }}">
+                                        {% for field in form.visible_fields %}
+                                            {% if field.name != "converted_string"   and field.name != "timestamp"  and field.name != "id" %}
+                                                <td style="min-width: 100px">
+
+                                                    {% crispy_field field form_show_labels=False %}
+                                                </td>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        <td>
+                                            <form action="" disabled=""></form>
+                                            <form action="{% url 'convert_delete' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" value="{{ form.instance.id }}"
+                                                       name="convert_id">
+
+                                                <button type="submit"
+                                                        class=" " style="border: none;padding: 0;color: #9D2154;">
+                                                    <i class="uil uil-trash-alt "></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+
+                                    <td class="sticky-counter"></td>
+                                    <input type="hidden" name="id" value="">
+                                    <td>
+                                        <select name="convert_type" id="id_convert_type">
+                                            <option value="" selected="">---------</option>
+
+                                            <option value="INT">INT</option>
+
+                                            <option value="STRING">STRING</option>
+
+                                            <option value="DECIMAL">DECIMAL</option>
+
+                                            <option value="BOOLEAN">BOOLEAN</option>
+
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="supplied_value" maxlength="250" id="id_supplied_value">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="translate_to" maxlength="250"
+                                               id="id_translate_to">
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center"
+                             style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;">
+
+
+                            <button class="btn " id="updateButton"
+                                    style=" background-color: #1B3F7F;color: white"
+                            >Save
+                            </button>
+
+                            <button class="btn px-2" id="addRowIcon"
+                                    style=" background-color: #9D2154;color: white;margin-left: 10px"
+                            >Add Row
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle form submission using AJAX
+            document.getElementById('updateButton').addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default form submission
+                console.log("Submitted")
+                // Create an array to store form data
+                var formData = [];
+
+                // Collect form data from each form
+                var formRows = document.querySelectorAll('form[id=updateForm] tr');
+                for (var i = 1; i < formRows.length; i++) {
+                    var row = formRows[i];
+                    try {
+                        var formId = row.querySelector('input[name="id"]').value;
+
+                    } catch (e) {
+                        console.log("No ID on this")
+                        let formId = null;
+                    }
+                    var formFields = {};
+
+                    // Collect field data for each form
+                    var fields = row.querySelectorAll('input, select');
+                    fields.forEach(function (field) {
+                        var fieldName = field.name;
+                        formFields[fieldName] = field.value;
+                    });
+
+                    // Create a dictionary with form ID and field data
+                    var formDict = {
+                        'id': formId,
+                        'fields': formFields
+                    };
+
+                    // Add the form dictionary to the formData array
+                    formData.push(formDict);
+                }
+                // Get the CSRF token from the cookie
+                var csrftoken = getCookie('csrftoken');
+                // Send form data using AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', document.getElementById('updateForm').action, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            // Handle success response
+                            console.log('Update successful');
+                            window.location.reload();
+                            // Perform any additional actions or show success message
+                        } else {
+                            // Handle error response
+                            console.log('Update failed');
+                            // Display error message or perform error handling
+                        }
+                    }
+                };
+
+                xhr.send(JSON.stringify({forms: formData}));
+            });
+
+            // Function to get the value of a cookie by name
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the plus icon element and add click event listener
+            var addRowIcon = document.getElementById("addRowIcon");
+            addRowIcon.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent form submission
+
+                addRow();
+            });
+
+            // Function to add a new row to the table
+            function addRow() {
+                var tableBody = document.getElementById("myTableBody");
+                var lastRow = tableBody.lastElementChild;
+                console.log(lastRow)
+
+                var newRow = lastRow.cloneNode(true);
+
+                newRow.querySelector('input[name="id"]').value = "";
+                newRow.querySelector('select[name="convert_type"]').value = "";
+                newRow.querySelector('input[name="supplied_value"]').value = "";
+                newRow.querySelector('input[name="translate_to"]').value = "";
+
+                tableBody.appendChild(newRow);
+
+            }
+
+
+        });
+
+
+        const DeleteTranslator = (id) => {
+
+
+        }
+    </script>
+{% endblock %}

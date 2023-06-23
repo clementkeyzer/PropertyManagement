@@ -1,5 +1,6 @@
 from django.urls import path
 
+from admin_dashboard.views import TranslatorView
 from .views import UploadContractView, ContractDetailView, ContractDeleteView, UpdateAllContractAPIView, \
     ContractUpdateView, ValidateContractView, custom_logout, DownloadUploadCSVView
 
@@ -9,6 +10,7 @@ urlpatterns = [
     path("contract_update_api/<int:id>/", UpdateAllContractAPIView.as_view(), name="contract_update_api"),
     path("validate_contract/<int:id>/", ValidateContractView.as_view(), name="validate_contract"),
     path("contract_delete/", ContractDeleteView.as_view(), name="contract_delete"),
+    path("translate/", TranslatorView.as_view(), name="translate"),
     path("contract_detail/<int:id>/", ContractDetailView.as_view(), name="contract_detail"),
     path("contract_update/<int:id>/", ContractUpdateView.as_view(), name="contract_update"),
     path("contract_download/<int:id>/", DownloadUploadCSVView.as_view(), name="contract_download")

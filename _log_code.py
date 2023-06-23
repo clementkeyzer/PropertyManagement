@@ -1,815 +1,158 @@
-from management.utils import convert_string
+items = [['INT', 'Anden frekvens', 0, 'andenfrekvens'], ['INT', 'Andere frequentie', 0, 'anderefrequentie'],
+         ['INT', 'Andere Frequenz', 0, 'anderefrequenz'], ['INT', 'Autre fréquence', 0, 'autrefrquence'],
+         ['INT', 'Other Frequency', 0, 'otherfrequency'],
+         ['INT', 'Gebruikelijke kwartalen', 10, 'gebruikelijkekwartalen'],
+         ['INT', 'Quartiers habituels', 10, 'quartiershabituels'],
+         ['INT', 'Sædvanlige Kvarter', 10, 'sdvanligekvarter'],
+         ['INT', 'Übliche Quartiere', 10, 'blichequartiere'], ['INT', 'Usual Quarters', 10, 'usualquarters'],
+         ['INT', 'Modern Quarters', 20, 'modernquarters'], ['INT', 'Moderne Kvarter', 20, 'modernekvarter'],
+         ['INT', 'Moderne Viertel', 20, 'moderneviertel'], ['INT', 'Moderne wijken', 20, 'modernewijken'],
+         ['INT', 'Quartiers modernes', 20, 'quartiersmodernes'], ['INT', 'Altschottisch', 30, 'altschottisch'],
+         ['INT', 'Gammel skotsk', 30, 'gammelskotsk'], ['INT', 'Old Scottish', 30, 'oldscottish'],
+         ['INT', 'Oud Schots', 30, 'oudschots'], ['INT', 'Vieux écossais', 30, 'vieuxcossais'],
+         ['INT', 'Écossais moderne', 40, 'cossaismoderne'], ['INT', 'Modern Scottish', 40, 'modernscottish'],
+         ['INT', 'Moderne Schots', 40, 'moderneschots'], ['INT', 'Moderne skotsk', 40, 'moderneskotsk'],
+         ['INT', 'Modernes Schottisch', 40, 'modernesschottisch'], ['INT', 'Andere kwartalen', 50, 'anderekwartalen'],
+         ['INT', 'Andere Viertel', 50, 'andereviertel'], ['INT', 'Andre Kvarter', 50, 'andrekvarter'],
+         ['INT', 'Autres quartiers', 50, 'autresquartiers'], ['INT', 'Other Quarters', 50, 'otherquarters'],
+         ['INT', 'Maandelijks', 60, 'maandelijks'], ['INT', 'Månedlige', 60, 'mnedlige'],
+         ['INT', 'Mensuel', 60, 'mensuel'],
+         ['INT', 'Monatlich', 60, 'monatlich'], ['INT', 'Monthly', 60, 'monthly'],
+         ['INT', 'Hebdomadaire', 70, 'hebdomadaire'],
+         ['INT', 'Ugentlig', 70, 'ugentlig'], ['INT', 'Weekly', 70, 'weekly'], ['INT', 'Wekelijks', 70, 'wekelijks'],
+         ['INT', 'Wöchentlich', 70, 'wchentlich'], ['INT', 'Annual', 80, 'annual'], ['INT', 'Annuel', 80, 'annuel'],
+         ['INT', 'Årligt', 80, 'rligt'], ['INT', 'Jaarlijks', 80, 'jaarlijks'], ['INT', 'Jährlich', 80, 'jhrlich'],
+         ['INT', 'Halbjährlich', 90, 'halbjhrlich'], ['INT', 'Half Yearly', 90, 'halfyearly'],
+         ['INT', 'Halfjaarlijks', 90, 'halfjaarlijks'], ['INT', 'Halvårligt', 90, 'halvrligt'],
+         ['INT', 'Semestriel', 90, 'semestriel'], ['INT', 'Dagelijks', 100, 'dagelijks'],
+         ['INT', 'Daglige', 100, 'daglige'],
+         ['INT', 'Daily', 100, 'daily'], ['INT', 'Quotidien', 100, 'quotidien'], ['INT', 'Täglich', 100, 'tglich'],
+         ['INT', 'Alle zwei Wochen', 110, 'allezweiwochen'], ['INT', 'Bihebdomadaire', 110, 'bihebdomadaire'],
+         ['INT', 'Fortnightly', 110, 'fortnightly'], ['INT', 'Hver fjortende dag', 110, 'hverfjortendedag'],
+         ['INT', 'Tweewekelijks', 110, 'tweewekelijks'], ['INT', 'Fire Ugentlige', 120, 'fireugentlige'],
+         ['INT', 'Four Weekly', 120, 'fourweekly'], ['INT', 'Quatre semaines', 120, 'quatresemaines'],
+         ['INT', 'Vier wekelijks', 120, 'vierwekelijks'], ['INT', 'Vierwöchentlich', 120, 'vierwchentlich'],
+         ['INT', 'Bimensuel', 130, 'bimensuel'], ['INT', 'Bi-monthly', 130, 'bimonthly'],
+         ['INT', 'To-månedligt', 130, 'tomnedligt'], ['INT', 'Tweemaandelijks', 130, 'tweemaandelijks'],
+         ['INT', 'Zweimonatlich', 130, 'zweimonatlich'], ['INT', 'Andere', 0, 'andere'], ['INT', 'Andet', 0, 'andet'],
+         ['INT', 'Autre', 0, 'autre'], ['INT', 'Other', 0, 'other'],
+         ['INT', 'Consumentenprijsindex ', 10, 'consumentenprijsindex'],
+         ['INT', 'Consumer Price Index', 10, 'consumerpriceindex'], ['INT', 'CPI', 10, 'cpi'],
+         ['INT', 'Forbrugerprisindekset', 10, 'forbrugerprisindekset'], ['INT', 'IPC', 10, 'ipc'],
+         ['INT', 'Verbraucherpreisindex', 10, 'verbraucherpreisindex'], ['INT', 'VPI', 10, 'vpi'],
+         ['INT', 'Tendance', 20, 'tendance'], ['INT', 'Tendens', 20, 'tendens'], ['INT', 'Trend', 20, 'trend'],
+         ['INT', 'Points', 30, 'points'], ['INT', 'Punkte', 30, 'punkte'], ['INT', 'Punten', 30, 'punten'],
+         ['INT', 'Accord contractuel', 90, 'accordcontractuel'], ['INT', 'Contract agreement', 90, 'contractagreement'],
+         ['INT', 'Contractafspraak', 90, 'contractafspraak'], ['INT', 'Kontraktaftale', 90, 'kontraktaftale'],
+         ['INT', 'Vertragsvereinbarung', 90, 'vertragsvereinbarung'], ['INT', 'Abweichend', 99, 'abweichend'],
+         ['INT', 'Afwijkend', 99, 'afwijkend'], ['INT', 'Divergent', 99, 'divergent'],
+         ['INT', 'Divergerende', 99, 'divergerende'], ['STRING', 'Chronologique', 'Chronological', 'chronologique'],
+         ['STRING', 'Chronologisch', 'Chronological', 'chronologisch'],
+         ['STRING', 'Fester Rhythmus', 'Chronological', 'festerrhythmus'],
+         ['STRING', 'Kronologisk', 'Chronological', 'kronologisk'],
+         ['STRING', 'Geografisch', 'Geographically', 'geografisch'],
+         ['STRING', 'Geografisk', 'Geographically', 'geografisk'],
+         ['STRING', 'Géographiquement', 'Geographically', 'gographiquement'],
+         ['STRING', 'Geographisch', 'Geographically', 'geographisch'],
+         ['STRING', 'Percentage', 'Percentage', 'percentage'],
+         ['STRING', 'pourcentage', 'Percentage', 'pourcentage'], ['STRING', 'procent', 'Percentage', 'procent'],
+         ['STRING', 'Prozent', 'Percentage', 'prozent'], ['STRING', 'Prozentsatz', 'Percentage', 'prozentsatz'],
+         ['STRING', 'Taksonomisk', 'Taxonomic', 'taksonomisk'], ['STRING', 'Taxonomique', 'Taxonomic', 'taxonomique'],
+         ['STRING', 'Taxonomisch', 'Taxonomic', 'taxonomisch'],
+         ['STRING', 'Location étape', 'Step rent', 'locationtape'],
+         ['STRING', "Chiffre d'affaires loyer", 'Turnover rent', 'chiffredaffairesloyer'],
+         ['STRING', 'Trinleje', 'Step rent', 'trinleje'],
+         ['STRING', 'Omsætningsleje', 'Turnover rent', 'omstningsleje'],
+         ['STRING', 'Stufenmiete', 'Step rent', 'stufenmiete'],
+         ['STRING', 'Umsatzmiete', 'Turnover rent', 'umsatzmiete'],
+         ['STRING', 'Stapsgewijze huur', 'Step rent', 'stapsgewijzehuur'],
+         ['STRING', 'Omzethuur', 'Turnover rent', 'omzethuur'], ['STRING', 'Nee', 0, 'nee'],
+         ['STRING', 'Nein', 0, 'nein'],
+         ['STRING', 'Njet', 0, 'njet'], ['STRING', 'No', 0, 'no'], ['STRING', 'Da', 1, 'da'], ['STRING', 'Ja', 1, 'ja'],
+         ['STRING', 'Qui', 1, 'qui'], ['STRING', 'Yes', 1, 'yes'], ['STRING', 'Landheer', 10, 'landheer'],
+         ['STRING', 'Landlord', 10, 'landlord'], ['STRING', 'Udlejer', 10, 'udlejer'],
+         ['STRING', 'Vermieter', 10, 'vermieter'],
+         ['STRING', 'Huurder', 20, 'huurder'], ['STRING', 'Lejer', 20, 'lejer'], ['STRING', 'Mieter', 20, 'mieter'],
+         ['STRING', 'Tenant', 20, 'tenant'], ['STRING', 'Either', 30, 'either'], ['STRING', 'Elke', 30, 'elke'],
+         ['STRING', 'Enten', 30, 'enten'], ['STRING', 'Entweder', 30, 'entweder'], ['STRING', 'Begge', 40, 'begge'],
+         ['STRING', 'Beide', 40, 'beide'], ['STRING', 'Both', 40, 'both'], ['STRING', 'Break', 10, 'break'],
+         ['STRING', 'Brechen', 10, 'brechen'], ['STRING', 'Pause', 10, 'pause'], ['STRING', 'Pauze', 10, 'pauze'],
+         ['STRING', 'Aankoop', 20, 'aankoop'], ['STRING', 'Kaufen', 20, 'kaufen'], ['STRING', 'Køb', 20, 'kb'],
+         ['STRING', 'Purchase', 20, 'purchase'], ['STRING', 'Erneuern', 30, 'erneuern'],
+         ['STRING', 'Forny', 30, 'forny'],
+         ['STRING', 'Renew', 30, 'renew'], ['STRING', 'Vernieuwen', 30, 'vernieuwen'],
+         ['STRING', 'Almindeligt område', 'Common Area', 'almindeligtomrde'],
+         ['STRING', 'Espace commun', 'Common Area', 'espacecommun'],
+         ['STRING', 'Gemeenschappelijke ruimte', 'Common Area', 'gemeenschappelijkeruimte'],
+         ['STRING', 'Gemeinschaftsraum', 'Common Area', 'gemeinschaftsraum'],
+         ['STRING', 'Couloirs', 'Corridors', 'couloirs'],
+         ['STRING', 'Gangen', 'Corridors', 'gangen'], ['STRING', 'Korridore', 'Corridors', 'korridore'],
+         ['STRING', 'Korridorer', 'Corridors', 'korridorer'], ['STRING', 'Façade', 'Fasade', 'faade'],
+         ['STRING', 'Fasade', 'Fasade', 'fasade'], ['STRING', 'Fassade', 'Fasade', 'fassade'],
+         ['STRING', 'gevel', 'Fasade', 'gevel'], ['STRING', 'Benzinestation', 'Gas Station', 'benzinestation'],
+         ['STRING', 'Station-essence', 'Gas Station', 'stationessence'],
+         ['STRING', 'Tankstation', 'Gas Station', 'tankstation'], ['STRING', 'Tankstelle', 'Gas Station', 'tankstelle'],
+         ['STRING', 'Bon stockage', 'Good stora', 'bonstockage'],
+         ['STRING', 'God opbevaring', 'Good stora', 'godopbevaring'],
+         ['STRING', 'Goede opslag', 'Good stora', 'goedeopslag'],
+         ['STRING', 'Guter Speicher', 'Good stora', 'guterspeicher'],
+         ['STRING', 'Bureau', 'Office', 'bureau'], ['STRING', 'Büro', 'Office', 'bro'],
+         ['STRING', 'Kantoor', 'Office', 'kantoor'], ['STRING', 'Kontor', 'Office', 'kontor'],
+         ['STRING', 'Ander', 'Other', 'ander'], ['STRING', 'Andere', 'Other', 'andere'],
+         ['STRING', 'Andet', 'Other', 'andet'],
+         ['STRING', 'Autre', 'Other', 'autre'], ['STRING', 'Außen', 'Outside', 'auen'],
+         ['STRING', 'Buiten', 'Outside', 'buiten'], ['STRING', 'Dehors', 'Outside', 'dehors'],
+         ['STRING', 'Uden for', 'Outside', 'udenfor'], ['STRING', 'Parken', 'Parking', 'parken'],
+         ['STRING', 'Parkeren', 'Parking', 'parkeren'], ['STRING', 'Parkering', 'Parking', 'parkering'],
+         ['STRING', 'Parking', 'Parking', 'parking'], ['STRING', 'Détail', 'Retail', 'dtail'],
+         ['STRING', 'Detailhandel', 'Retail', 'detailhandel'], ['STRING', 'Einzelhandel', 'Retail', 'einzelhandel'],
+         ['STRING', 'Dach', 'Roof', 'dach'], ['STRING', 'Dak', 'Roof', 'dak'], ['STRING', 'Tag', 'Roof', 'tag'],
+         ['STRING', 'Toit', 'Roof', 'toit'], ['STRING', 'Sociaal', 'Social', 'sociaal'],
+         ['STRING', 'Social', 'Social', 'social'], ['STRING', 'Sozial', 'Social', 'sozial'],
+         ['STRING', 'Lagerung', 'Storage', 'lagerung'], ['STRING', 'Opbevaring', 'Storage', 'opbevaring'],
+         ['STRING', 'Opslag', 'Storage', 'opslag'], ['STRING', 'Stockage', 'Storage', 'stockage'],
+         ['STRING', 'Technique', 'Technical', 'technique'], ['STRING', 'Teknisk', 'Technical', 'teknisk'],
+         ['STRING', 'Technisch', 'Technical ', 'technisch'], ['STRING', 'Toiletten', 'Toilets', 'toiletten'],
+         ['STRING', 'Toiletter', 'Toilets', 'toiletter'], ['STRING', 'Toilettes', 'Toilets', 'toilettes'],
+         ['STRING', 'Couloirs verticaux', 'Vertical Corridors', 'couloirsverticaux'],
+         ['STRING', 'Lodrette korridorer', 'Vertical Corridors', 'lodrettekorridorer'],
+         ['STRING', 'Verticale gangen', 'Vertical Corridors', 'verticalegangen'],
+         ['STRING', 'Vertikale Korridore', 'Vertical Corridors', 'vertikalekorridore'],
+         ['STRING', 'Woonhuis', 'Residential', 'woonhuis'], ['STRING', 'Wohnen', 'Residential', 'wohnen'],
+         ['STRING', 'Bolig', 'Residential', 'bolig'], ['STRING', 'Résidentiel', 'Residential', 'rsidentiel'],
+         ['STRING', 'Appartement', 'Residential', 'appartement'],
+         ['STRING', 'Eengezinswoning', 'Residential', 'eengezinswoning'], ['STRING', 'EGW', 'Residential', 'egw'],
+         ['STRING', 'MGW', 'Residential', 'mgw'], ['STRING', 'Appartement', 'Residential', 'appartement'],
+         ['STRING', 'Maison unifamiliale', 'Residential', 'maisonunifamiliale'],
+         ['STRING', 'Lejlighed', 'Residential', 'lejlighed'], ['STRING', 'Enfamiliehus', 'Residential', 'enfamiliehus'],
+         ['STRING', 'Wohnung', 'Residential', 'wohnung'],
+         ['STRING', 'Einfamilienhaus', 'Residential', 'einfamilienhaus'],
+         ['STRING', 'Apartment', 'Residential', 'apartment'],
+         ['STRING', 'Single-family house', 'Residential', 'singlefamilyhouse'],
+         ['STRING', 'Studio', 'Residential', 'studio'],
+         ['STRING', 'Bungalow', 'Residential', 'bungalow'], ['STRING', 'Maisonnette', 'Residential', 'maisonnette'],
+         ['BOOLEAN', 'Nee', 0, 'nee'], ['BOOLEAN', 'Nein', 0, 'nein'], ['BOOLEAN', 'Njet', 0, 'njet'],
+         ['BOOLEAN', 'No', 0, 'no'], ['BOOLEAN', 'Da', 1, 'da'], ['BOOLEAN', 'Ja', 1, 'ja'],
+         ['BOOLEAN', 'Qui', 1, 'qui'],
+         ['BOOLEAN', 'Yes', 1, 'yes'], ['STRING', 'Nee', 0, 'nee'], ['STRING', 'Nein', 0, 'nein'],
+         ['STRING', 'Njet', 0, 'njet'], ['STRING', 'No', 0, 'no'], ['STRING', 'Da', 1, 'da'], ['STRING', 'Ja', 1, 'ja'],
+         ['STRING', 'Qui', 1, 'qui'], ['STRING', 'Yes', 1, 'yes'], ['INT', 'Bank Guarantee', 10, 'bankguarantee'],
+         ['INT', 'Company Guarantee', 20, 'companyguarantee'], ['INT', 'Deposit', 30, 'deposit'],
+         ['INT', 'None', 40, 'none'],
+         ['INT', 'Bankgarantie', 10, 'bankgarantie'], ['INT', 'Bedrijfsgarantie', 20, 'bedrijfsgarantie'],
+         ['INT', 'Borg', 30, 'borg'], ['INT', 'Geen', 40, 'geen'], ['INT', 'Bankgarantie', 10, 'bankgarantie'],
+         ['INT', 'Firmengarantie', 20, 'firmengarantie'], ['INT', 'Kaution', 30, 'kaution'],
+         ['INT', 'Keiner', 40, 'keiner'],
+         ['INT', 'Garantie bancaire', 10, 'garantiebancaire'], ['INT', 'Garantie Entreprise', 20, 'garantieentreprise'],
+         ['INT', 'Dépôt', 30, 'dpt'], ['INT', 'Aucun', 40, 'aucun'], ['INT', 'Bank garanti', 10, 'bankgaranti'],
+         ['INT', 'Virksomhedsgaranti', 20, 'virksomhedsgaranti'], ['INT', 'Depositum', 30, 'depositum'],
+         ['INT', 'Ingen', 40, 'ingen']]
+from management.models import ConverterTranslator
 
-
-def convert_charge_frequency(value):
-	value = convert_string(value)
-	if value == 'andenfrekvens':
-	# ChargeFrequency  Anden frekvens 
-	    return 0
-	elif value == 'anderefrequentie':
-	# ChargeFrequency  Andere frequentie 
-	    return 0
-	elif value == 'anderefrequenz':
-	# ChargeFrequency  Andere Frequenz 
-	    return 0
-	elif value == 'autrefrquence':
-	# ChargeFrequency  Autre fr�quence 
-	    return 0
-	elif value == 'otherfrequency':
-	# ChargeFrequency  Other Frequency 
-	    return 0
-	elif value == 'gebruikelijkekwartalen':
-	# ChargeFrequency  Gebruikelijke kwartalen 
-	    return 10
-	elif value == 'quartiershabituels':
-	# ChargeFrequency  Quartiers habituels 
-	    return 10
-	elif value == 'sdvanligekvarter':
-	# ChargeFrequency  S�dvanlige Kvarter 
-	    return 10
-	elif value == 'blichequartiere':
-	# ChargeFrequency  �bliche Quartiere 
-	    return 10
-	elif value == 'usualquarters':
-	# ChargeFrequency  Usual Quarters 
-	    return 10
-	elif value == 'modernquarters':
-	# ChargeFrequency  Modern Quarters 
-	    return 20
-	elif value == 'modernekvarter':
-	# ChargeFrequency  Moderne Kvarter 
-	    return 20
-	elif value == 'moderneviertel':
-	# ChargeFrequency  Moderne Viertel 
-	    return 20
-	elif value == 'modernewijken':
-	# ChargeFrequency  Moderne wijken 
-	    return 20
-	elif value == 'quartiersmodernes':
-	# ChargeFrequency  Quartiers modernes 
-	    return 20
-	elif value == 'altschottisch':
-	# ChargeFrequency  Altschottisch 
-	    return 30
-	elif value == 'gammelskotsk':
-	# ChargeFrequency  Gammel skotsk 
-	    return 30
-	elif value == 'oldscottish':
-	# ChargeFrequency  Old Scottish 
-	    return 30
-	elif value == 'oudschots':
-	# ChargeFrequency  Oud Schots 
-	    return 30
-	elif value == 'vieuxcossais':
-	# ChargeFrequency  Vieux �cossais 
-	    return 30
-	elif value == 'cossaismoderne':
-	# ChargeFrequency  �cossais moderne 
-	    return 40
-	elif value == 'modernscottish':
-	# ChargeFrequency  Modern Scottish 
-	    return 40
-	elif value == 'moderneschots':
-	# ChargeFrequency  Moderne Schots 
-	    return 40
-	elif value == 'moderneskotsk':
-	# ChargeFrequency  Moderne skotsk 
-	    return 40
-	elif value == 'modernesschottisch':
-	# ChargeFrequency  Modernes Schottisch 
-	    return 40
-	elif value == 'anderekwartalen':
-	# ChargeFrequency  Andere kwartalen 
-	    return 50
-	elif value == 'andereviertel':
-	# ChargeFrequency  Andere Viertel 
-	    return 50
-	elif value == 'andrekvarter':
-	# ChargeFrequency  Andre Kvarter 
-	    return 50
-	elif value == 'autresquartiers':
-	# ChargeFrequency  Autres quartiers 
-	    return 50
-	elif value == 'otherquarters':
-	# ChargeFrequency  Other Quarters 
-	    return 50
-	elif value == 'maandelijks':
-	# ChargeFrequency  Maandelijks 
-	    return 60
-	elif value == 'mnedlige':
-	# ChargeFrequency  M�nedlige 
-	    return 60
-	elif value == 'mensuel':
-	# ChargeFrequency  Mensuel 
-	    return 60
-	elif value == 'monatlich':
-	# ChargeFrequency  Monatlich 
-	    return 60
-	elif value == 'monthly':
-	# ChargeFrequency  Monthly 
-	    return 60
-	elif value == 'hebdomadaire':
-	# ChargeFrequency  Hebdomadaire 
-	    return 70
-	elif value == 'ugentlig':
-	# ChargeFrequency  Ugentlig 
-	    return 70
-	elif value == 'weekly':
-	# ChargeFrequency  Weekly 
-	    return 70
-	elif value == 'wekelijks':
-	# ChargeFrequency  Wekelijks 
-	    return 70
-	elif value == 'wchentlich':
-	# ChargeFrequency  W�chentlich 
-	    return 70
-	elif value == 'annual':
-	# ChargeFrequency  Annual 
-	    return 80
-	elif value == 'annuel':
-	# ChargeFrequency  Annuel 
-	    return 80
-	elif value == 'rligt':
-	# ChargeFrequency  �rligt 
-	    return 80
-	elif value == 'jaarlijks':
-	# ChargeFrequency  Jaarlijks 
-	    return 80
-	elif value == 'jhrlich':
-	# ChargeFrequency  J�hrlich 
-	    return 80
-	elif value == 'halbjhrlich':
-	# ChargeFrequency  Halbj�hrlich 
-	    return 90
-	elif value == 'halfyearly':
-	# ChargeFrequency  Half Yearly 
-	    return 90
-	elif value == 'halfjaarlijks':
-	# ChargeFrequency  Halfjaarlijks 
-	    return 90
-	elif value == 'halvrligt':
-	# ChargeFrequency  Halv�rligt 
-	    return 90
-	elif value == 'semestriel':
-	# ChargeFrequency  Semestriel 
-	    return 90
-	elif value == 'dagelijks':
-	# ChargeFrequency  Dagelijks 
-	    return 100
-	elif value == 'daglige':
-	# ChargeFrequency  Daglige 
-	    return 100
-	elif value == 'daily':
-	# ChargeFrequency  Daily 
-	    return 100
-	elif value == 'quotidien':
-	# ChargeFrequency  Quotidien 
-	    return 100
-	elif value == 'tglich':
-	# ChargeFrequency  T�glich 
-	    return 100
-	elif value == 'allezweiwochen':
-	# ChargeFrequency  Alle zwei Wochen 
-	    return 110
-	elif value == 'bihebdomadaire':
-	# ChargeFrequency  Bihebdomadaire 
-	    return 110
-	elif value == 'fortnightly':
-	# ChargeFrequency  Fortnightly 
-	    return 110
-	elif value == 'hverfjortendedag':
-	# ChargeFrequency  Hver fjortende dag 
-	    return 110
-	elif value == 'tweewekelijks':
-	# ChargeFrequency  Tweewekelijks 
-	    return 110
-	elif value == 'fireugentlige':
-	# ChargeFrequency  Fire Ugentlige 
-	    return 120
-	elif value == 'fourweekly':
-	# ChargeFrequency  Four Weekly 
-	    return 120
-	elif value == 'quatresemaines':
-	# ChargeFrequency  Quatre semaines 
-	    return 120
-	elif value == 'vierwekelijks':
-	# ChargeFrequency  Vier wekelijks 
-	    return 120
-	elif value == 'vierwchentlich':
-	# ChargeFrequency  Vierw�chentlich 
-	    return 120
-	elif value == 'bimensuel':
-	# ChargeFrequency  Bimensuel 
-	    return 130
-	elif value == 'bimonthly':
-	# ChargeFrequency  Bi-monthly 
-	    return 130
-	elif value == 'tomnedligt':
-	# ChargeFrequency  To-m�nedligt 
-	    return 130
-	elif value == 'tweemaandelijks':
-	# ChargeFrequency  Tweemaandelijks 
-	    return 130
-	elif value == 'zweimonatlich':
-	# ChargeFrequency  Zweimonatlich 
-	    return 130
-	elif value == 'andere':
-	# IndexSeries  Andere 
-	    return 0
-	elif value == 'andet':
-	# IndexSeries  Andet 
-	    return 0
-	elif value == 'autre':
-	# IndexSeries  Autre 
-	    return 0
-	elif value == 'other':
-	# IndexSeries  Other 
-	    return 0
-	elif value == 'consumentenprijsindex':
-	# IndexSeries  Consumentenprijsindex  
-	    return 10
-	elif value == 'consumerpriceindex':
-	# IndexSeries  Consumer Price Index 
-	    return 10
-	elif value == 'cpi':
-	# IndexSeries  CPI 
-	    return 10
-	elif value == 'forbrugerprisindekset':
-	# IndexSeries  Forbrugerprisindekset 
-	    return 10
-	elif value == 'ipc':
-	# IndexSeries  IPC 
-	    return 10
-	elif value == 'verbraucherpreisindex':
-	# IndexSeries  Verbraucherpreisindex 
-	    return 10
-	elif value == 'vpi':
-	# IndexSeries  VPI 
-	    return 10
-	elif value == 'tendance':
-	# IndexSeries  Tendance 
-	    return 20
-	elif value == 'tendens':
-	# IndexSeries  Tendens 
-	    return 20
-	elif value == 'trend':
-	# IndexSeries  Trend 
-	    return 20
-	elif value == 'points':
-	# IndexSeries  Points 
-	    return 30
-	elif value == 'punkte':
-	# IndexSeries  Punkte 
-	    return 30
-	elif value == 'punten':
-	# IndexSeries  Punten 
-	    return 30
-	elif value == 'accordcontractuel':
-	# IndexSeries  Accord contractuel 
-	    return 90
-	elif value == 'contractagreement':
-	# IndexSeries  Contract agreement 
-	    return 90
-	elif value == 'contractafspraak':
-	# IndexSeries  Contractafspraak 
-	    return 90
-	elif value == 'kontraktaftale':
-	# IndexSeries  Kontraktaftale 
-	    return 90
-	elif value == 'vertragsvereinbarung':
-	# IndexSeries  Vertragsvereinbarung 
-	    return 90
-	elif value == 'abweichend':
-	# IndexSeries  Abweichend 
-	    return 99
-	elif value == 'afwijkend':
-	# IndexSeries  Afwijkend 
-	    return 99
-	elif value == 'divergent':
-	# IndexSeries  Divergent 
-	    return 99
-	elif value == 'divergerende':
-	# IndexSeries  Divergerende 
-	    return 99
-	if value == 'chronologique':
-	# IndexType  Chronologique 
-	    return 'Chronological'
-	elif value == 'chronologisch':
-	# IndexType  Chronologisch 
-	    return 'Chronological'
-	elif value == 'festerrhythmus':
-	# IndexType  Fester Rhythmus 
-	    return 'Chronological'
-	elif value == 'kronologisk':
-	# IndexType  Kronologisk 
-	    return 'Chronological'
-	elif value == 'geografisch':
-	# IndexType  Geografisch 
-	    return 'Geographically'
-	elif value == 'geografisk':
-	# IndexType  Geografisk 
-	    return 'Geographically'
-	elif value == 'gographiquement':
-	# IndexType  G�ographiquement 
-	    return 'Geographically'
-	elif value == 'geographisch':
-	# IndexType  Geographisch 
-	    return 'Geographically'
-	elif value == 'percentage':
-	# IndexType  Percentage 
-	    return 'Percentage'
-	elif value == 'pourcentage':
-	# IndexType  pourcentage 
-	    return 'Percentage'
-	elif value == 'procent':
-	# IndexType  procent 
-	    return 'Percentage'
-	elif value == 'prozent':
-	# IndexType  Prozent 
-	    return 'Percentage'
-	elif value == 'prozentsatz':
-	# IndexType  Prozentsatz 
-	    return 'Percentage'
-	elif value == 'taksonomisk':
-	# IndexType  Taksonomisk 
-	    return 'Taxonomic'
-	elif value == 'taxonomique':
-	# IndexType  Taxonomique 
-	    return 'Taxonomic'
-	elif value == 'taxonomisch':
-	# IndexType  Taxonomisch 
-	    return 'Taxonomic'
-	elif value == 'locationtape':
-	# IndexType  Location �tape 
-	    return 'Step rent'
-	elif value == 'chiffredaffairesloyer':
-	# IndexType  Chiffre d'affaires loyer 
-	    return 'Turnover rent'
-	elif value == 'trinleje':
-	# IndexType  Trinleje 
-	    return 'Step rent'
-	elif value == 'omstningsleje':
-	# IndexType  Oms�tningsleje 
-	    return 'Turnover rent'
-	elif value == 'stufenmiete':
-	# IndexType  Stufenmiete 
-	    return 'Step rent'
-	elif value == 'umsatzmiete':
-	# IndexType  Umsatzmiete 
-	    return 'Turnover rent'
-	elif value == 'stapsgewijzehuur':
-	# IndexType  Stapsgewijze huur 
-	    return 'Step rent'
-	elif value == 'omzethuur':
-	# IndexType  Omzethuur 
-	    return 'Turnover rent'
-	elif value == 'nee':
-	# IsCompany   Nee 
-	    return 0
-	elif value == 'nein':
-	# IsCompany   Nein 
-	    return 0
-	elif value == 'njet':
-	# IsCompany   Njet 
-	    return 0
-	elif value == 'no':
-	# IsCompany   No 
-	    return 0
-	elif value == 'da':
-	# IsCompany   Da 
-	    return 1
-	elif value == 'ja':
-	# IsCompany   Ja 
-	    return 1
-	elif value == 'qui':
-	# IsCompany   Qui 
-	    return 1
-	elif value == 'yes':
-	# IsCompany   Yes 
-	    return 1
-	if value == 'landheer':
-	# OptionByCode   Landheer 
-	    return 10
-	elif value == 'landlord':
-	# OptionByCode   Landlord 
-	    return 10
-	elif value == 'udlejer':
-	# OptionByCode   Udlejer 
-	    return 10
-	elif value == 'vermieter':
-	# OptionByCode   Vermieter 
-	    return 10
-	elif value == 'huurder':
-	# OptionByCode   Huurder 
-	    return 20
-	elif value == 'lejer':
-	# OptionByCode   Lejer 
-	    return 20
-	elif value == 'mieter':
-	# OptionByCode   Mieter 
-	    return 20
-	elif value == 'tenant':
-	# OptionByCode   Tenant 
-	    return 20
-	elif value == 'either':
-	# OptionByCode   Either 
-	    return 30
-	elif value == 'elke':
-	# OptionByCode   Elke 
-	    return 30
-	elif value == 'enten':
-	# OptionByCode   Enten 
-	    return 30
-	elif value == 'entweder':
-	# OptionByCode   Entweder 
-	    return 30
-	elif value == 'begge':
-	# OptionByCode   Begge 
-	    return 40
-	elif value == 'beide':
-	# OptionByCode   Beide 
-	    return 40
-	elif value == 'both':
-	# OptionByCode   Both 
-	    return 40
-	if value == 'break':
-	# TypeCode   Break 
-	    return 10
-	elif value == 'brechen':
-	# TypeCode   Brechen 
-	    return 10
-	elif value == 'pause':
-	# TypeCode   Pause 
-	    return 10
-	elif value == 'pauze':
-	# TypeCode   Pauze 
-	    return 10
-	elif value == 'aankoop':
-	# TypeCode   Aankoop 
-	    return 20
-	elif value == 'kaufen':
-	# TypeCode   Kaufen 
-	    return 20
-	elif value == 'kb':
-	# TypeCode   K�b 
-	    return 20
-	elif value == 'purchase':
-	# TypeCode   Purchase 
-	    return 20
-	elif value == 'erneuern':
-	# TypeCode   Erneuern 
-	    return 30
-	elif value == 'forny':
-	# TypeCode   Forny 
-	    return 30
-	elif value == 'renew':
-	# TypeCode   Renew 
-	    return 30
-	elif value == 'vernieuwen':
-	# TypeCode   Vernieuwen 
-	    return 30
-	if value == 'almindeligtomrde':
-	# UnitType  Almindeligt omr�de 
-	    return 'Common Area'
-	elif value == 'espacecommun':
-	# UnitType  Espace commun 
-	    return 'Common Area'
-	elif value == 'gemeenschappelijkeruimte':
-	# UnitType  Gemeenschappelijke ruimte 
-	    return 'Common Area'
-	elif value == 'gemeinschaftsraum':
-	# UnitType  Gemeinschaftsraum 
-	    return 'Common Area'
-	elif value == 'couloirs':
-	# UnitType  Couloirs 
-	    return 'Corridors'
-	elif value == 'gangen':
-	# UnitType  Gangen 
-	    return 'Corridors'
-	elif value == 'korridore':
-	# UnitType  Korridore 
-	    return 'Corridors'
-	elif value == 'korridorer':
-	# UnitType  Korridorer 
-	    return 'Corridors'
-	elif value == 'faade':
-	# UnitType  Fa�ade 
-	    return 'Fasade'
-	elif value == 'fasade':
-	# UnitType  Fasade 
-	    return 'Fasade'
-	elif value == 'fassade':
-	# UnitType  Fassade 
-	    return 'Fasade'
-	elif value == 'gevel':
-	# UnitType  gevel 
-	    return 'Fasade'
-	elif value == 'benzinestation':
-	# UnitType  Benzinestation 
-	    return 'Gas Station'
-	elif value == 'stationessence':
-	# UnitType  Station-essence 
-	    return 'Gas Station'
-	elif value == 'tankstation':
-	# UnitType  Tankstation 
-	    return 'Gas Station'
-	elif value == 'tankstelle':
-	# UnitType  Tankstelle 
-	    return 'Gas Station'
-	elif value == 'bonstockage':
-	# UnitType  Bon stockage 
-	    return 'Good stora'
-	elif value == 'godopbevaring':
-	# UnitType  God opbevaring 
-	    return 'Good stora'
-	elif value == 'goedeopslag':
-	# UnitType  Goede opslag 
-	    return 'Good stora'
-	elif value == 'guterspeicher':
-	# UnitType  Guter Speicher 
-	    return 'Good stora'
-	elif value == 'bureau':
-	# UnitType  Bureau 
-	    return 'Office'
-	elif value == 'bro':
-	# UnitType  B�ro 
-	    return 'Office'
-	elif value == 'kantoor':
-	# UnitType  Kantoor 
-	    return 'Office'
-	elif value == 'kontor':
-	# UnitType  Kontor 
-	    return 'Office'
-	elif value == 'ander':
-	# UnitType  Ander 
-	    return 'Other'
-	elif value == 'andere':
-	# UnitType  Andere 
-	    return 'Other'
-	elif value == 'andet':
-	# UnitType  Andet 
-	    return 'Other'
-	elif value == 'autre':
-	# UnitType  Autre 
-	    return 'Other'
-	elif value == 'auen':
-	# UnitType  Au�en 
-	    return 'Outside'
-	elif value == 'buiten':
-	# UnitType  Buiten 
-	    return 'Outside'
-	elif value == 'dehors':
-	# UnitType  Dehors 
-	    return 'Outside'
-	elif value == 'udenfor':
-	# UnitType  Uden for 
-	    return 'Outside'
-	elif value == 'parken':
-	# UnitType  Parken 
-	    return 'Parking'
-	elif value == 'parkeren':
-	# UnitType  Parkeren 
-	    return 'Parking'
-	elif value == 'parkering':
-	# UnitType  Parkering 
-	    return 'Parking'
-	elif value == 'parking':
-	# UnitType  Parking 
-	    return 'Parking'
-	elif value == 'dtail':
-	# UnitType  D�tail 
-	    return 'Retail'
-	elif value == 'detailhandel':
-	# UnitType  Detailhandel 
-	    return 'Retail'
-	elif value == 'einzelhandel':
-	# UnitType  Einzelhandel 
-	    return 'Retail'
-	elif value == 'dach':
-	# UnitType  Dach 
-	    return 'Roof'
-	elif value == 'dak':
-	# UnitType  Dak 
-	    return 'Roof'
-	elif value == 'tag':
-	# UnitType  Tag 
-	    return 'Roof'
-	elif value == 'toit':
-	# UnitType  Toit 
-	    return 'Roof'
-	elif value == 'sociaal':
-	# UnitType  Sociaal 
-	    return 'Social'
-	elif value == 'social':
-	# UnitType  Social 
-	    return 'Social'
-	elif value == 'sozial':
-	# UnitType  Sozial 
-	    return 'Social'
-	elif value == 'lagerung':
-	# UnitType  Lagerung 
-	    return 'Storage'
-	elif value == 'opbevaring':
-	# UnitType  Opbevaring 
-	    return 'Storage'
-	elif value == 'opslag':
-	# UnitType  Opslag 
-	    return 'Storage'
-	elif value == 'stockage':
-	# UnitType  Stockage 
-	    return 'Storage'
-	elif value == 'technique':
-	# UnitType  Technique 
-	    return 'Technical'
-	elif value == 'teknisk':
-	# UnitType  Teknisk 
-	    return 'Technical'
-	elif value == 'technisch':
-	# UnitType  Technisch 
-	    return 'Technical '
-	elif value == 'toiletten':
-	# UnitType  Toiletten 
-	    return 'Toilets'
-	elif value == 'toiletter':
-	# UnitType  Toiletter 
-	    return 'Toilets'
-	elif value == 'toilettes':
-	# UnitType  Toilettes 
-	    return 'Toilets'
-	elif value == 'couloirsverticaux':
-	# UnitType  Couloirs verticaux 
-	    return 'Vertical Corridors'
-	elif value == 'lodrettekorridorer':
-	# UnitType  Lodrette korridorer 
-	    return 'Vertical Corridors'
-	elif value == 'verticalegangen':
-	# UnitType  Verticale gangen 
-	    return 'Vertical Corridors'
-	elif value == 'vertikalekorridore':
-	# UnitType  Vertikale Korridore 
-	    return 'Vertical Corridors'
-	elif value == 'woonhuis':
-	# UnitType  Woonhuis 
-	    return 'Residential'
-	elif value == 'wohnen':
-	# UnitType  Wohnen 
-	    return 'Residential'
-	elif value == 'bolig':
-	# UnitType  Bolig 
-	    return 'Residential'
-	elif value == 'rsidentiel':
-	# UnitType  R�sidentiel 
-	    return 'Residential'
-	elif value == 'appartement':
-	# UnitType  Appartement 
-	    return 'Residential'
-	elif value == 'eengezinswoning':
-	# UnitType  Eengezinswoning 
-	    return 'Residential'
-	elif value == 'egw':
-	# UnitType  EGW 
-	    return 'Residential'
-	elif value == 'mgw':
-	# UnitType  MGW 
-	    return 'Residential'
-	elif value == 'appartement':
-	# UnitType  Appartement 
-	    return 'Residential'
-	elif value == 'maisonunifamiliale':
-	# UnitType  Maison unifamiliale 
-	    return 'Residential'
-	elif value == 'lejlighed':
-	# UnitType  Lejlighed 
-	    return 'Residential'
-	elif value == 'enfamiliehus':
-	# UnitType  Enfamiliehus 
-	    return 'Residential'
-	elif value == 'wohnung':
-	# UnitType  Wohnung 
-	    return 'Residential'
-	elif value == 'einfamilienhaus':
-	# UnitType  Einfamilienhaus 
-	    return 'Residential'
-	elif value == 'apartment':
-	# UnitType  Apartment 
-	    return 'Residential'
-	elif value == 'singlefamilyhouse':
-	# UnitType  Single-family house 
-	    return 'Residential'
-	elif value == 'studio':
-	# UnitType  Studio 
-	    return 'Residential'
-	elif value == 'bungalow':
-	# UnitType  Bungalow 
-	    return 'Residential'
-	elif value == 'maisonnette':
-	# UnitType  Maisonnette 
-	    return 'Residential'
-	elif value == 'nee':
-	# Vacant  Nee 
-	    return 0
-	elif value == 'nein':
-	# Vacant  Nein 
-	    return 0
-	elif value == 'njet':
-	# Vacant  Njet 
-	    return 0
-	elif value == 'no':
-	# Vacant  No 
-	    return 0
-	elif value == 'da':
-	# Vacant  Da 
-	    return 1
-	elif value == 'ja':
-	# Vacant  Ja 
-	    return 1
-	elif value == 'qui':
-	# Vacant  Qui 
-	    return 1
-	elif value == 'yes':
-	# Vacant  Yes 
-	    return 1
-	if value == 'nee':
-	# VATCode  Nee 
-	    return 0
-	elif value == 'nein':
-	# VATCode  Nein 
-	    return 0
-	elif value == 'njet':
-	# VATCode  Njet 
-	    return 0
-	elif value == 'no':
-	# VATCode  No 
-	    return 0
-	elif value == 'da':
-	# VATCode  Da 
-	    return 1
-	elif value == 'ja':
-	# VATCode  Ja 
-	    return 1
-	elif value == 'qui':
-	# VATCode  Qui 
-	    return 1
-	elif value == 'yes':
-	# VATCode  Yes 
-	    return 1
-	if value == 'bankguarantee':
-	# SecurityTypeCode  Bank Guarantee 
-	    return 10
-	elif value == 'companyguarantee':
-	# SecurityTypeCode  Company Guarantee 
-	    return 20
-	elif value == 'deposit':
-	# SecurityTypeCode  Deposit 
-	    return 30
-	elif value == 'none':
-	# SecurityTypeCode  None 
-	    return 40
-	elif value == 'bankgarantie':
-	# SecurityTypeCode  Bankgarantie 
-	    return 10
-	elif value == 'bedrijfsgarantie':
-	# SecurityTypeCode  Bedrijfsgarantie 
-	    return 20
-	elif value == 'borg':
-	# SecurityTypeCode  Borg 
-	    return 30
-	elif value == 'geen':
-	# SecurityTypeCode  Geen 
-	    return 40
-	elif value == 'bankgarantie':
-	# SecurityTypeCode  Bankgarantie 
-	    return 10
-	elif value == 'firmengarantie':
-	# SecurityTypeCode  Firmengarantie 
-	    return 20
-	elif value == 'kaution':
-	# SecurityTypeCode  Kaution 
-	    return 30
-	elif value == 'keiner':
-	# SecurityTypeCode  Keiner 
-	    return 40
-	elif value == 'garantiebancaire':
-	# SecurityTypeCode  Garantie bancaire 
-	    return 10
-	elif value == 'garantieentreprise':
-	# SecurityTypeCode  Garantie Entreprise 
-	    return 20
-	elif value == 'dpt':
-	# SecurityTypeCode  D�p�t 
-	    return 30
-	elif value == 'aucun':
-	# SecurityTypeCode  Aucun 
-	    return 40
-	elif value == 'bankgaranti':
-	# SecurityTypeCode  Bank garanti 
-	    return 10
-	elif value == 'virksomhedsgaranti':
-	# SecurityTypeCode  Virksomhedsgaranti 
-	    return 20
-	elif value == 'depositum':
-	# SecurityTypeCode  Depositum 
-	    return 30
-	elif value == 'ingen':
-	# SecurityTypeCode  Ingen 
-	    return 40
+for item in items:
+    ConverterTranslator.objects.create(
+        convert_type=item[0],
+        supplied_value=item[1],
+        translate_to=item[2],
+        converted_string=item[3],
+    )

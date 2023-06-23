@@ -174,6 +174,12 @@
                                 <span class="menu-text">Rules</span>
                             </a>
                         </li>
+                        <li class="{% if request.resolver_match.view_name == 'translate' %}active{% endif %}">
+                            <a href="{% url "translate" %}">
+                                <span class="nav-icon uil uil-language"></span>
+                                <span class="menu-text">Translate</span>
+                            </a>
+                        </li>
                         <li class="{% if request.resolver_match.view_name == 'update_structure_required_fields' %}active{% endif %}">
                             <a href="{% url "update_structure_required_fields" %}">
                                 <span class="nav-icon uil uil-analytics"></span>

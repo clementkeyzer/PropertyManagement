@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from .models import Management, ManagementRule
+from .models import Management, ManagementRule, ConverterTranslator
 from users.models import UserProfile
 
 
@@ -81,4 +81,14 @@ class ManagementRuleForm(forms.ModelForm):
 
     class Meta:
         model = ManagementRule
+        fields = "__all__"
+
+
+class ConverterTranslatorForm(forms.ModelForm):
+    """
+    this is used to update or create the convert transal
+    """
+
+    class Meta:
+        model = ConverterTranslator
         fields = "__all__"

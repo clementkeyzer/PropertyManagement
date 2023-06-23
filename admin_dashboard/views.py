@@ -1,5 +1,4 @@
 import json
-import random
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
@@ -8,20 +7,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
 
 from admin_dashboard.utils import user_percentage_increase_since_last_month, \
     contract_percentage_increase_since_last_month
-from management.forms import ManagementForm, ManagementRuleForm
-from users.forms import UserCreationCustomForm, UserProfileUpdateForm, AdminUpdateUserForm
-from management.models import Contract, Management, ManagementRule
-from users.models import UserProfile
-from management.utils import query_items, convert_string
+from management.forms import ManagementForm, ManagementRuleForm, ConverterTranslatorForm
+from management.models import Contract, Management, ManagementRule, ConverterTranslator
+from management.utils import query_items, is_integer_value
 from structures.forms import DataStructureForm
 from structures.mixins import AdminRequiredMixin
 from structures.models import DataStructure
+from users.forms import UserCreationCustomForm, AdminUpdateUserForm
+from users.models import UserProfile
 
 
 # Create your views here.
@@ -383,4 +381,80 @@ class AdminUserDeleteView(LoginRequiredMixin, AdminRequiredMixin, View):
             user = User.objects.filter(id=item_id).first()
             if user:
                 user.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class TranslatorView(LoginRequiredMixin, AdminRequiredMixin, View):
+    """
+    this is used to convert to the translated words
+    """
+
+    def get(self, request):
+        """
+        this is used to  return the detail to translate
+        :param request:
+        :return:
+        """
+        translator_qs = ConverterTranslator.objects.all()
+        excluded_fields = ["id", "converted_string", "timestamp"]
+
+        formset = [ConverterTranslatorForm(instance=instance) for instance in translator_qs]
+        context = {
+            "formset": formset,
+            "form": ConverterTranslatorForm(),
+            "translator_qs": translator_qs,
+            "excluded_fields": excluded_fields,
+            "fields": ConverterTranslator._meta.fields
+        }
+        return render(request, "admin_translate.html", context)
+
+    def post(self, request):
+
+        # Retrieve the form data from the request body
+        form_data = json.loads(request.body)
+
+        # Perform the update operation for each form
+        for form in form_data['forms']:
+            form_id = form.get('id', None)
+            form_fields = form['fields']
+
+            if not form_fields.get("convert_type") or not form_fields.get("translate_to") or not form_fields.get(
+                    "supplied_value"):
+                continue
+            if not form_id:
+                convert_instance = ConverterTranslator()
+            else:
+                # Retrieve the management instance based on the form ID
+                convert_instance = ConverterTranslator.objects.filter(id=form_id).first()
+                if not convert_instance:
+                    continue
+
+            convert_instance.convert_type = form_fields.get("convert_type")
+            convert_instance.translate_to = form_fields.get("translate_to")
+            convert_instance.supplied_value = form_fields.get("supplied_value")
+            # check if the convert type is int or decimal then the values it's translating to must be the same
+            if convert_instance.convert_type == "INT" or convert_instance.convert_type == "DECIMAL":
+                # check if the value can be changed to int
+                if is_integer_value(convert_instance.translate_to):
+                    # Save the updated management instance for any update
+                    convert_instance.save()
+                else:
+                    messages.error(request, "Integer or decimal translate to cant be string")
+            else:
+                convert_instance.save()
+        return JsonResponse({'message': 'Update successful'})
+
+
+class ConverterTranslatorDeleteView(LoginRequiredMixin, AdminRequiredMixin, View):
+    """
+    this is used to delete a Contract
+    """
+
+    def post(self, request):
+        #  this  deletes a redirect back to the page
+        item_id = request.POST.get("convert_id")
+        if item_id:
+            convert = ConverterTranslator.objects.filter(id=item_id).first()
+            if convert:
+                convert.delete()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

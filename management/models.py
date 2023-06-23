@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 
 def user_contract_file_upload_path(instance, filename):
@@ -159,3 +159,35 @@ def post_save_create_management_rule(sender, instance, *args, **kwargs):
 
 
 post_save.connect(post_save_create_management_rule, sender=User)
+
+
+class ConverterTranslator(models.Model):
+    """
+    this is used to store multiple string and the translation to integer
+    """
+    converted_string = models.CharField(max_length=250, blank=True, null=True)
+    convert_type = models.CharField(max_length=250, choices=(
+        ("INT", "INT"),
+        ("STRING", "STRING"),
+        ("DECIMAL", "DECIMAL"),
+        ("BOOLEAN", "BOOLEAN"),
+    ))
+    supplied_value = models.CharField(max_length=250, blank=True, null=True)
+    translate_to = models.CharField(max_length=250)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["convert_type"]
+
+
+def pre_save_create_converter_transalator(sender, instance, *args, **kwargs):
+    """
+    This is used to update the converted string before being saved
+    """
+    from management.utils import convert_string
+
+    if instance:
+        instance.converted_string = convert_string(instance.supplied_value)
+
+
+pre_save.connect(pre_save_create_converter_transalator, sender=ConverterTranslator)

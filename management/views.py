@@ -15,14 +15,12 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView
 
-from management.models import Contract, Management
+from management.models import Contract, Management, ConverterTranslator
 from structures.models import DataStructure
 from .forms import ManagementForm
 from .utils import convert_string_int_to_bool, convert_string, query_items, \
     check_required_field_to_management, convert_file_to_dictionary, convert_date_format, check_validation_on_management, \
-    convert_string_to_int, check_header_in_structure, export_management_csv, convert_charge_frequency, is_integer_value, \
-    convert_index_series, convert_index_type, convert_option_by_code, convert_unit_type, \
-    convert_type_code, convert_vat_code, convert_security_type_code, convert_management_value_with_field_name
+    convert_string_to_int, check_header_in_structure, export_management_csv
 
 FormSet = formset_factory(ManagementForm, extra=0)
 
@@ -121,7 +119,7 @@ class ContractUpdateView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         """
-        Overiding context data
+        Overriding context data
         :param kwargs:
         :return:
         """
@@ -188,7 +186,7 @@ class UpdateAllContractAPIView(View):
 
 class UploadContractView(LoginRequiredMixin, View):
     """
-    this is used to upload excel spreadsheet which is then read and can be used to create tables
+    this is used to upload Excel spreadsheet which is then read and can be used to create tables
 
     """
 
@@ -236,22 +234,43 @@ class UploadContractView(LoginRequiredMixin, View):
                         user_field_name = getattr(structure, field_name)
                         converted_field_name = convert_string(user_field_name)
                         management_value = data.get(converted_field_name)
-                        #  transcribe the values
-                        management_value = convert_management_value_with_field_name(field_name=field_name,
-                                                                                    management_value=management_value)
+
                         #  we get attribute to be able to set the right value
                         if isinstance(management._meta.get_field(field_name), models.BooleanField):
-                            # if it's a boolean field
+                            # if it's a Boolean field
+                            convert_qs = ConverterTranslator.objects.filter(convert_type="BOOLEAN",
+                                                                            converted_string=convert_string(
+                                                                                management_value)).first()
+                            if convert_qs:
+                                management_value = convert_qs.translate_to
                             setattr(management, field_name, convert_string_int_to_bool(management_value))
                         elif isinstance(management._meta.get_field(field_name), models.DateField):
                             # if it's a date time field
                             setattr(management, field_name, convert_date_format(management_value))
                         elif isinstance(management._meta.get_field(field_name), models.DecimalField):
                             # if it's a decimal field
+                            convert_qs = ConverterTranslator.objects.filter(convert_type="DECIMAL",
+                                                                            converted_string=convert_string(
+                                                                                management_value)).first()
+                            if convert_qs:
+                                management_value = convert_qs.translate_to
                             setattr(management, field_name, convert_string_to_int(management_value))
                         elif isinstance(management._meta.get_field(field_name), models.IntegerField):
-                            # if it's a decimal field
+                            # if it's a integer field
+                            convert_qs = ConverterTranslator.objects.filter(convert_type="INT",
+                                                                            converted_string=convert_string(
+                                                                                management_value)).first()
+                            if convert_qs:
+                                management_value = convert_qs.translate_to
                             setattr(management, field_name, convert_string_to_int(management_value))
+                        elif isinstance(management._meta.get_field(field_name), models.CharField):
+                            # if it's a integer field
+                            convert_qs = ConverterTranslator.objects.filter(convert_type="STRING",
+                                                                            converted_string=convert_string(
+                                                                                management_value)).first()
+                            if convert_qs:
+                                management_value = convert_qs.translate_to
+                            setattr(management, field_name, management_value)
                         else:
                             setattr(management, field_name, management_value)
 

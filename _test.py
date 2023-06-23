@@ -90,7 +90,10 @@ import re
 
 def convert_string(input_string):
     if not input_string or input_string == "":
-        return None
+        return input_string
+    if type(input_string) != str:
+        return input_string
+
     lowercase_string = input_string.lower()
     cleaned_string = re.sub('[^a-z0-9]', '', lowercase_string)
     return cleaned_string
@@ -104,20 +107,30 @@ workbook = openpyxl.load_workbook(existing_file_path)
 sheet = workbook.active
 
 # Iterate over the rows to generate the if statements
-if_statements = ""
+item = []
+
 for row in sheet.iter_rows(min_row=2):
-    condition = f"value == '{convert_string(row[3].value)}':"
-    if type(row[2].value)  == str:
-        new_val = f"\'{row[2].value}\'"
-    else:
-        new_val = row[2].value
-    statement = f"\n\t# {row[0].value}  {row[1].value} \n\t    return {new_val}"
-    if_statements += f"\n\telif {condition}{statement}"
+    if row[0].value == "ChargeFrequency":
+        type_val = 'INT'
+    elif row[0].value == "IndexSeries":
+        type_val = 'INT'
+    elif row[0].value == "IndexType":
+        type_val = 'STRING'
+    elif row[0].value == "IsCompany":
+        type_val = 'BOOLEAN'
+    elif row[0].value == "OptionByCode":
+        type_val = 'INT'
+    elif row[0].value == "TypeCode":
+        type_val = 'INT'
+    elif row[0].value == "UnitType":
+        type_val = 'STRING'
+    elif row[0].value == "Vacant":
+        type_val = 'BOOLEAN'
+    elif row[0].value == "VATCode":
+        type_val = 'STRING'
+    elif row[0].value == "SecurityTypeCode":
+        type_val = 'INT'
+    row_item = [type_val, row[1].value, row[2].value, convert_string(row[3].value)]
+    item.append(row_item)
 
-# Complete the log code with the generated if statements
-log_code = f"def convert_charge_frequency(value):\n\tvalue = convert_string(value){if_statements}"
-
-# Save the log code to a file
-log_code_file_path = "./_log_code.py"
-with open(log_code_file_path, "w") as log_code_file:
-    log_code_file.write(log_code)
+print(item)
