@@ -16,6 +16,7 @@ from django.views import View
 from django.views.generic import ListView
 
 from management.models import Contract, Management, ConverterTranslator
+from structures.mixins import DisableAdminRequiredMixin
 from structures.models import DataStructure
 from .forms import ManagementForm
 from .utils import convert_string_int_to_bool, convert_string, query_items, \
@@ -182,6 +183,17 @@ class UpdateAllContractAPIView(View):
             management_instance.save()
 
         return JsonResponse({'message': 'Update successful'})
+
+
+class ContractListView(LoginRequiredMixin, DisableAdminRequiredMixin, ListView):
+    paginate_by = 10
+    queryset = Contract.objects.all()
+    template_name = "index.html"
+    context_object_name = "contracts"
+
+    def get_queryset(self):
+        contract = Contract.objects.filter(user=self.request.user)
+        return contract
 
 
 class UploadContractView(LoginRequiredMixin, View):

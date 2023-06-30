@@ -83,14 +83,19 @@ def convert_file_to_dictionary(file):
 
 def convert_date_format(input_string):
     try:
+        start_date = datetime(1900, 1, 1)
         # Assuming the input string is in the "YYYY/MM/DD" format
         if isinstance(input_string, datetime):
+            if input_string > datetime.now() or input_string < start_date:
+                return None
             return input_string
         # Check if the input string is already in the desired format
         if re.match(r"\d{4}-\d{2}-\d{2}", input_string):
             return input_string
 
         date_object = datetime.strptime(input_string, "%Y/%m/%d")
+        if date_object > datetime.now() or date_object < start_date:
+            return None
         return date_object.strftime("%Y-%m-%d")
     except:
         return None

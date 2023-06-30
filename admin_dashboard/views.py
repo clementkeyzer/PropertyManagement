@@ -202,7 +202,7 @@ class AdminListUserView(LoginRequiredMixin, AdminRequiredMixin, ListView):
         """
     queryset = User.objects.all().order_by("-id")
     template_name = "admin_added_user.html"
-    paginate_by = 50
+    paginate_by = 10
 
     def get_queryset(self):
         """
@@ -292,7 +292,7 @@ def admin_create_user(request):
 
 class AdminListUserRulesView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     queryset = ManagementRule.objects.all()
-    paginate_by = 50
+    paginate_by = 10
     template_name = "admin_list_user_rules.html"
 
 

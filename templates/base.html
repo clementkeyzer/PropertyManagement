@@ -18,10 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    {#    <link rel="preconnect" href="https://fonts.googleapis.com">#}
-    {#    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>#}
-    {#    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap"#}
-    {#          rel="stylesheet">#}
+
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
 
@@ -188,8 +185,8 @@
                         </li>
                     {% else %}
                         {% comment %} For Normal User Dashboard  {% endcomment %}
-                        <li class="{% if request.resolver_match.view_name == 'upload_data' %}active{% endif %}">
-                            <a href="{% url "upload_data" %}">
+                        <li class="{% if request.resolver_match.view_name == 'contract' %}active{% endif %}">
+                            <a href="{% url "contract" %}">
                                 <span class="nav-icon uil uil-create-dashboard"></span>
                                 <span class="menu-text">Dashboard</span>
                             </a>

@@ -2,3 +2,10 @@
 /db.sqlite3
 /static/
 /media
+/venv/
+*/migrations/__pycache__
+*/__pycache__
+
+media
+
+venv/

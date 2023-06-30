@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_filters %}
 
 {% block css %}
     <style>
@@ -115,6 +116,45 @@
 
                             </tbody>
                         </table>
+                    <div class="d-flex justify-content-end pt-30">
+                        <nav class="dm-page ">
+                            <ul class="dm-pagination d-flex">
+                                {% if is_paginated %}
+                                    <li class="dm-pagination__item">
+                                        {% if page_obj.has_previous %}
+                                            <a href="{% paginate_url page_obj.previous_page_number 'page' request.GET.urlencode %}"
+                                               class="dm-pagination__link pagination-control"><span
+                                                    class="la la-angle-left"></span></a>
+                                        {% else %}
+                                            <a href="#" class="dm-pagination__link pagination-control"><span
+                                                    class="la la-angle-left"></span></a>
+                                        {% endif %}
+                                        {% get_proper_elided_page_range paginator page_obj.number as page_range %}
+                                        {% for i in page_range %}
+                                            {% if page_obj.number == i %}
+                                                <a href="#" class="dm-pagination__link active"><span
+                                                        class="page-number">{{ i }}</span></a>
+                                            {% else %}
+                                                <a href="{% paginate_url i 'page' request.GET.urlencode %}"
+                                                   class="dm-pagination__link"><span
+                                                        class="page-number">{{ i }}</span></a>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                            <a href="{% paginate_url page_obj.next_page_number 'page' request.GET.urlencode %}"
+                                               class="dm-pagination__link pagination-control"><span
+                                                    class="la la-angle-right"></span></a>
+                                        {% else %}
+                                            <a href="#" class="dm-pagination__link pagination-control"><span
+                                                    class="la la-angle-right"></span></a>
+
+                                        {% endif %}
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+
                     </div>
 
                 </div>
