@@ -91,9 +91,10 @@ def convert_date_format(input_string):
             return input_string
         # Check if the input string is already in the desired format
         if re.match(r"\d{4}-\d{2}-\d{2}", input_string):
-            return input_string
+            date_object = datetime.strptime(input_string, "%Y-%m-%d")
+        else:
+            date_object = datetime.strptime(input_string, "%Y/%m/%d")
 
-        date_object = datetime.strptime(input_string, "%Y/%m/%d")
         if date_object > datetime.now() or date_object < start_date:
             return None
         return date_object.strftime("%Y-%m-%d")

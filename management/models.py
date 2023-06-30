@@ -31,6 +31,9 @@ class Contract(models.Model):
     file = models.FileField(upload_to=user_contract_file_upload_path, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ["-timestamp"]
+
     def __str__(self):
         return f"{self.name} - {self.user}"
 
