@@ -63,3 +63,6 @@ sudo systemctl daemon-reload
 sudo systemctl start celery
 sudo systemctl enable celery
 sudo systemctl status celery
+
+
+
