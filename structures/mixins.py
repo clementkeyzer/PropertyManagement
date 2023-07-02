@@ -19,7 +19,7 @@ class AdminRequiredMixin(UserPassesTestMixin):
 
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:
-            return redirect("login")
+            return redirect("account_login")
         if not self.request.user.is_superuser:
             return redirect("contract")
         if not self.request.user.is_staff:
