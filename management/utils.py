@@ -94,8 +94,8 @@ def convert_date_format(input_string):
             date_object = datetime.strptime(input_string, "%Y-%m-%d")
         else:
             date_object = datetime.strptime(input_string, "%Y/%m/%d")
-
-        if date_object > datetime.now() or date_object < start_date:
+        # date_object > datetime.now() or
+        if date_object < start_date:
             return None
         return date_object.strftime("%Y-%m-%d")
     except:

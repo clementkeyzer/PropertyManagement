@@ -7,10 +7,10 @@ Requires=gunicorn.socket
 After=network.target
 
 [Service]
-User=server332
+User=c.keyzer@watsonholmes.local
 Group=www-data
-WorkingDirectory=/home/server332/PropertyManagement
-ExecStart=/home/server332/PropertyManagement/venv/bin/gunicorn \
+WorkingDirectory=/home/c.keyzer@watsonholmes.local/PropertyManagement
+ExecStart=/home/c.keyzer@watsonholmes.local/PropertyManagement/venv/bin/gunicorn \
         --access-logfile - \
         --workers 3 \
         --bind unix:/run/gunicorn.sock \
@@ -20,20 +20,20 @@ ExecStart=/home/server332/PropertyManagement/venv/bin/gunicorn \
 WantedBy=multi-user.target
 
 
-
+sudo nano /etc/nginx/sites-available/PropertyManagement
 
 
 # Nginx Configuration
 server {
     listen 80;
-    server_name 178.21.19.33 ;
+    server_name 192.168.4.57 ;
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
-        server332 /home/server332/PropertyManagement;
+        root /home/c.keyzer@watsonholmes.local/PropertyManagement;
     }
     location /media/ {
-        server332 /home/server332/PropertyManagement;
+        root /home/c.keyzer@watsonholmes.local/PropertyManagement;
     }
 
     location / {
@@ -51,10 +51,10 @@ Description=Celery Service
 After=network.target
 
 [Service]
-User=server332
+User=c.keyzer@watsonholmes.local
 Group=www-data
-WorkingDirectory=/home/server332/PropertyManagement
-ExecStart=/home/server332/PropertyManagement/venv/bin/celery -A PropertyManagement worker  --loglevel=info
+WorkingDirectory=/home/c.keyzer@watsonholmes.local/PropertyManagement
+ExecStart=/home/c.keyzer@watsonholmes.local/PropertyManagement/venv/bin/celery -A PropertyManagement worker  --loglevel=info
 
 [Install]
 WantedBy=multi-user.target

@@ -180,14 +180,16 @@
                                style="display: none;">
                         <div class="row px-3 mx-auto">
                             <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
+                                <label>Rent roll file</label>
+                                <input class="form-control form-control-lg" type="file" name="property_file"
+                                       onchange="syncFileInputs()"
+                                >
+                            </div>
+
+                            <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
                                 <label>Rent roll name</label>
                                 <input class="form-control form-control-lg" type="text" name="name"
                                        placeholder="Rent roll name">
-                            </div>
-                            <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
-                                <label>Rent roll file</label>
-                                <input class="form-control form-control-lg" type="file" name="property_file"
-                                >
                             </div>
 
                             <div class="col-12 col-md-4 form-group  mb-md-5  mt-2">
@@ -219,8 +221,17 @@
 
         function syncFileInputs() {
             const propertyFileInput = document.querySelector('input[name="property_file"]');
+            const propertyName = document.querySelector('input[name="name"]');
             const cloneFileInput = document.querySelector('input[name="clone_file"]');
             cloneFileInput.files = propertyFileInput.files;
+
+            // Log the name of the file selected in the propertyFileInput
+            if (propertyFileInput.files.length > 0) {
+                const fileName = propertyFileInput.files[0].name.split(".")[0];
+                console.log('File name added:', fileName);
+                // Update the value of the propertyName input field with the file name
+                propertyName.value = fileName;
+            }
         }
     </script>
 {% endblock %}
