@@ -86,7 +86,8 @@ def convert_date_format(input_string):
         start_date = datetime(1900, 1, 1)
         # Assuming the input string is in the "YYYY/MM/DD" format
         if isinstance(input_string, datetime):
-            if input_string > datetime.now() or input_string < start_date:
+            # input_string > datetime.now() or
+            if input_string < start_date:
                 return None
             return input_string
         # Check if the input string is already in the desired format
@@ -94,6 +95,7 @@ def convert_date_format(input_string):
             date_object = datetime.strptime(input_string, "%Y-%m-%d")
         else:
             date_object = datetime.strptime(input_string, "%Y/%m/%d")
+
         # date_object > datetime.now() or
         if date_object < start_date:
             return None
