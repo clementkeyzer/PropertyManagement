@@ -174,7 +174,7 @@
                 </div>
                 <div class="card-body p-0">
                     <form action="{% url "upload_data" %}" method="post" enctype="multipart/form-data"
-                          onsubmit="syncFileInputs()">
+                          >
                         {% csrf_token %}
                         <input class="form-control form-control-lg" type="file" name="clone_file"
                                style="display: none;">

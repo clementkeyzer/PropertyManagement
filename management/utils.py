@@ -2,7 +2,7 @@ import csv
 import json
 import operator
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import reduce
 from io import TextIOWrapper
 
@@ -83,11 +83,12 @@ def convert_file_to_dictionary(file):
 
 def convert_date_format(input_string):
     try:
-        start_date = datetime(1900, 1, 1)
+        start_date = datetime.now() - timedelta(days=365 * 100)
+        future_date = datetime.now() + timedelta(days=365 * 100)
         # Assuming the input string is in the "YYYY/MM/DD" format
         if isinstance(input_string, datetime):
             # input_string > datetime.now() or
-            if input_string < start_date:
+            if input_string < start_date or input_string > future_date:
                 return None
             return input_string
         # Check if the input string is already in the desired format
@@ -97,7 +98,7 @@ def convert_date_format(input_string):
             date_object = datetime.strptime(input_string, "%Y/%m/%d")
 
         # date_object > datetime.now() or
-        if date_object < start_date:
+        if date_object < start_date or date_object > future_date:
             return None
         return date_object.strftime("%Y-%m-%d")
     except:
