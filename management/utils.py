@@ -88,13 +88,13 @@ def convert_date_format(input_string):
         # Assuming the input string is in the "YYYY/MM/DD" format
         if isinstance(input_string, datetime):
             # input_string > datetime.now() or
-            if input_string < start_datetime or input_string > future_datetime:
-                return None
+            # if input_string < start_datetime or input_string > future_datetime:
+            #     return None
             return input_string
         elif isinstance(input_string, date):
             # If the input_string is already a date object
-            if input_string < start_datetime.date() or input_string > future_datetime.date():
-                return None
+            # if input_string < start_datetime.date() or input_string > future_datetime.date():
+            #     return None
             return input_string
 
         # Check if the input string is already in the desired format
@@ -233,7 +233,8 @@ def check_required_field_to_management(contract: Contract):
                 if getattr(required_fields, field.name):
                     if getattr(management, field.name) is None or getattr(management, field.name) == "":
                         errors.append(
-                            f"row {counter}: {field.name} is a required field. Please update below, then save and validate")
+                            f"Row {counter}: {field.name.title()} is a required field. Please update below, then save and "
+                            f"validate")
         except:
             pass
     return errors
@@ -258,8 +259,8 @@ def check_header_in_structure(headers, structure):
                             break
                     if not found_key:
                         error_list.append(
-                            f"Invalid Header: '{value}'. Please change the mapping or provide a valid header"
-                            f" In your upload file. The current upload is cancelled."
+                            f"Invalid header: '{value}'. Please change the mapping or provide a valid header"
+                            f" in your upload file. The current upload is cancelled."
                         )
     except:
         pass
@@ -288,20 +289,21 @@ def check_validation_on_management(contract: Contract):
             if management.vacant:
                 if not management.vacancy_note:
                     errors.append(
-                        f"row {counter}: Vacancy Reason is required if unit is vacant. Please update below, then save and validate. ")
+                        f"Row {counter}: Vacancy reason is required if unit is vacant. Please update below, then save "
+                        f"and validate. ")
         #  check for gross area and net area
         if rule.gross_area_then_net_area:
             if not management.gross_area and not management.net_area:
                 errors.append(
-                    f"row {counter}: either Net or Gross area is required. Please update below, then save and validate.")
+                    f"Row {counter}: Either net or gross area is required. Please update below, then save and validate.")
             if management.gross_area:
                 if management.gross_area < 1 and not management.net_area:
                     errors.append(
-                        f"Gross Area cannot be less than zero if Net Area is not provided in row {counter}.")
+                        f"Gross area cannot be less than zero if net area is not provided in row {counter}.")
             if management.net_area:
                 if management.net_area < 1 and not management.gross_area:
                     errors.append(
-                        f"Net Area cannot be less than zero if Gross Area is not provided in row {counter}.")
+                        f"Net area cannot be less than zero if gross area is not provided in row {counter}.")
         # check for Option
         if rule.option_then_date_provided:
             # option_type_landlord_tenant_mutual and option_type_break_purchase_renew  is provided then there must be
@@ -309,20 +311,26 @@ def check_validation_on_management(contract: Contract):
             if management.option_by_code or management.type_code:
                 if not management.to_date or not management.from_date:
                     errors.append(
-                        f"row {counter}: either the Option From Date or The Option To Date is required. Please update below, then save and validate.")
+                        f"Row {counter}: Either the option from date or the option to date is required. Please update "
+                        f"below, then save and validate.")
         # check for index
         if rule.index_then_date:
             if management.index_type or management.value:
                 if not management.index_date:
-                    errors.append(f"row {counter}: Index date needs to be provided if a value exists.")
+                    errors.append(f"row {counter}: index date needs to be provided if a value exists.")
         for field in management._meta.get_fields():
             if isinstance(field, DateField):
+                start_datetime = datetime.now() - timedelta(days=365 * 100)
+                future_datetime = datetime.now() + timedelta(days=365 * 100)
                 # if the field name is time stamp continue
                 if field.name == "timestamp":
                     continue
                 field_value = getattr(management, field.name)
-                setattr(management, field.name, convert_date_format(field_value))
-                management.save()
+                if field_value:
+                    if field_value < start_datetime.date() or field_value > future_datetime.date():
+                        errors.append(
+                            f"Row {counter}: {field.name.title()}: The date you entered is not logical date. Please update below, "
+                            f"then Save and validate")
     return errors
 
 
