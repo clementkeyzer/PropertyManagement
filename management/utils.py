@@ -2,11 +2,11 @@ import csv
 import json
 import operator
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from functools import reduce
 from io import TextIOWrapper
 
-from django.db.models import Q
+from django.db.models import Q, DateField
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from openpyxl import load_workbook
@@ -83,14 +83,20 @@ def convert_file_to_dictionary(file):
 
 def convert_date_format(input_string):
     try:
-        start_date = datetime.now() - timedelta(days=365 * 100)
-        future_date = datetime.now() + timedelta(days=365 * 100)
+        start_datetime = datetime.now() - timedelta(days=365 * 100)
+        future_datetime = datetime.now() + timedelta(days=365 * 100)
         # Assuming the input string is in the "YYYY/MM/DD" format
         if isinstance(input_string, datetime):
             # input_string > datetime.now() or
-            if input_string < start_date or input_string > future_date:
+            if input_string < start_datetime or input_string > future_datetime:
                 return None
             return input_string
+        elif isinstance(input_string, date):
+            # If the input_string is already a date object
+            if input_string < start_datetime.date() or input_string > future_datetime.date():
+                return None
+            return input_string
+
         # Check if the input string is already in the desired format
         if re.match(r"\d{4}-\d{2}-\d{2}", input_string):
             date_object = datetime.strptime(input_string, "%Y-%m-%d")
@@ -98,7 +104,7 @@ def convert_date_format(input_string):
             date_object = datetime.strptime(input_string, "%Y/%m/%d")
 
         # date_object > datetime.now() or
-        if date_object < start_date or date_object > future_date:
+        if date_object < start_datetime or date_object > future_datetime:
             return None
         return date_object.strftime("%Y-%m-%d")
     except:
@@ -309,6 +315,14 @@ def check_validation_on_management(contract: Contract):
             if management.index_type or management.value:
                 if not management.index_date:
                     errors.append(f"row {counter}: Index date needs to be provided if a value exists.")
+        for field in management._meta.get_fields():
+            if isinstance(field, DateField):
+                # if the field name is time stamp continue
+                if field.name == "timestamp":
+                    continue
+                field_value = getattr(management, field.name)
+                setattr(management, field.name, convert_date_format(field_value))
+                management.save()
     return errors
 
 

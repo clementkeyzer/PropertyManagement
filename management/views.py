@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
-from django.db.models import BooleanField
+from django.db.models import BooleanField, ImageField, DateField
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
@@ -175,10 +175,17 @@ class UpdateAllContractAPIView(View):
                 if isinstance(field, BooleanField):
                     # Convert the field value to a Boolean
                     field_value = field_value.lower() == "true"
-
+                # check if its a date field and has wrong value i set to none
+                if isinstance(field, ImageField):
+                    setattr(management_instance, field_name, convert_date_format(field_value))
+                # if the value is not equal to  what is in the db i set to none
                 if getattr(management_instance, field_name, field_value) != field_value:
                     # this set the attribute only if the value is not same with the old one and also saves it
-                    setattr(management_instance, field_name, field_value)
+                    # if its an date field validate it
+                    if isinstance(field, DateField):
+                        setattr(management_instance, field_name, convert_date_format(field_value))
+                    else:
+                        setattr(management_instance, field_name, field_value)
             # Save the updated management instance for any update
             management_instance.save()
 
@@ -318,10 +325,11 @@ class ValidateContractView(LoginRequiredMixin, View):
             # redirect back to the page which  it comes from
             return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
         errors = []
-        # First we check for required fields
-        check_errors = check_required_field_to_management(contract)
         # user custom validation
         validate_errors = check_validation_on_management(contract)
+        # First we check for required fields
+        check_errors = check_required_field_to_management(contract)
+
         #  check if the length of the error is greater than zero if it is then
         #  we need to direct the user to the update page
         errors += check_errors

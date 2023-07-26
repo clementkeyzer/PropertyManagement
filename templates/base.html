@@ -308,7 +308,28 @@
 {% endblock %}
 <script src="{% static "js/plugins.min.js" %}"></script>
 <script src="{% static "js/script.min.js" %}"></script>
+<script>
+    // Function to get the current date and 100 years from now
+    function getDateLimits() {
+        var currentDate = new Date();
+        var maxDate = new Date(currentDate);
+        maxDate.setFullYear(currentDate.getFullYear() + 100);
+        return {currentDate: currentDate, maxDate: maxDate};
+    }
 
+    // Function to set date limits for a given date input
+    function setDateLimits(inputElement) {
+        var dateLimits = getDateLimits();
+        inputElement.min = dateLimits.currentDate.toISOString().slice(0, 10);
+        inputElement.max = dateLimits.maxDate.toISOString().slice(0, 10);
+    }
+
+    // Apply date limits to all date inputs with 'type="date"'
+    var dateInputs = document.querySelectorAll("input[type='date']");
+    dateInputs.forEach(function (input) {
+        setDateLimits(input);
+    });
+</script>
 
 </body>
 
