@@ -1,4 +1,5 @@
 import json
+import re
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
@@ -14,7 +15,8 @@ from admin_dashboard.utils import user_percentage_increase_since_last_month, \
     contract_percentage_increase_since_last_month
 from management.forms import ManagementForm, ManagementRuleForm, ConverterTranslatorForm
 from management.models import Contract, Management, ManagementRule, ConverterTranslator
-from management.utils import query_items, is_integer_value
+from management.utils import query_items, is_integer_value, check_validation_on_management, \
+    check_required_field_to_management
 from structures.forms import DataStructureForm
 from structures.mixins import AdminRequiredMixin
 from structures.models import DataStructure
@@ -190,9 +192,31 @@ class AdminContractUpdateView(LoginRequiredMixin, AdminRequiredMixin, ListView):
         context["contract_id"] = self.kwargs['id']
         contract = Contract.objects.filter(id=self.kwargs['id']).first()
 
+        # user custom validation
+        validate_errors, instances_errors_1 = check_validation_on_management(contract)
+        # First we check for required fields
+        required_field_errors, instances_errors_2 = check_required_field_to_management(contract)
+        # sort the errors
+        validate_errors = sorted(validate_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+        required_field_errors = sorted(required_field_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+
+        instances_errors = instances_errors_1 + instances_errors_2
         #  new
         context["formset"] = [ManagementForm(instance=instance) for instance in contract.management_set.all()]
         context["contract"] = Contract.objects.filter(id=self.kwargs['id']).first()
+
+        # send the both errors and other errors
+        context["required_field_errors"] = required_field_errors
+        context["validate_errors"] = validate_errors
+        context["instances_errors"] = instances_errors
+        #  add all the errors to check
+        errors = instances_errors + validate_errors + required_field_errors
+        if len(errors) > 0:
+            contract.status = "PENDING"
+            contract.save()
+        else:
+            contract.status = "SUCCESS"
+            contract.save()
         return context
 
 

@@ -45,3 +45,22 @@ def render_form_with_instance(form, instance):
         if field.name != "user":
             field.field.widget.attrs['value'] = getattr(instance, field.name)
     return form
+
+
+@register.simple_tag
+def check_error_field_name(instance_id, field_name, instances_errors):
+    """
+
+    this is using a template tags to get the error if it exist in the instance
+    :param instance_id:
+    :param field_name:
+    :param instances_errors:
+    :return:
+    """
+    for item in instances_errors:
+        # if the id of the error
+        if item.get("id") == instance_id:
+            # if the field name exists
+            if item.get(field_name):
+                return "error_exist_class"
+    return ""

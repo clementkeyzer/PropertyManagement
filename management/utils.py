@@ -223,8 +223,11 @@ def check_required_field_to_management(contract: Contract):
     if not required_fields:
         required_fields = DataStructureRequiredField.objects.create()
     errors = []
+    instances_errors = []
     counter = 0
     for management in managements:
+        instances_error = {}
+        instances_error["id"] = management.id
         counter += 1
         try:
             for field in required_fields._meta.fields:
@@ -232,12 +235,15 @@ def check_required_field_to_management(contract: Contract):
                     continue
                 if getattr(required_fields, field.name):
                     if getattr(management, field.name) is None or getattr(management, field.name) == "":
+                        instances_error[field.name] = True
                         errors.append(
                             f"Row {counter}: {field.name.title()} is a required field. Please update below, then save and "
                             f"validate")
+                # append the error
+                instances_errors.append(instances_error)
         except:
             pass
-    return errors
+    return errors, instances_errors
 
 
 def check_header_in_structure(headers, structure):
@@ -282,42 +288,83 @@ def check_validation_on_management(contract: Contract):
     counter = 0
     errors = []
 
+    instances_errors = []
     for management in managements:
+        instance_error = {}
+        # set id
+        instance_error["id"] = management.id
         counter += 1
         # check is vacant on rule
         if rule.is_vacant_then_vacancy_reason:
             if management.vacant:
                 if not management.vacancy_note:
+                    instance_error["vacancy_note"] = True
                     errors.append(
                         f"Row {counter}: Vacancy reason is required if unit is vacant. Please update below, then save "
                         f"and validate. ")
         #  check for gross area and net area
         if rule.gross_area_then_net_area:
             if not management.gross_area and not management.net_area:
+                instance_error["gross_area"] = True
+                instance_error["net_area"] = True
                 errors.append(
                     f"Row {counter}: Either net or gross area is required. Please update below, then save and validate.")
             if management.gross_area:
                 if management.gross_area < 1 and not management.net_area:
-                    errors.append(
-                        f"Gross area cannot be less than zero if net area is not provided in row {counter}.")
+                    instance_error["gross_area"] = True
             if management.net_area:
                 if management.net_area < 1 and not management.gross_area:
+                    instance_error["net_area"] = True
                     errors.append(
                         f"Net area cannot be less than zero if gross area is not provided in row {counter}.")
+
         # check for Option
         if rule.option_then_date_provided:
             # option_type_landlord_tenant_mutual and option_type_break_purchase_renew  is provided then there must be
             # date
             if management.option_by_code or management.type_code:
                 if not management.to_date or not management.from_date:
+                    if not management.to_date:
+                        instance_error["to_date"] = True
+                    if not management.from_date:
+                        instance_error["from_date"] = True
                     errors.append(
                         f"Row {counter}: Either the option from date or the option to date is required. Please update "
                         f"below, then save and validate.")
+
         # check for index
         if rule.index_then_date:
             if management.index_type or management.value:
                 if not management.index_date:
+                    instance_error["index_date"] = True
                     errors.append(f"row {counter}: index date needs to be provided if a value exists.")
+        # check for the vacant
+        if rule.vacant_required:
+            # fund_id
+            # property_id
+            # unit_id
+            # unit_type
+            # is_vacant
+            # ross/net area
+            if not management.fund_id:
+                errors.append(f"row {counter}: fund_id needs to be provided if property is not vacant")
+                instance_error["fund_id"] = True
+            if not management.property_id:
+                errors.append(f"row {counter}: property_id needs to be provided if property is not vacant")
+                instance_error["property_id"] = True
+            if not management.unit_id:
+                errors.append(f"row {counter}: unit_id needs to be provided if property is not vacant")
+                instance_error["unit_id"] = True
+            if not management.unit_type:
+                errors.append(f"row {counter}: unit_type needs to be provided if property is not vacant")
+                instance_error["unit_type"] = True
+            if not management.gross_area:
+                errors.append(f"row {counter}: gross_area needs to be provided if property is not vacant")
+                instance_error["gross_area"] = True
+            if not management.net_area:
+                errors.append(f"row {counter}: net_area needs to be provided if property is not vacant")
+                instance_error["net_area"] = True
+
         for field in management._meta.get_fields():
             if isinstance(field, DateField):
                 start_datetime = datetime.now() - timedelta(days=365 * 100)
@@ -328,10 +375,14 @@ def check_validation_on_management(contract: Contract):
                 field_value = getattr(management, field.name)
                 if field_value:
                     if field_value < start_datetime.date() or field_value > future_datetime.date():
+                        instance_error[field.name] = True
                         errors.append(
                             f"Row {counter}: {field.name.title()}: The date you entered is not logical date. Please update below, "
                             f"then Save and validate")
-    return errors
+        # append the error
+        instances_errors.append(instance_error)
+
+    return errors, instances_errors
 
 
 def export_management_csv(contract):
@@ -357,3 +408,69 @@ def export_management_csv(contract):
         row = [getattr(obj, f) for f in fields]
         writer.writerow(row)
     return response
+
+# def check_validation_on_management(contract: Contract):
+#     """
+#     this is used to validate the management model with the default value that is supposed to be there
+#     :param contract:
+#     :return:
+#     """
+#
+#     rule = ManagementRule.objects.filter(user=contract.user).first()
+#     if not rule:
+#         rule = ManagementRule.objects.create(user=contract.user)
+#     managements = contract.management_set.all()
+#     # loop through the management and check for the required stuff in each row
+#     counter = 0
+#     errors = []
+#
+#     for management in managements:
+#         counter += 1
+#         # check is vacant on rule
+#         if rule.is_vacant_then_vacancy_reason:
+#             if management.vacant:
+#                 if not management.vacancy_note:
+#                     errors.append(
+#                         f"Row {counter}: Vacancy reason is required if unit is vacant. Please update below, then save "
+#                         f"and validate. ")
+#         #  check for gross area and net area
+#         if rule.gross_area_then_net_area:
+#             if not management.gross_area and not management.net_area:
+#                 errors.append(
+#                     f"Row {counter}: Either net or gross area is required. Please update below, then save and validate.")
+#             if management.gross_area:
+#                 if management.gross_area < 1 and not management.net_area:
+#                     errors.append(
+#                         f"Gross area cannot be less than zero if net area is not provided in row {counter}.")
+#             if management.net_area:
+#                 if management.net_area < 1 and not management.gross_area:
+#                     errors.append(
+#                         f"Net area cannot be less than zero if gross area is not provided in row {counter}.")
+#         # check for Option
+#         if rule.option_then_date_provided:
+#             # option_type_landlord_tenant_mutual and option_type_break_purchase_renew  is provided then there must be
+#             # date
+#             if management.option_by_code or management.type_code:
+#                 if not management.to_date or not management.from_date:
+#                     errors.append(
+#                         f"Row {counter}: Either the option from date or the option to date is required. Please update "
+#                         f"below, then save and validate.")
+#         # check for index
+#         if rule.index_then_date:
+#             if management.index_type or management.value:
+#                 if not management.index_date:
+#                     errors.append(f"row {counter}: index date needs to be provided if a value exists.")
+#         for field in management._meta.get_fields():
+#             if isinstance(field, DateField):
+#                 start_datetime = datetime.now() - timedelta(days=365 * 100)
+#                 future_datetime = datetime.now() + timedelta(days=365 * 100)
+#                 # if the field name is time stamp continue
+#                 if field.name == "timestamp":
+#                     continue
+#                 field_value = getattr(management, field.name)
+#                 if field_value:
+#                     if field_value < start_datetime.date() or field_value > future_datetime.date():
+#                         errors.append(
+#                             f"Row {counter}: {field.name.title()}: The date you entered is not logical date. Please update below, "
+#                             f"then Save and validate")
+#     return errors

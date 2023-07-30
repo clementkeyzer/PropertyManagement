@@ -13,11 +13,30 @@
         }
 
 
+        td.error_exist_class > input {
+            background-color: #EAD0DB;
+            color: black;
+        }
+
     </style>
 {% endblock %}
 
 {% block content %}
     <div class="col-12 mt-30">
+        <div class="d-flex justify-content-end align-content-end m-3">
+            {% if validate_errors|length > 0 %}
+                <button class="btn btn-outline-primary my-2" data-bs-toggle="modal" data-bs-target="#validate-errors">
+                    Show Validation Errors
+                </button>
+            {% endif %}
+            {% if required_field_errors|length > 0 %}
+                <button class="btn btn-outline-primary my-2"
+                        data-bs-toggle="modal" data-bs-target="#required-fields"
+                >Show Required Fields
+                </button>
+            {% endif %}
+
+        </div>
         <div class="card border-0">
             <div class="card-header">
                 <h6>{{ contract.name }}</h6>
@@ -52,8 +71,9 @@
                                         <input type="hidden" name="id" value="{{ form.instance.id }}">
                                         {% for field in form.visible_fields %}
                                             {% if field.name != "contract"  and field.name != "user" and field.name != "timestamp" %}
-                                                <td style="min-width: 100px">
-
+                                                {% comment %} So i returned the error exists class {% endcomment %}
+                                                {% check_error_field_name form.instance.id field.name instances_errors as error_exist_class %}
+                                                <td style="min-width: 100px;" class="{{ error_exist_class }}">
                                                     {% crispy_field field form_show_labels=False %}
                                                 </td>
                                             {% endif %}
@@ -71,7 +91,7 @@
                                     style=" background-color: #1B3F7F;color: white"
                             >Save
                             </button>
-                            <a href="{% url "validate_contract" contract.id %}" class="btn mx-2 "
+                            <a href="{% url "contract_update" contract.id %}" class="btn mx-2 "
                                style="background-color: #9D2154;color: white"
                             >Validate
                             </a>
@@ -81,6 +101,50 @@
 
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-basic modal fade" id="validate-errors" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content modal-bg-white ">
+                <div class="modal-header">
+                    <h6 class="modal-title">Validation Errors</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="uil uil-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for item in validate_errors %}
+                        <p>{{ item }}</p>
+                    {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-basic modal fade" id="required-fields" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content modal-bg-white ">
+                <div class="modal-header">
+                    <h6 class="modal-title">Required Fields Errors</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="uil uil-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for item in required_field_errors %}
+                        <p>{{ item }}</p>
+                    {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>

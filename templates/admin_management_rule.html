@@ -99,7 +99,8 @@
                 <div class="card-body">
                     <div class="basic-form-wrapper" style="max-width: 99%">
 
-                        <form action="{% url "admin_contract_rules_detail" management_rule.id %}" method="post" class="form">
+                        <form action="{% url "admin_contract_rules_detail" management_rule.id %}" method="post"
+                              class="form">
                             {% csrf_token %}
 
                             <div class=" table-container">
@@ -183,6 +184,33 @@
                                                     checked
                                                     {% endif %}
                                                     id="id_is_vacant_then_vacancy_reason"></div>
+
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><p><b>Vacant</b></p></td>
+
+                                        <td style="">
+                                            <div class="" style="max-width: 200px;word-break: break-all">
+                                                If "Vacant" is 0, the mandatory fields are: fund_id, property_id,
+                                                unit_id,
+                                                unit_type, is_vacant, and gross/net area. <br> They capture essential
+                                                property
+                                                information, unit classifications, and vacancy status for effective
+                                                property
+                                                management.
+                                            </div>
+
+                                        </td>
+                                        <td style="min-width:50px;max-width: 50px">
+                                            <div id="id_is_vacant_then_vacancy_reason" class="form-check"><input
+                                                    type="checkbox" name="is_vacant_then_vacancy_reason"
+                                                    class="checkboxinput form-check-input"
+                                                    {% if management_rule.vacant_required %}
+                                                    checked
+                                                    {% endif %}
+                                                    id="id_vacant_required"></div>
 
                                         </td>
 

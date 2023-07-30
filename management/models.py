@@ -133,7 +133,8 @@ IF net_area is null or 0 THEN gross_area must be > 0
 IF there is an option on the contract THEN it must be indicated how long the option lasts (with start and end date of the option)
  IF there is an option on the contract THEN a notice term must be entered
 IF there is an index on the contract THEN there must also be an index date and an index type
-IF there is a step rent THEN there must also be a start date for the next step rent ter (so there must be 2 values and 2 dates)"""
+IF there is a step rent THEN there must also be a start date for the next step rent ter (so there must be 2 values and 2 dates)
+"""
 
 
 class ManagementRule(models.Model):
@@ -141,12 +142,20 @@ class ManagementRule(models.Model):
     this is used to make rules which applies to each individual
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    gross_area_then_net_area = models.BooleanField(default=False)
-    is_vacant_then_vacancy_reason = models.BooleanField(default=False)
+    gross_area_then_net_area = models.BooleanField(default=True)
+    is_vacant_then_vacancy_reason = models.BooleanField(default=True)
+    vacant_required = models.BooleanField(default=True)
+    #     1. we need a rule something like: IF Vacant = 0 THEN these fields are required:
+    #         a. fund_id
+    #         b. property_id
+    #         c. unit_id
+    #         d. unit_type
+    #         e. is_vacant
+    #         f. gross/net area
     #  if the option type and by is provided then the date must also be provided
-    option_then_date_provided = models.BooleanField(default=False)
+    option_then_date_provided = models.BooleanField(default=True)
     # if value and index_frequency is provided then the date must also be provided
-    index_then_date = models.BooleanField(default=False)
+    index_then_date = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
 

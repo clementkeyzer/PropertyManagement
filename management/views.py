@@ -11,7 +11,6 @@ from django.forms import formset_factory
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
-# Create your views here.
 from django.views import View
 from django.views.generic import ListView
 
@@ -128,17 +127,39 @@ class ContractUpdateView(LoginRequiredMixin, ListView):
         # context['item_form'] = ManagementUpdate()
         context['exclude_management_fields'] = ["user", "contract", "id", "timestamp"]
         context["contract_id"] = self.kwargs['id']
+        # the contract
         contract = Contract.objects.filter(id=self.kwargs['id']).first()
 
+        # user custom validation
+        validate_errors, instances_errors_1 = check_validation_on_management(contract)
+        # First we check for required fields
+        required_field_errors, instances_errors_2 = check_required_field_to_management(contract)
+        # sort the errors
+        validate_errors = sorted(validate_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+        required_field_errors = sorted(required_field_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+
+        instances_errors = instances_errors_1 + instances_errors_2
         #  new
         context["formset"] = [ManagementForm(instance=instance) for instance in contract.management_set.all()]
         context["contract"] = Contract.objects.filter(id=self.kwargs['id']).first()
+        # send the both errors and other errors
+        context["required_field_errors"] = required_field_errors
+        context["validate_errors"] = validate_errors
+        context["instances_errors"] = instances_errors
+        #  add all the errors to check
+        errors = instances_errors + validate_errors + required_field_errors
+        if len(errors) > 0:
+            contract.status = "PENDING"
+            contract.save()
+        else:
+            contract.status = "SUCCESS"
+            contract.save()
         return context
 
 
 class UpdateAllContractAPIView(View):
     """
-    This view is used to update all fields from javasript post request using xml for the excel page
+    This view is used to update all fields from javascript post request using xml for the Excel page
     """
 
     def post(self, request, id):
@@ -305,51 +326,12 @@ class UploadContractView(LoginRequiredMixin, View):
                 for item in error_list:
                     messages.error(request, item)
                     # if the error is too much redirect back to home page to upload again
-                return redirect("validate_contract", contract.id)
+                return redirect("contract_update", contract.id)
             except Exception as e:
                 contract.delete()
                 messages.error(request, f'Error uploading file: {e}')
                 return redirect("contract")
         return redirect("contract")
-
-
-class ValidateContractView(LoginRequiredMixin, View):
-    """
-    this view is handling the validation of a contract, and it redirects the user to either the detail page or the
-    update page base on the status of the contract
-    """
-
-    def get(self, request, id):
-        contract = Contract.objects.filter(id=id).first()
-        if not id:
-            # redirect back to the page which  it comes from
-            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
-        errors = []
-        # user custom validation
-        validate_errors = check_validation_on_management(contract)
-        # First we check for required fields
-        check_errors = check_required_field_to_management(contract)
-
-        #  check if the length of the error is greater than zero if it is then
-        #  we need to direct the user to the update page
-        errors += check_errors
-        errors += validate_errors
-
-        errors = sorted(errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
-
-        if len(errors) > 0:
-            contract.status = "PENDING"
-            contract.save()
-            for error in errors:
-                messages.error(request, error)
-            return redirect("contract_update", contract.id)
-        else:
-            contract.status = "SUCCESS"
-            contract.save()
-            error_messages = [message for message in messages.get_messages(request) if message.level == messages.ERROR]
-            if len(error_messages) <= 0:
-                messages.info(request, "The contract has been validated and is error-free.")
-        return redirect("contract_detail", contract.id)
 
 
 class DownloadUploadCSVView(LoginRequiredMixin, View):
