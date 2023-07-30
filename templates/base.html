@@ -226,40 +226,47 @@
     </div>
     <div class="contents">
         <div class="container-fluid">
+
+            {% if messages %}
+                <!-- Dismiss All Button -->
+
+
+                {% for message in messages %}
+                    {% if message.tags == "info" or message.tags == 'success' %}
+
+                        <div class="alert
+                                    alert-success text-white
+                                    p-2 alert-dismissible fade show text-center text-capitalize shadow-sm sentence "
+                             role="alert"
+                             style="background-color: #1B3F7F;">
+                            {{ message }}
+
+                            <button type="button" class="btn-close text-capitalize dismiss-all-button"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close">
+                                <img src="{% static "img/svg/x.svg" %}" alt="x" class="svg" aria-hidden="true"
+                                     style="color: white">
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="alert
+                                    alert-success text-white
+                                    p-2 alert-dismissible fade show text-center text-capitalize shadow-sm sentence"
+                             role="alert"
+                             style="background-color: #9D2154">
+                            {{ message }}
+
+                            <button type="button" class="btn-close text-capitalize dismiss-all-button"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close">
+                                <img src="{% static "img/svg/x.svg" %}" alt="x" class="svg" aria-hidden="true">
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
             <div class="social-dash-wrap">
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if message.tags == "info" or message.tags == 'success' %}
 
-                            <div class="alert
-                                    alert-success text-white
-                                    p-2 alert-dismissible fade show text-center text-capitalize shadow-sm sentence"
-                                 role="alert"
-                                 style="background-color: #1B3F7F;">
-                                {{ message }}
-
-                                <button type="button" class="btn-close text-capitalize" data-bs-dismiss="alert"
-                                        aria-label="Close">
-                                    <img src="{% static "img/svg/x.svg" %}" alt="x" class="svg" aria-hidden="true"
-                                         style="color: white">
-                                </button>
-                            </div>
-                        {% else %}
-                            <div class="alert
-                                    alert-success text-white
-                                    p-2 alert-dismissible fade show text-center text-capitalize shadow-sm sentence"
-                                 role="alert"
-                                 style="background-color: #9D2154">
-                                {{ message }}
-
-                                <button type="button" class="btn-close text-capitalize" data-bs-dismiss="alert"
-                                        aria-label="Close">
-                                    <img src="{% static "img/svg/x.svg" %}" alt="x" class="svg" aria-hidden="true">
-                                </button>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
                 {% block content %}
 
                 {% endblock %}
@@ -338,6 +345,44 @@
         setDateLimits(input);
     });
 
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dismissAllButton = document.getElementById("dismiss-all-btn");
+        const alertElements = document.querySelectorAll(".alert");
+
+        dismissAllButton.addEventListener("click", function () {
+            alertElements.forEach(function (alertElement) {
+                alertElement.classList.add("d-none");
+            });
+
+            dismissAllButton.classList.add("d-none"); // Hide the "Dismiss All" button
+        });
+
+        // Check if any alert is visible and show the "Dismiss All" button accordingly
+        function checkAlertsVisibility() {
+            let visibleAlerts = false;
+            alertElements.forEach(function (alertElement) {
+                if (!alertElement.classList.contains("d-none")) {
+                    visibleAlerts = true;
+                }
+            });
+
+            if (visibleAlerts) {
+                dismissAllButton.classList.remove("d-none");
+            } else {
+                dismissAllButton.classList.add("d-none");
+            }
+        }
+
+        // Call the checkAlertsVisibility function initially and on each click event
+        checkAlertsVisibility();
+        alertElements.forEach(function (alertElement) {
+            alertElement.querySelector(".btn-close").addEventListener("click", checkAlertsVisibility);
+        });
+    });
 </script>
 
 </body>

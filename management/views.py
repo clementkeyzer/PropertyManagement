@@ -322,11 +322,14 @@ class UploadContractView(LoginRequiredMixin, View):
                     contract.delete()
                     messages.error(request, f'Error uploading file: So many errors with invalid header name')
                     return redirect("contract")
-
-                for item in error_list:
-                    messages.error(request, item)
-                    # if the error is too much redirect back to home page to upload again
-                return redirect("contract_update", contract.id)
+                if len(error_list) > 0:
+                    for item in error_list:
+                        messages.error(request, item)
+                        # if the error is too much redirect back to home page to upload again
+                    return redirect("contract_update", contract.id)
+                else:
+                    messages.info(request, "The contract has been validated and is error-free.")
+                    return redirect("contract_detail", contract.id)
             except Exception as e:
                 contract.delete()
                 messages.error(request, f'Error uploading file: {e}')
