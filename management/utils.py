@@ -227,17 +227,29 @@ def check_required_field_to_management(contract: Contract):
     errors = []
     instances_errors = []
     counter = 0
+    not_required_field_names = [
+        "is_vacant",
+        "fund_id",
+        "property_id",
+        "unit_id",
+        "unit_type",
+        "gross_area",
+        "net_area",
+    ]
     for management in managements:
         instances_error = {}
         instances_error["id"] = management.id
         counter += 1
         # we made a custom check to attach user to the required fields
-        if user_management_rule.vacant_required:
-            return errors, instances_errors
+
         try:
             for field in required_fields._meta.fields:
                 if field.name == 'id' or field.name == "timestamp" or field.name == "user" or field.name == "contract":
                     continue
+                # if this rule is set then there are some rules that are not required
+                if user_management_rule.vacant_required:
+                    if field.name in not_required_field_names:
+                        continue
                 if getattr(required_fields, field.name):
                     if getattr(management, field.name) is None or getattr(management, field.name) == "":
                         instances_error[field.name] = True
