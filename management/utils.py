@@ -246,12 +246,17 @@ def check_required_field_to_management(contract: Contract):
             for field in required_fields._meta.fields:
                 if field.name == 'id' or field.name == "timestamp" or field.name == "user" or field.name == "contract":
                     continue
-                # if this rule is set then there are some rules that are not required
-                if user_management_rule.vacant_required:
-                    if field.name in not_required_field_names:
-                        continue
+                # get the vacant variables
+                property_is_vacant = management.vacant
                 if getattr(required_fields, field.name):
                     if getattr(management, field.name) is None or getattr(management, field.name) == "":
+                        # if this rule is set then there are some rules that are not required
+                        if user_management_rule.vacant_required:
+                            # only check if the property is vacant
+                            if property_is_vacant:
+                                # check if the fields are required
+                                if field.name not in not_required_field_names:
+                                    continue
                         instances_error[field.name] = True
                         errors.append(
                             f"Row {counter}: {field.name.title()} is a required field. Please update below, then save and "
