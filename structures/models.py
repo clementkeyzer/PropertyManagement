@@ -81,6 +81,7 @@ class DataStructureRequiredField(models.Model):
     """
     the datastructure of the property management
     """
+    user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
     lease_id = models.BooleanField(default=True)
     date_of_lease_date = models.BooleanField(default=True)
     first_day_of_term_date = models.BooleanField(default=True)
@@ -127,6 +128,20 @@ class DataStructureRequiredField(models.Model):
     value_sr2 = models.BooleanField(default=False)
     index_date_sr2 = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+def post_save_create_data_structure_required_fields(sender, instance, *args, **kwargs):
+    """
+    This creates a user data structurw once a user is being created
+    :param instance:  the user created or updated
+    """
+    if instance:
+        data_structure_required_fields = DataStructureRequiredField.objects.filter(user=instance).first()
+        if not data_structure_required_fields:
+            DataStructure.objects.create(user=instance)
+
+
+post_save.connect(post_save_create_data_structure_required_fields, sender=User)
 
 
 def post_save_create_data_structure(sender, instance, *args, **kwargs):

@@ -221,7 +221,7 @@ def check_required_field_to_management(contract: Contract):
     managements = contract.management_set.all()
     user_management_rule = ManagementRule.objects.filter(user=contract.user).first()
 
-    required_fields = DataStructureRequiredField.objects.first()
+    required_fields = DataStructureRequiredField.objects.filter(user=contract.user)
     if not required_fields:
         required_fields = DataStructureRequiredField.objects.create()
     errors = []

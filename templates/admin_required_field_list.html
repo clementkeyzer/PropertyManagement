@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+
+{% block css %}
+    <style>
+
+        .table-container {
+            height: auto; /* Set the desired height */
+            overflow-y: scroll; /* Enable vertical scrolling */
+            scrollbar-width: thin; /* Set the width of the scrollbar */
+            scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
+        }
+
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="breadcrumb-main">
+                <h4 class="text-capitalize breadcrumb-title">Rules</h4>
+                <div class="breadcrumb-action justify-content-center flex-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url "admin_dashboard" %}"><i
+                                    class="uil uil-estate"></i>Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Rules</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-25">
+            <div class="card border-0 px-25">
+                <div class="card-header px-0 border-0">
+                    <h6>Rules</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-container">
+                        <table class="table table--default table-borderless">
+                            <thead>
+                            <tr>
+                                <th style="font-weight: bolder !important;">User</th>
+                                <th>Is Vacant</th>
+                                <th>Fund Id</th>
+                                <th>Unit Id</th>
+                                <th>Unit Type</th>
+                                <th>Property ID</th>
+                                <th>Gross Area</th>
+                                <th>Net Area</th>
+                                <th>Timestamp</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+
+                            {% for item in object_list %}
+                                <tr>
+
+                                    <td>
+                                        <a href="{% url "update_structure_required_fields" item.id %}">
+                                            {% if item.user.email %}
+                                                {{ item.user.email }}
+                                            {% else %}
+                                                .......
+                                            {% endif %}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {% if item.is_vacant %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                True
+                                            </h4>
+                                        {% else %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                False
+                                            </h4>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.fund_id %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                True
+                                            </h4>
+                                        {% else %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                False
+                                            </h4>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.unit_id %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                True
+                                            </h4>
+                                        {% else %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                False
+                                            </h4>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.unit_type %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                True
+                                            </h4>
+                                        {% else %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                False
+                                            </h4>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.property_id %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                True
+                                            </h4>
+                                        {% else %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                False
+                                            </h4>
+                                        {% endif %}
+                                    </td>
+
+
+                                    <td>
+                                        {% if item.gross_area %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                True
+                                            </h4>
+                                        {% else %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                False
+                                            </h4>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.net_area %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #1B3F7F; border-radius: 2px; width: 70px">
+                                                True
+                                            </h4>
+                                        {% else %}
+                                            <h4 class="badge  badge-dot--big"
+                                                style="background-color: #9D2154; border-radius: 2px; width: 70px">
+                                                False
+                                            </h4>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.timestamp }}</td>
+                                </tr>
+
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-end pt-30">
+                            <nav class="dm-page ">
+                                <ul class="dm-pagination d-flex">
+                                    {% if is_paginated %}
+                                        <li class="dm-pagination__item">
+                                            {% if page_obj.has_previous %}
+                                                <a href="{% paginate_url page_obj.previous_page_number 'page' request.GET.urlencode %}"
+                                                   class="dm-pagination__link pagination-control"><span
+                                                        class="la la-angle-left"></span></a>
+                                            {% else %}
+                                                <a href="#" class="dm-pagination__link pagination-control"><span
+                                                        class="la la-angle-left"></span></a>
+                                            {% endif %}
+                                            {% get_proper_elided_page_range paginator page_obj.number as page_range %}
+                                            {% for i in page_range %}
+                                                {% if page_obj.number == i %}
+                                                    <a href="#" class="dm-pagination__link active"><span
+                                                            class="page-number">{{ i }}</span></a>
+                                                {% else %}
+                                                    <a href="{% paginate_url i 'page' request.GET.urlencode %}"
+                                                       class="dm-pagination__link"><span
+                                                            class="page-number">{{ i }}</span></a>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if page_obj.has_next %}
+                                                <a href="{% paginate_url page_obj.next_page_number 'page' request.GET.urlencode %}"
+                                                   class="dm-pagination__link pagination-control"><span
+                                                        class="la la-angle-right"></span></a>
+                                            {% else %}
+                                                <a href="#" class="dm-pagination__link pagination-control"><span
+                                                        class="la la-angle-right"></span></a>
+
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
