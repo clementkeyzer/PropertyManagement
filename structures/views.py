@@ -66,22 +66,23 @@ class AdminUpdateRetrieveRequiredFieldsView(LoginRequiredMixin, AdminRequiredMix
     this is used to update required fields
     """
 
-    def get(self, request):
+    def get(self, request, id=None):
         # check if the user has permission to set the required fields
         if self.request.user.is_staff == False and self.request.user.is_superuser == False:
             messages.info(request, "You dont have permission to set the required fields")
             return redirect("upload_data")
-        data_structure_required_fields = DataStructureRequiredField.objects.first()
+        data_structure_required_fields = DataStructureRequiredField.objects.filter(id=id).first()
         if not data_structure_required_fields:
-            data_structure_required_fields = DataStructureRequiredField.objects.create()
+            messages.error(request, "Required field does not exists")
+            return redirect("data_structure_required_fields")
         form = DataStructureRequiredFieldForm(instance=data_structure_required_fields)
         context = {
             "form": form
         }
         return render(request, "admin_update_required_fields.html", context)
 
-    def post(self, request):
-        data_structure_required_field = DataStructureRequiredField.objects.first()
+    def post(self, request, id=None):
+        data_structure_required_field = DataStructureRequiredField.objects.filter(id=id).first()
         form = DataStructureRequiredFieldForm(data=self.request.POST, instance=data_structure_required_field)
         if form.is_valid():
             form.save()
@@ -112,9 +113,10 @@ class AdminUpdateRetrieveRequiredFieldsView(LoginRequiredMixin, AdminRequiredMix
 
     def post(self, request, id=None):
         data_structure_required_field = get_object_or_404(DataStructureRequiredField, id=id)
-
+        user = data_structure_required_field.user
         form = DataStructureRequiredFieldForm(data=request.POST, instance=data_structure_required_field)
         if form.is_valid():
+            form.instance.user = user
             form.save()
             messages.info(request, "Successfully update required fields form")
         else:

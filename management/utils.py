@@ -223,7 +223,7 @@ def check_required_field_to_management(contract: Contract):
 
     required_fields = DataStructureRequiredField.objects.filter(user=contract.user)
     if not required_fields:
-        required_fields = DataStructureRequiredField.objects.create()
+        required_fields = DataStructureRequiredField.objects.create(user=contract.user)
     errors = []
     instances_errors = []
     counter = 0

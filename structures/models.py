@@ -81,7 +81,7 @@ class DataStructureRequiredField(models.Model):
     """
     the datastructure of the property management
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     lease_id = models.BooleanField(default=True)
     date_of_lease_date = models.BooleanField(default=True)
     first_day_of_term_date = models.BooleanField(default=True)
@@ -138,7 +138,7 @@ def post_save_create_data_structure_required_fields(sender, instance, *args, **k
     if instance:
         data_structure_required_fields = DataStructureRequiredField.objects.filter(user=instance).first()
         if not data_structure_required_fields:
-            DataStructure.objects.create(user=instance)
+            data_structure_required_fields = DataStructureRequiredField.objects.create(user=instance)
 
 
 post_save.connect(post_save_create_data_structure_required_fields, sender=User)
