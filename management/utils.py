@@ -287,8 +287,8 @@ def check_header_in_structure(headers, structure):
                             break
                     if not found_key:
                         error_list.append(
-                            f"Invalid header: '{value}'. Please change the mapping or provide a valid header"
-                            f" in your upload file. The current upload is cancelled."
+                            f"No matching header found: '{value}'. Adjust the mapping if this is a required field. Otherwise, you can"
+                            f" ignore this message."
                         )
     except:
         pass
