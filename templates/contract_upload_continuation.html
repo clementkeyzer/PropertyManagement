@@ -33,28 +33,52 @@
                 <h2>{{ contract.name }}</h2>
             </div>
             <div class="card-body p-5">
+                {% if invalid_header_errors|length > 0 %}
+                    <div class="d-flex align-items-center">
+                        <p style="font-size: 16px;">
+                            There are {{ invalid_header_errors|length }} non-matching headers found. Adjust the mapping
+                            if
+                            these are
+                            required fields.
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#invalid_header_errors"
+                               style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
+                                Click to list
+                            </a>
+                            or
+                            <a href="{% url 'contract_delete_with_id' contract.id %}"
+                               style="color: #9D2154; font-weight: bold; font-size: 16px;">
+                                abort the upload
+                            </a>
+                            .
+                        </p>
+                    </div>
+                {% endif %}
+                {% if required_field_errors|length > 0 %}
+                    <div class="d-flex align-items-center">
+                        <p style="font-size: 16px;">
+                            There are {{ required_field_errors|length }} instances of required data missing.
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#required_field_errors"
+                               style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
+                                Click to list
+                            </a>
+                            or
+                            <a href="{% url 'contract_delete_with_id' contract.id %}"
+                               style="color: #9D2154; font-weight: bold; font-size: 16px;">
+                                abort the upload
+                            </a>
+                            .
+                        </p>
+                    </div>
+                {% endif %}
                 <div class="d-flex align-items-center">
                     <p style="font-size: 16px;">
-                        Detected {{ error_list|length }} non-matching headers. Please adjust the mapping if any of these
-                        are required fields.
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#invalid-mapping"
-                           style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
-                            Click here
-                        </a>
-                        to view the mapping or
-                        <a href="{% url 'contract_delete_with_id' contract.id %}"
-                           style="color: #9D2154; font-weight: bold; font-size: 16px;">
-                            delete the upload
-                        </a>
-                        . Alternatively, you can
+                        Alternatively, you can
                         <a href="{% url 'contract_update' contract.id %}"
                            style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
                             continue
-                        </a>
-                        .
+                        </a> .
                     </p>
                 </div>
-
 
             </div>
         </div>
@@ -62,7 +86,8 @@
     </div>
 
 
-    <div class="modal-basic modal fade" id="invalid-mapping" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-basic modal fade" id="invalid_header_errors" tabindex="-1" style="display: none;"
+         aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content modal-bg-white ">
                 <div class="modal-header">
@@ -72,7 +97,31 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {% for item in error_list %}
+                    {% for item in invalid_header_errors %}
+                        <p>{{ item }}</p>
+                    {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                            style=" background-color: #1B3F7F;color: white">Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-basic modal fade" id="required_field_errors" tabindex="-1" style="display: none;"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content modal-bg-white ">
+                <div class="modal-header">
+                    <h6 class="modal-title">Required Fields</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="uil uil-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for item in required_field_errors %}
                         <p>{{ item }}</p>
                     {% endfor %}
 
@@ -95,3 +144,4 @@
 
     </script>
 {% endblock %}
+

@@ -276,7 +276,7 @@ class UploadContractView(LoginRequiredMixin, View):
 
                 property_datas, header_dictionary = convert_file_to_dictionary(property_file)
                 #  validate the headers
-                error_list = check_header_in_structure(headers=header_dictionary, structure=structure)
+                invalid_header_errors = check_header_in_structure(headers=header_dictionary, structure=structure)
                 # loop through the property data
                 for data in property_datas:
                     management = Management()
@@ -332,15 +332,33 @@ class UploadContractView(LoginRequiredMixin, View):
                     management.contract = contract
                     management.user = self.request.user
                     management.save()
+                # user custom validation
+                validate_errors, _ = check_validation_on_management(contract)
+                # First we check for required fields
+                required_field_errors, _ = check_required_field_to_management(contract)
+                # sort the errors
+                validate_errors = sorted(validate_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+                required_field_errors = sorted(required_field_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+
                 # check if the length of the error is greater than 50 and if it is i delete
-                if len(error_list) >= 50:
+                total_error_counts = len(validate_errors) + len(required_field_errors) + len(invalid_header_errors)
+
+                if len(invalid_header_errors) >= 50:
                     contract.delete()
                     messages.error(request, f'Error uploading file: So many errors with invalid header name')
                     return redirect("contract")
-                if len(error_list) > 0:
+                # if total errors count is greater than zero the user will move to the continue page
+                if total_error_counts > 0:
+                    # redirect to the continue page
                     return render(request, "contract_upload_continuation.html",
-                                  {"contract": contract, "error_list": error_list})
+                                  {"contract": contract,
+                                   "invalid_header_errors": invalid_header_errors,
+                                   "required_field_errors": required_field_errors,
+                                   "validate_errors": validate_errors,
+                                   })
                 else:
+                    contract.status = "SUCCESS"
+                    contract.save()
                     messages.info(request, "The contract has been validated and is error-free.")
                     return redirect("contract_detail", contract.id)
             except Exception as e:
