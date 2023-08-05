@@ -45,6 +45,21 @@ class ContractDeleteView(View):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+class ContractDeleteWithIDView(View):
+    """
+    this is used to delete a Contract
+    """
+
+    def get(self, request, id):
+        #  this  deletes a redirect back to the page
+        item_id = id
+        if item_id:
+            history = Contract.objects.filter(id=item_id, user=self.request.user).first()
+            if history:
+                history.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 class ContractDetailView(LoginRequiredMixin, ListView):
     """
     this is the detail page of the contract
@@ -323,10 +338,8 @@ class UploadContractView(LoginRequiredMixin, View):
                     messages.error(request, f'Error uploading file: So many errors with invalid header name')
                     return redirect("contract")
                 if len(error_list) > 0:
-                    for item in error_list:
-                        messages.error(request, item)
-                        # if the error is too much redirect back to home page to upload again
-                    return redirect("contract_update", contract.id)
+                    return render(request, "contract_upload_continuation.html",
+                                  {"contract": contract, "error_list": error_list})
                 else:
                     messages.info(request, "The contract has been validated and is error-free.")
                     return redirect("contract_detail", contract.id)

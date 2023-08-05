@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load custom_filters %}
+
+{% block css %}
+    <style>
+
+        /* Media query for screens with a maximum width of 768px or smaller */
+        @media (max-width: 768px) {
+            .modal-dialog {
+                max-width: 80vw !important; /* Adjust the width for smaller screens */
+            }
+        }
+
+        /* Media query for screens with a minimum width of 1200px or larger */
+        @media (min-width: 1200px) {
+            .modal-dialog {
+                max-width: 50vw !important; /* Adjust the width for larger screens */
+            }
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header color-dark fw-500">
+                Contract Continuation
+                <h2>{{ contract.name }}</h2>
+            </div>
+            <div class="card-body p-5">
+                <div class="d-flex align-items-center">
+                    <p style="font-size: 16px;">
+                        Detected {{ error_list|length }} non-matching headers. Please adjust the mapping if any of these
+                        are required fields.
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#invalid-mapping"
+                           style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
+                            Click here
+                        </a>
+                        to view the mapping or
+                        <a href="{% url 'contract_delete_with_id' contract.id %}"
+                           style="color: #9D2154; font-weight: bold; font-size: 16px;">
+                            delete the upload
+                        </a>
+                        . Alternatively, you can
+                        <a href="{% url 'contract_update' contract.id %}"
+                           style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
+                            continue
+                        </a>
+                        .
+                    </p>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="modal-basic modal fade" id="invalid-mapping" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content modal-bg-white ">
+                <div class="modal-header">
+                    <h6 class="modal-title">Invalid Headers</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="uil uil-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for item in error_list %}
+                        <p>{{ item }}</p>
+                    {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                            style=" background-color: #1B3F7F;color: white">Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+{% block script %}
+    <script>
+
+    </script>
+{% endblock %}
