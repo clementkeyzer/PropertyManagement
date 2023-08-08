@@ -162,8 +162,12 @@ class ContractUpdateView(LoginRequiredMixin, ListView):
         context["validate_errors"] = validate_errors
         context["instances_errors"] = instances_errors
         #  add all the errors to check
-        errors = instances_errors + validate_errors + required_field_errors
-        if len(errors) > 0:
+        errors = instances_errors + validate_errors
+        if len(required_field_errors) > 0:
+            contract.status = "PENDING"
+            contract.save()
+        elif any(len(error.keys()) > 1 for error in errors):
+            # if required field is zero and this errors within here have no values apart from id in their list of dict
             contract.status = "PENDING"
             contract.save()
         else:
@@ -341,14 +345,23 @@ class UploadContractView(LoginRequiredMixin, View):
                 required_field_errors = sorted(required_field_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
 
                 # check if the length of the error is greater than 50 and if it is i delete
-                total_error_counts = len(validate_errors) + len(required_field_errors) + len(invalid_header_errors)
+                total_error_counts = validate_errors + invalid_header_errors
 
                 if len(invalid_header_errors) >= 50:
                     contract.delete()
                     messages.error(request, f'Error uploading file: So many errors with invalid header name')
                     return redirect("contract")
-                # if total errors count is greater than zero the user will move to the continue page
-                if total_error_counts > 0:
+                elif len(required_field_errors) > 0:
+                    # redirect to the continue page
+
+                    return render(request, "contract_upload_continuation.html",
+                                  {"contract": contract,
+                                   "invalid_header_errors": invalid_header_errors,
+                                   "required_field_errors": required_field_errors,
+                                   "validate_errors": validate_errors,
+                                   })
+                elif any(len(error.keys()) > 1 for error in total_error_counts):
+                    # if total errors count is greater than zero the user will move to the continue page
                     # redirect to the continue page
                     return render(request, "contract_upload_continuation.html",
                                   {"contract": contract,
