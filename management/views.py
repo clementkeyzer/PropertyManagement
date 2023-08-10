@@ -25,6 +25,132 @@ from .utils import convert_string_int_to_bool, convert_string, query_items, \
 FormSet = formset_factory(ManagementForm, extra=0)
 
 
+class UploadContractView(LoginRequiredMixin, View):
+    """
+    this is used to upload Excel spreadsheet which is then read and can be used to create tables
+
+    """
+
+    def get(self, request):
+        # redirect the user to admin dashboard
+        if request.user.is_staff or request.user.is_superuser:
+            return redirect("admin_dashboard")
+        # create the structure for the user if not exists
+        if not DataStructure.objects.filter(user=self.request.user).first():
+            DataStructure.objects.create(user=self.request.user)
+        # get the contract
+        contracts = Contract.objects.filter(user=self.request.user)
+        context = {
+            "contracts": contracts,
+        }
+        return render(request, "index.html", context)
+
+    def post(self, request):
+        global contract
+        if request.method == 'POST' and request.FILES['property_file']:
+            property_file = request.FILES['property_file']
+            clone_file = request.FILES['clone_file']
+            contract_name = request.POST.get("name")
+
+            if not contract_name or not property_file:
+                messages.warning(request, "Contract name or Excel File is required")
+                return redirect("upload_data")
+
+            try:
+                contract = Contract.objects.create(name=contract_name, user=self.request.user, file=clone_file)
+                structure = DataStructure.objects.filter(user=self.request.user).first()
+
+                property_datas, header_dictionary = convert_file_to_dictionary(property_file)
+                #  validate the headers
+                invalid_header_errors = check_header_in_structure(headers=header_dictionary, structure=structure)
+                # loop through the property data
+                for data in property_datas:
+                    management = Management()
+
+                    for field in structure._meta.get_fields():
+                        if field.name == "id" or field.name == "timestamp" or field.name == "user" or field.name == "contract":
+                            continue
+
+                        field_name = field.name
+                        user_field_name = getattr(structure, field_name)
+                        converted_field_name = convert_string(user_field_name)
+                        management_value = data.get(converted_field_name)
+
+                        #  we get attribute to be able to set the right value
+                        if isinstance(management._meta.get_field(field_name), models.BooleanField):
+                            # if it's a Boolean field
+                            convert_qs = ConverterTranslator.objects.filter(convert_type="BOOLEAN",
+                                                                            converted_string=convert_string(
+                                                                                management_value)).first()
+                            if convert_qs:
+                                management_value = convert_qs.translate_to
+                            setattr(management, field_name, convert_string_int_to_bool(management_value))
+                        elif isinstance(management._meta.get_field(field_name), models.DateField):
+                            # if it's a date time field
+                            setattr(management, field_name, convert_date_format(management_value))
+                        elif isinstance(management._meta.get_field(field_name), models.DecimalField):
+                            # if it's a decimal field
+                            convert_qs = ConverterTranslator.objects.filter(convert_type="DECIMAL",
+                                                                            converted_string=convert_string(
+                                                                                management_value)).first()
+                            if convert_qs:
+                                management_value = convert_qs.translate_to
+                            setattr(management, field_name, convert_string_to_int(management_value))
+                        elif isinstance(management._meta.get_field(field_name), models.IntegerField):
+                            # if it's a integer field
+                            convert_qs = ConverterTranslator.objects.filter(convert_type="INT",
+                                                                            converted_string=convert_string(
+                                                                                management_value)).first()
+                            if convert_qs:
+                                management_value = convert_qs.translate_to
+                            setattr(management, field_name, convert_string_to_int(management_value))
+                        elif isinstance(management._meta.get_field(field_name), models.CharField):
+                            # if it's a integer field
+                            convert_qs = ConverterTranslator.objects.filter(convert_type="STRING",
+                                                                            converted_string=convert_string(
+                                                                                management_value)).first()
+                            if convert_qs:
+                                management_value = convert_qs.translate_to
+                            setattr(management, field_name, management_value)
+                        else:
+                            setattr(management, field_name, management_value)
+
+                    management.contract = contract
+                    management.user = self.request.user
+                    management.save()
+                # user custom validation
+                validate_errors, _ = check_validation_on_management(contract)
+                # First we check for required fields
+                required_field_errors, _ = check_required_field_to_management(contract)
+                # sort the errors
+                validate_errors = sorted(validate_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+                required_field_errors = sorted(required_field_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
+
+                # check if the length of the error is greater than 50 and if it is i delete
+                if len(invalid_header_errors) >= 50:
+                    contract.delete()
+                    messages.error(request, f'Error uploading file: So many errors with invalid header name')
+                    return redirect("contract")
+                elif len(required_field_errors) > 0 or len(validate_errors) > 0:
+                    # redirect to the continue page
+                    return render(request, "contract_upload_continuation.html",
+                                  {"contract": contract,
+                                   "invalid_header_errors": invalid_header_errors,
+                                   "required_field_errors": required_field_errors,
+                                   "validate_errors": validate_errors,
+                                   })
+                else:
+                    contract.status = "SUCCESS"
+                    contract.save()
+                    messages.info(request, "The contract has been validated and is error-free.")
+                    return redirect("contract_detail", contract.id)
+            except Exception as e:
+                contract.delete()
+                messages.error(request, f'Error uploading file: {e}')
+                return redirect("contract")
+        return redirect("contract")
+
+
 def custom_logout(request):
     logout(request)
     return redirect('upload_data')  # Redirect to the desired URL after logout
@@ -161,24 +287,20 @@ class ContractUpdateView(LoginRequiredMixin, ListView):
         context["required_field_errors"] = required_field_errors
         context["validate_errors"] = validate_errors
         context["instances_errors"] = instances_errors
-        #  add all the errors to check
-        errors = instances_errors + validate_errors
 
-        error_count_greater_than_one = False
-        for error in errors:
-            if isinstance(error, dict):
-                if len(error.keys()) > 1:
-                    error_count_greater_than_one = True
-                    break
-        if len(required_field_errors) > 0:
+        if len(required_field_errors) > 0 or len(validate_errors):
             contract.status = "PENDING"
             contract.save()
-        elif error_count_greater_than_one:
-            # if required field is zero and this errors within here have no values apart from id in their list of dict
-            contract.status = "PENDING"
-            contract.save()
+            if len(required_field_errors) > 0:
+                messages.error(self.request,
+                               f"Missing Data: There are {len(required_field_errors)} instance(s) of required data "
+                               f"are missing .")
+            if len(validate_errors) > 0:
+                messages.error(self.request,
+                               f"Invalid Data: {len(validate_errors)} instance(s) of data validation issue.")
         else:
             contract.status = "SUCCESS"
+            messages.info(self.request, "The contract has been validated and is error-free.")
             contract.save()
         return context
 
@@ -248,149 +370,6 @@ class ContractListView(LoginRequiredMixin, DisableAdminRequiredMixin, ListView):
     def get_queryset(self):
         contract = Contract.objects.filter(user=self.request.user)
         return contract
-
-
-class UploadContractView(LoginRequiredMixin, View):
-    """
-    this is used to upload Excel spreadsheet which is then read and can be used to create tables
-
-    """
-
-    def get(self, request):
-        # redirect the user to admin dashboard
-        if request.user.is_staff or request.user.is_superuser:
-            return redirect("admin_dashboard")
-        # create the structure for the user if not exists
-        if not DataStructure.objects.filter(user=self.request.user).first():
-            DataStructure.objects.create(user=self.request.user)
-        # get the contract
-        contracts = Contract.objects.filter(user=self.request.user)
-        context = {
-            "contracts": contracts,
-        }
-        return render(request, "index.html", context)
-
-    def post(self, request):
-        global contract
-        if request.method == 'POST' and request.FILES['property_file']:
-            property_file = request.FILES['property_file']
-            clone_file = request.FILES['clone_file']
-            contract_name = request.POST.get("name")
-
-            if not contract_name or not property_file:
-                messages.warning(request, "Contract name or Excel File is required")
-                return redirect("upload_data")
-
-            try:
-                contract = Contract.objects.create(name=contract_name, user=self.request.user, file=clone_file)
-                structure = DataStructure.objects.filter(user=self.request.user).first()
-
-                property_datas, header_dictionary = convert_file_to_dictionary(property_file)
-                #  validate the headers
-                invalid_header_errors = check_header_in_structure(headers=header_dictionary, structure=structure)
-                # loop through the property data
-                for data in property_datas:
-                    management = Management()
-
-                    for field in structure._meta.get_fields():
-                        if field.name == "id" or field.name == "timestamp" or field.name == "user" or field.name == "contract":
-                            continue
-
-                        field_name = field.name
-                        user_field_name = getattr(structure, field_name)
-                        converted_field_name = convert_string(user_field_name)
-                        management_value = data.get(converted_field_name)
-
-                        #  we get attribute to be able to set the right value
-                        if isinstance(management._meta.get_field(field_name), models.BooleanField):
-                            # if it's a Boolean field
-                            convert_qs = ConverterTranslator.objects.filter(convert_type="BOOLEAN",
-                                                                            converted_string=convert_string(
-                                                                                management_value)).first()
-                            if convert_qs:
-                                management_value = convert_qs.translate_to
-                            setattr(management, field_name, convert_string_int_to_bool(management_value))
-                        elif isinstance(management._meta.get_field(field_name), models.DateField):
-                            # if it's a date time field
-                            setattr(management, field_name, convert_date_format(management_value))
-                        elif isinstance(management._meta.get_field(field_name), models.DecimalField):
-                            # if it's a decimal field
-                            convert_qs = ConverterTranslator.objects.filter(convert_type="DECIMAL",
-                                                                            converted_string=convert_string(
-                                                                                management_value)).first()
-                            if convert_qs:
-                                management_value = convert_qs.translate_to
-                            setattr(management, field_name, convert_string_to_int(management_value))
-                        elif isinstance(management._meta.get_field(field_name), models.IntegerField):
-                            # if it's a integer field
-                            convert_qs = ConverterTranslator.objects.filter(convert_type="INT",
-                                                                            converted_string=convert_string(
-                                                                                management_value)).first()
-                            if convert_qs:
-                                management_value = convert_qs.translate_to
-                            setattr(management, field_name, convert_string_to_int(management_value))
-                        elif isinstance(management._meta.get_field(field_name), models.CharField):
-                            # if it's a integer field
-                            convert_qs = ConverterTranslator.objects.filter(convert_type="STRING",
-                                                                            converted_string=convert_string(
-                                                                                management_value)).first()
-                            if convert_qs:
-                                management_value = convert_qs.translate_to
-                            setattr(management, field_name, management_value)
-                        else:
-                            setattr(management, field_name, management_value)
-
-                    management.contract = contract
-                    management.user = self.request.user
-                    management.save()
-                # user custom validation
-                validate_errors, _ = check_validation_on_management(contract)
-                # First we check for required fields
-                required_field_errors, _ = check_required_field_to_management(contract)
-                # sort the errors
-                validate_errors = sorted(validate_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
-                required_field_errors = sorted(required_field_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
-
-                # check if the length of the error is greater than 50 and if it is i delete
-                total_error_counts = validate_errors + invalid_header_errors
-                error_count_greater_than_one = False
-                for error in total_error_counts:
-                    if isinstance(error, dict):
-                        if len(error.keys()) > 1:
-                            error_count_greater_than_one = True
-                            break
-                if len(invalid_header_errors) >= 50:
-                    contract.delete()
-                    messages.error(request, f'Error uploading file: So many errors with invalid header name')
-                    return redirect("contract")
-                elif len(required_field_errors) > 0:
-                    # redirect to the continue page
-
-                    return render(request, "contract_upload_continuation.html",
-                                  {"contract": contract,
-                                   "invalid_header_errors": invalid_header_errors,
-                                   "required_field_errors": required_field_errors,
-                                   "validate_errors": validate_errors,
-                                   })
-                elif error_count_greater_than_one:
-                    # if total errors count is greater than zero the user will move to the continue page
-                    # redirect to the continue page
-                    return render(request, "contract_upload_continuation.html",
-                                  {"contract": contract,
-                                   "invalid_header_errors": invalid_header_errors,
-                                   "required_field_errors": required_field_errors,
-                                   "validate_errors": validate_errors,
-                                   })
-                else:
-                    contract.status = "SUCCESS"
-                    contract.save()
-                    messages.info(request, "The contract has been validated and is error-free.")
-                    return redirect("contract_detail", contract.id)
-            except Exception as e:
-                contract.delete()
-                messages.error(request, f'Error uploading file: {e}')
-                return redirect("contract")
-        return redirect("contract")
 
 
 class DownloadUploadCSVView(LoginRequiredMixin, View):

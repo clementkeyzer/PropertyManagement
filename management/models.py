@@ -203,3 +203,8 @@ def pre_save_create_converter_transalator(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_create_converter_transalator, sender=ConverterTranslator)
+
+
+
+
+
