@@ -74,7 +74,7 @@ class Management(models.Model):
     # option_to_date to to_date
     to_date = models.DateField(max_length=240, blank=True, null=True)
     # option_type_break_purchase_renew to type_code
-    type_code = models.IntegerField(blank=True, null=True)
+    option_type_code = models.IntegerField(blank=True, null=True)
     # option_type_landlord_tenant_mutual to option_by_code
     option_by_code = models.IntegerField(blank=True, null=True)
     term = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
@@ -192,7 +192,7 @@ class ConverterTranslator(models.Model):
         ordering = ["convert_type"]
 
 
-def pre_save_create_converter_transalator(sender, instance, *args, **kwargs):
+def pre_save_create_converter_translator(sender, instance, *args, **kwargs):
     """
     This is used to update the converted string before being saved
     """
@@ -202,9 +202,79 @@ def pre_save_create_converter_transalator(sender, instance, *args, **kwargs):
         instance.converted_string = convert_string(instance.supplied_value)
 
 
-pre_save.connect(pre_save_create_converter_transalator, sender=ConverterTranslator)
+pre_save.connect(pre_save_create_converter_translator, sender=ConverterTranslator)
+
+
+class RentSecurityDepositCode(models.Model):
+    """
+    this is used to convert values for editing security_type_code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
+
+
+class OptionCode(models.Model):
+    """
+    this is used to set value for Option Type Code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
+
+
+class OptionByCode(models.Model):
+    """
+    this is used to set value for Option by Code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
+
+
+class ChargeFrequencyCode(models.Model):
+    """
+    this is used to set value for Option Type Code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
+
+class CurrencyCode(models.Model):
+    """
+    this is used to set value for Option Type Code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
+
+
+class UnitType(models.Model):
+    """
+    this is used to set value for Option Type Code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
+
+
+class IndexFrequency(models.Model):
+    """
+    this is used to set value for Option Type Code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
+
+
+class IndexSeriesCode(models.Model):
+    """
+    this is used to set value for Option Type Code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
 
 
 
+
+class IndexType(models.Model):
+    """
+    this is used to set value for Option Type Code
+    """
+    index = models.CharField(max_length=250)
+    value = models.CharField(max_length=250)
 
 

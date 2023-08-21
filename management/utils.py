@@ -345,7 +345,7 @@ def check_validation_on_management(contract: Contract):
         if rule.option_then_date_provided:
             # option_type_landlord_tenant_mutual and option_type_break_purchase_renew  is provided then there must be
             # date
-            if management.option_by_code or management.type_code:
+            if management.option_by_code or management.option_type_code:
                 if not management.to_date or not management.from_date:
                     if not management.to_date:
                         instance_error["to_date"] = True

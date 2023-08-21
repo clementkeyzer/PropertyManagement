@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Contract, ManagementRule, Management
+from .models import Contract, ManagementRule, Management, RentSecurityDepositCode, OptionCode, OptionByCode, \
+    ChargeFrequencyCode, CurrencyCode, UnitType, IndexFrequency, IndexSeriesCode, IndexType
 
 
 # Register your models here.
@@ -52,3 +53,129 @@ class ManagementRuleAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Management, ManagementRuleAdmin)
+
+
+class RentSecurityDepositCodeRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(RentSecurityDepositCode, RentSecurityDepositCodeRuleAdmin)
+
+
+class OptionByCodeRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(OptionByCode, OptionByCodeRuleAdmin)
+
+
+class OptionCodeRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(OptionCode, OptionCodeRuleAdmin)
+
+
+class ChargeFrequencyCodeRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(ChargeFrequencyCode, ChargeFrequencyCodeRuleAdmin)
+
+
+class CurrencyCodeRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(CurrencyCode, CurrencyCodeRuleAdmin)
+
+
+class UnitTypeRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(UnitType, UnitTypeRuleAdmin)
+
+
+class IndexFrequencyRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(IndexFrequency, IndexFrequencyRuleAdmin)
+
+
+class IndexSeriesCodeRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(IndexSeriesCode, IndexSeriesCodeRuleAdmin)
+
+
+class IndexTypeRuleAdmin(admin.ModelAdmin):
+    list_display = [
+        "index",
+        "value",
+    ]
+    list_filter = [
+        "index",
+        "value", ]
+    search_fields = ('value',)
+
+
+admin.site.register(IndexType, IndexTypeRuleAdmin)

@@ -24,8 +24,8 @@ class DataStructure(models.Model):
     is_company = models.CharField(max_length=250, blank=True, null=True, default="is_company")
     from_date = models.CharField(max_length=240, blank=True, null=True, default="from_date")
     to_date = models.CharField(max_length=240, blank=True, null=True, default="to_date")
-    type_code = models.CharField(max_length=250, blank=True, null=True,
-                                 default="type_code")
+    option_type_code = models.CharField(max_length=250, blank=True, null=True,
+                                 default="option_type_code")
     option_by_code = models.CharField(max_length=250, blank=True, null=True,
                                       default="option_by_code")
     term = models.CharField(max_length=250, blank=True, null=True, default="term")
