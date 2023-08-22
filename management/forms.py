@@ -1,5 +1,6 @@
 # forms.py
 from django import forms
+from django.forms import NullBooleanSelect
 
 from .models import Management, ManagementRule, ConverterTranslator, RentSecurityDepositCode, OptionCode, OptionByCode, \
     ChargeFrequencyCode, CurrencyCode, UnitType, IndexFrequency, IndexSeriesCode, IndexType
@@ -31,8 +32,25 @@ class CustomSelectTypeCodeWidget(forms.Select):
 
 
 class MyModelChoiceField(forms.ModelChoiceField):
+    """
+    this is using a queryset to retrun the value shown on selectifield
+    """
+
     def label_from_instance(self, obj):
         return obj.value
+
+
+class CustomNullBooleanSelect(NullBooleanSelect):
+    def __init__(self, attrs=None):
+        default_attrs = {'class': 'form-select'}
+        if attrs:
+            default_attrs.update(attrs)
+        super().__init__(default_attrs)
+        self.choices = (
+            ('unknown', 'Null'),
+            ('true', 'Yes'),
+            ('false', 'No'),
+        )
 
 
 class ManagementForm(forms.ModelForm):
@@ -76,9 +94,6 @@ class ManagementForm(forms.ModelForm):
                                          widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     # changed this
-    # vat_code = forms.DecimalField(max_digits=10, decimal_places=2,
-    #                               widget=forms.NumberInput(attrs={'class': 'form-control'})
-    #                               )
     vat_code = forms.ChoiceField(
         widget=YesNoSelectWidget(attrs={'class': 'form-control'}),
         choices=[('1', 'Yes'), ('0', 'No')]
@@ -95,7 +110,6 @@ class ManagementForm(forms.ModelForm):
 
     # integer field
     # change this field
-    # option_type_code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
     option_type_code = MyModelChoiceField(
         queryset=OptionCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
@@ -119,7 +133,6 @@ class ManagementForm(forms.ModelForm):
         to_field_name='index'
     )
     # changed this
-    # index_series = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
     index_series = MyModelChoiceField(
         queryset=IndexSeriesCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
@@ -127,8 +140,6 @@ class ManagementForm(forms.ModelForm):
         to_field_name='index'
     )
     # changed this
-    # security_type_code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-
     security_type_code = MyModelChoiceField(
         queryset=RentSecurityDepositCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
@@ -151,9 +162,6 @@ class ManagementForm(forms.ModelForm):
     )
 
     # changed this
-    # term_frequency = forms.IntegerField(
-    #     widget=forms.NumberInput(attrs={'class': 'form-control'}),
-    # )
     term_frequency = MyModelChoiceField(
         queryset=ChargeFrequencyCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
@@ -161,7 +169,6 @@ class ManagementForm(forms.ModelForm):
         to_field_name='index'
     )
     # changed this
-    # index_frequency = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
     index_frequency = MyModelChoiceField(
         queryset=IndexFrequency.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
@@ -174,6 +181,16 @@ class ManagementForm(forms.ModelForm):
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
         empty_label='Select',
         to_field_name='index'
+    )
+
+    # booleans
+    vacant = forms.NullBooleanField(
+        widget=CustomNullBooleanSelect,
+        required=False,
+    )
+    is_company = forms.NullBooleanField(
+        widget=CustomNullBooleanSelect,
+        required=False,
     )
 
     class Meta:
