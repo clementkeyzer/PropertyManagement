@@ -30,6 +30,11 @@ class CustomSelectTypeCodeWidget(forms.Select):
         return option
 
 
+class MyModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.value
+
+
 class ManagementForm(forms.ModelForm):
     """
     this is the management form
@@ -91,64 +96,84 @@ class ManagementForm(forms.ModelForm):
     # integer field
     # change this field
     # option_type_code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    option_type_code = forms.ChoiceField(
+    option_type_code = MyModelChoiceField(
+        queryset=OptionCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in OptionCode.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
     # changed this
     # charge_frequency = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    charge_frequency = forms.ChoiceField(
+    charge_frequency = MyModelChoiceField(
+        queryset=ChargeFrequencyCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in ChargeFrequencyCode.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
     # changed this
     # option_by_code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    option_by_code = forms.ChoiceField(
+    option_by_code = MyModelChoiceField(
+        queryset=OptionByCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in OptionByCode.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
     # changed this
     # index_series = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    index_series = forms.ChoiceField(
+    index_series = MyModelChoiceField(
+        queryset=IndexSeriesCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in IndexSeriesCode.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
     # changed this
     # security_type_code = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
-    security_type_code = forms.ChoiceField(
+    security_type_code = MyModelChoiceField(
+        queryset=RentSecurityDepositCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in RentSecurityDepositCode.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
 
     # changed this
-    currency_code = forms.ChoiceField(
+    currency_code = MyModelChoiceField(
+        queryset=CurrencyCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in CurrencyCode.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
-    unit_type = forms.ChoiceField(
+    unit_type = MyModelChoiceField(
+        queryset=UnitType.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in UnitType.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
 
     # changed this
     # term_frequency = forms.IntegerField(
     #     widget=forms.NumberInput(attrs={'class': 'form-control'}),
     # )
-    term_frequency = forms.ChoiceField(
+    term_frequency = MyModelChoiceField(
+        queryset=ChargeFrequencyCode.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in ChargeFrequencyCode.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
     # changed this
     # index_frequency = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    index_frequency = forms.ChoiceField(
+    index_frequency = MyModelChoiceField(
+        queryset=IndexFrequency.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in IndexFrequency.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
     # changed this
-    index_type = forms.ChoiceField(
+    index_type = MyModelChoiceField(
+        queryset=IndexType.objects.all(),
         widget=CustomSelectTypeCodeWidget(attrs={'class': 'form-select'}),
-        choices=[("", 'Select'), *[(entry.index, entry.value) for entry in IndexType.objects.all()]]
+        empty_label='Select',
+        to_field_name='index'
     )
 
     class Meta:
