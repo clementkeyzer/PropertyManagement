@@ -53,12 +53,15 @@ class UploadContractView(LoginRequiredMixin, View):
             clone_file = request.FILES['clone_file']
             contract_name = request.POST.get("name")
             print("Reach here 1")
+            print(clone_file)
+            print(property_file)
 
             if not contract_name or not property_file:
                 messages.warning(request, "Contract name or Excel File is required")
                 return redirect("upload_data")
 
             try:
+                print("start ")
                 contract = Contract.objects.create(name=contract_name, user=self.request.user, file=clone_file)
                 print("Reach here 2")
                 structure = DataStructure.objects.filter(user=self.request.user).first()
