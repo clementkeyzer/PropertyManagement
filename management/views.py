@@ -47,6 +47,7 @@ class UploadContractView(LoginRequiredMixin, View):
 
     def post(self, request):
         global contract
+        contract = None  # Define the contract variable
         if request.method == 'POST' and request.FILES['property_file']:
             property_file = request.FILES['property_file']
             clone_file = request.FILES['clone_file']
@@ -145,7 +146,9 @@ class UploadContractView(LoginRequiredMixin, View):
                     messages.info(request, "The contract has been validated and is error-free.")
                     return redirect("contract_detail", contract.id)
             except Exception as e:
-                contract.delete()
+                # if contract is not none
+                if contract:
+                    contract.delete()
                 messages.error(request, f'Error uploading file: {e}')
                 return redirect("contract")
         return redirect("contract")
