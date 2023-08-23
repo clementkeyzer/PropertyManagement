@@ -52,6 +52,7 @@ class UploadContractView(LoginRequiredMixin, View):
             property_file = request.FILES['property_file']
             clone_file = request.FILES['clone_file']
             contract_name = request.POST.get("name")
+            print("Reach here 1")
 
             if not contract_name or not property_file:
                 messages.warning(request, "Contract name or Excel File is required")
@@ -59,6 +60,7 @@ class UploadContractView(LoginRequiredMixin, View):
 
             try:
                 contract = Contract.objects.create(name=contract_name, user=self.request.user, file=clone_file)
+                print("Reach here 2")
                 structure = DataStructure.objects.filter(user=self.request.user).first()
 
                 property_datas, header_dictionary = convert_file_to_dictionary(property_file)
