@@ -51,7 +51,13 @@
                 p-2 alert-dismissible fade show text-center text-capitalize shadow-sm sentence "
          role="alert" id="successMessage"
          style="background-color: #1B3F7F;display: none">
-        Contract information updated!
+        Contract information updated!, you can now <a href="{% url "contract_update" contract.id %}"
+                                                      style="color:white;
+                                                      text-underline: #9D2154 !important;
+                                                      text-decoration: underline !important;
+                                                      text-decoration-color: #9D2154 !important"
+                                                      class="px-2"
+    > {{ " " }}validate{{ " " }}</a> the data.
 
         <button type="button" class="btn-close text-capitalize dismiss-all-button"
                 data-bs-dismiss="alert"
