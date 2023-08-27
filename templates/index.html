@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_filters %}
 {% load custom_filters %}
 
@@ -12,11 +13,27 @@
             scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
         }
 
+        .processing-indicator {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
 
     </style>
 {% endblock %}
 
 {% block content %}
+
     <div class="row">
 
 
@@ -172,9 +189,12 @@
                 <div class="card-header color-dark fw-500">
                     New Upload
                 </div>
+                <div id="processingIndicator" class="processing-indicator">
+                    <img src="{% static "img/spinner.gif" %}" alt="Loading..."/>
+                </div>
                 <div class="card-body p-0">
                     <form action="{% url "upload_data" %}" method="post" enctype="multipart/form-data"
-                          >
+                          id="myForm">
                         {% csrf_token %}
                         <input class="form-control form-control-lg" type="file" name="clone_file"
                                style="display: none;">
@@ -194,7 +214,7 @@
 
                             <div class="col-12 col-md-4 form-group  mb-md-5  mt-2">
                                 <label>{{ "" }}</label>
-                                <button type="submit"
+                                <button type="submit" id="submitButton"
                                         class="btn btn-lg btn-danger btn-submit" style="background-color:#9D2154">
                                     Upload
                                 </button>
@@ -233,5 +253,27 @@
                 propertyName.value = fileName;
             }
         }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("myForm");
+            const submitButton = document.getElementById("submitButton");
+            const processingIndicator = document.getElementById("processingIndicator");
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();  // Prevent the default form submission
+
+                // Show the processing indicator and disable the submit button
+                processingIndicator.style.display = "flex";
+                submitButton.disabled = true;
+                submitButton.style.display = "none";
+
+                // Perform any additional processing needed here
+
+                // Submit the form
+                form.submit();
+            });
+        });
     </script>
 {% endblock %}
