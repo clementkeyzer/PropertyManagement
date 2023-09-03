@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_filters %}
 {% load custom_filters %}
 
@@ -19,119 +20,151 @@
             }
         }
 
+        .processing-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            height: 100vh;
+
+        }
+
+        #first_row {
+
+        }
+
+        #second_row {
+            display: none;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="row">
+    <div class="row" id="first_row">
 
 
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header color-dark fw-500">
-                Upload Validation
-                <h2>{{ contract.name }}</h2>
-            </div>
-            <div class="card-body p-5">
-                {% if invalid_header_errors|length > 0 %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header color-dark fw-500">
+                    Upload Validation
+                    <h2>{{ contract.name }}</h2>
+                </div>
+                <div class="card-body p-5">
+                    {% if invalid_header_errors|length > 0 %}
+                        <div class="d-flex align-items-center">
+                            <p style="font-size: 16px;">
+                                There are {{ invalid_header_errors|length }} non-matching headers found. Adjust the
+                                mapping
+                                if
+                                these are
+                                required fields.
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#invalid_header_errors"
+                                   style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
+                                    Click to list
+                                </a>
+                                or
+                                <a href="{% url 'contract_delete_with_id' contract.id %}"
+                                   style="color: #9D2154; font-weight: bold; font-size: 16px;">
+                                    abort the upload
+                                </a>
+                                .
+                            </p>
+                        </div>
+                    {% endif %}
+                    {% if required_field_errors|length > 0 %}
+                        <div class="d-flex align-items-center">
+                            <p style="font-size: 16px;">
+                                There are {{ required_field_errors|length }} instances of required data missing.
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#required_field_errors"
+                                   style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
+                                    Click to list
+                                </a>
+                                or
+                                <a href="{% url 'contract_delete_with_id' contract.id %}"
+                                   style="color: #9D2154; font-weight: bold; font-size: 16px;">
+                                    abort the upload
+                                </a>
+                                .
+                            </p>
+                        </div>
+                    {% endif %}
                     <div class="d-flex align-items-center">
                         <p style="font-size: 16px;">
-                            There are {{ invalid_header_errors|length }} non-matching headers found. Adjust the mapping
-                            if
-                            these are
-                            required fields.
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#invalid_header_errors"
+                            Alternatively, you can
+                            <a href="{% url 'contract_update' contract.id %}"
+                               id="continue_link"
                                style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
-                                Click to list
-                            </a>
-                            or
-                            <a href="{% url 'contract_delete_with_id' contract.id %}"
-                               style="color: #9D2154; font-weight: bold; font-size: 16px;">
-                                abort the upload
-                            </a>
-                            .
+                                continue
+                            </a> .
                         </p>
                     </div>
-                {% endif %}
-                {% if required_field_errors|length > 0 %}
-                    <div class="d-flex align-items-center">
-                        <p style="font-size: 16px;">
-                            There are {{ required_field_errors|length }} instances of required data missing.
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#required_field_errors"
-                               style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
-                                Click to list
-                            </a>
-                            or
-                            <a href="{% url 'contract_delete_with_id' contract.id %}"
-                               style="color: #9D2154; font-weight: bold; font-size: 16px;">
-                                abort the upload
-                            </a>
-                            .
-                        </p>
-                    </div>
-                {% endif %}
-                <div class="d-flex align-items-center">
-                    <p style="font-size: 16px;">
-                        Alternatively, you can
-                        <a href="{% url 'contract_update' contract.id %}"
-                           style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
-                            continue
-                        </a> .
-                    </p>
-                </div>
 
+                </div>
             </div>
+
         </div>
 
-    </div>
 
+        <div class="modal-basic modal fade" id="invalid_header_errors" tabindex="-1" style="display: none;"
+             aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content modal-bg-white ">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Invalid Headers</h6>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="uil uil-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% for item in invalid_header_errors %}
+                            <p>{{ item }}</p>
+                        {% endfor %}
 
-    <div class="modal-basic modal fade" id="invalid_header_errors" tabindex="-1" style="display: none;"
-         aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content modal-bg-white ">
-                <div class="modal-header">
-                    <h6 class="modal-title">Invalid Headers</h6>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="uil uil-times"></i>
-                    </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                                style=" background-color: #1B3F7F;color: white">Cancel
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    {% for item in invalid_header_errors %}
-                        <p>{{ item }}</p>
-                    {% endfor %}
+            </div>
+        </div>
+        <div class="modal-basic modal fade" id="required_field_errors" tabindex="-1" style="display: none;"
+             aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content modal-bg-white ">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Required Fields</h6>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="uil uil-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% for item in required_field_errors %}
+                            <p>{{ item }}</p>
+                        {% endfor %}
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
-                            style=" background-color: #1B3F7F;color: white">Cancel
-                    </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                                style=" background-color: #1B3F7F;color: white">Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal-basic modal fade" id="required_field_errors" tabindex="-1" style="display: none;"
-         aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content modal-bg-white ">
-                <div class="modal-header">
-                    <h6 class="modal-title">Required Fields</h6>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="uil uil-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {% for item in required_field_errors %}
-                        <p>{{ item }}</p>
-                    {% endfor %}
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
-                            style=" background-color: #1B3F7F;color: white">Cancel
-                    </button>
-                </div>
-            </div>
+    <div class="row" id="second_row">
+        <div id="processingIndicator" class="processing-indicator">
+            <img src="{% static "img/spinner.gif" %}" alt="Loading..."/>
         </div>
     </div>
 {% endblock %}
@@ -141,7 +174,28 @@
 
 {% block script %}
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get references to the first and second rows by their IDs
+            var firstRow = document.getElementById("first_row");
+            var secondRow = document.getElementById("second_row");
 
+            // Get a reference to the "Continue" link by its ID
+            var continueLink = document.getElementById("continue_link");
+
+            // Add a click event listener to the "Continue" link
+            continueLink.addEventListener("click", function (event) {
+                // Prevent the default link behavior (e.g., navigating to a new page)
+                event.preventDefault();
+
+                // Hide the first row by setting its display property to "none"
+                firstRow.style.display = "none";
+
+                // Show the second row by setting its display property to "flex"
+                secondRow.style.display = "flex";
+                // Continue to the desired page by changing the window location
+                window.location.href = "{% url 'contract_update' contract.id %}";
+            });
+        });
     </script>
 {% endblock %}
 
