@@ -28,6 +28,25 @@
             width: 100%;
         }
 
+        /* Default style - hide the content */
+        #content {
+            display: none;
+        }
+
+        #secondContent {
+            display: block;
+        }
+
+        /* Show the content when the screen resolution is 1920x1080 */
+        @media screen and (min-width: 1920px) and (min-height: 1080px) {
+            #content {
+                display: block;
+            }
+
+            #secondContent {
+                display: none;
+            }
+        }
 
     </style>
 {% endblock %}
@@ -36,8 +55,52 @@
 
     <div class="row">
 
+        <div id="content" class="col-12 my-5">
+            <div class="card">
+                <div class="card-header color-dark fw-500">
+                    New Upload
+                </div>
+                <div id="processingIndicator" class="processing-indicator">
+                    <img src="{% static "img/spinner.gif" %}" alt="Loading..."/>
+                </div>
+                <div class="card-body p-0">
+                    <form action="{% url "upload_data" %}" method="post" enctype="multipart/form-data"
+                          id="myForm" class="myForm">
+                        {% csrf_token %}
+                        <input class="form-control form-control-lg clone_file" type="file" name="clone_file"
+                               style="display: none;">
+                        <div class="row px-3 mx-auto">
+                            <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
+                                <label>Rent roll file</label>
+                                <input class="form-control form-control-lg property_file" type="file"
+                                       name="property_file"
+                                       onchange="syncFileInputs()"
+                                >
+                            </div>
 
-        <div class="col-12">
+                            <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
+                                <label>Rent roll name</label>
+                                <input class="form-control form-control-lg rental_name" type="text" name="name"
+                                       placeholder="Rent roll name">
+                            </div>
+
+                            <div class="col-12 col-md-4 form-group  mb-md-5  mt-2">
+                                <label>{{ "" }}</label>
+                                <button type="submit" id="submitButton"
+                                        class="btn btn-lg btn-danger btn-submit submitButton"
+                                        style="background-color:#9D2154">
+                                    Upload
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+        <div id="" class="col-12">
             <div class="card">
                 <div class="card-header color-dark fw-500">
                     Uploads
@@ -184,7 +247,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 my-5">
+        <div id="secondContent" class="col-12 my-5">
             <div class="card">
                 <div class="card-header color-dark fw-500">
                     New Upload
@@ -194,28 +257,32 @@
                 </div>
                 <div class="card-body p-0">
                     <form action="{% url "upload_data" %}" method="post" enctype="multipart/form-data"
-                          id="myForm">
+                          id="myForm" class="myForm">
                         {% csrf_token %}
-                        <input class="form-control form-control-lg" type="file" name="clone_file"
+                        <input class="form-control form-control-lg clone_file" type="file" name="clone_file"
+                               id="clone_file2"
                                style="display: none;">
                         <div class="row px-3 mx-auto">
                             <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
                                 <label>Rent roll file</label>
-                                <input class="form-control form-control-lg" type="file" name="property_file"
-                                       onchange="syncFileInputs()"
+                                <input class="form-control form-control-lg property_file" type="file"
+                                       name="property_file" id="property_file2"
+                                       onchange="syncFileInputs2()"
                                 >
                             </div>
 
                             <div class="col-12 col-md-4 form-group mb-md-5 mt-2">
                                 <label>Rent roll name</label>
-                                <input class="form-control form-control-lg" type="text" name="name"
+                                <input class="form-control form-control-lg rental_name" type="text" name="name"
+                                       id="name2"
                                        placeholder="Rent roll name">
                             </div>
 
                             <div class="col-12 col-md-4 form-group  mb-md-5  mt-2">
                                 <label>{{ "" }}</label>
                                 <button type="submit" id="submitButton"
-                                        class="btn btn-lg btn-danger btn-submit" style="background-color:#9D2154">
+                                        class="btn btn-lg btn-danger btn-submit submitButton"
+                                        style="background-color:#9D2154">
                                     Upload
                                 </button>
                             </div>
@@ -253,6 +320,21 @@
                 propertyName.value = fileName;
             }
         }
+
+        function syncFileInputs2() {
+            const propertyFileInput = document.querySelector('input[id="property_file2"]');
+            const propertyName = document.querySelector('input[id="name2"]');
+            const cloneFileInput = document.querySelector('input[id="clone_file2"]');
+            cloneFileInput.files = propertyFileInput.files;
+
+            // Log the name of the file selected in the propertyFileInput
+            if (propertyFileInput.files.length > 0) {
+                const fileName = propertyFileInput.files[0].name.split(".")[0];
+                console.log('File name added:', fileName);
+                // Update the value of the propertyName input field with the file name
+                propertyName.value = fileName;
+            }
+        }
     </script>
 
     <script>
@@ -276,4 +358,6 @@
             });
         });
     </script>
+
+
 {% endblock %}
