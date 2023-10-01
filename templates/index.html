@@ -13,20 +13,6 @@
             scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
         }
 
-        .processing-indicator {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            width: 100%;
-        }
 
         /* Default style - hide the content */
         #content {
@@ -53,19 +39,17 @@
 
 {% block content %}
 
-    <div class="row">
+    <div class="row" id="show_row">
 
         <div id="content" class="col-12 my-5">
             <div class="card">
                 <div class="card-header color-dark fw-500">
                     New Upload
                 </div>
-                <div id="processingIndicator" class="processing-indicator">
-                    <img src="{% static "img/spinner.gif" %}" alt="Loading..."/>
-                </div>
+
                 <div class="card-body p-0">
                     <form action="{% url "upload_data" %}" method="post" enctype="multipart/form-data"
-                          id="myForm" class="myForm">
+                          id="myForm" class="myForm" onsubmit="SubmitUploadForm()">
                         {% csrf_token %}
                         <input class="form-control form-control-lg clone_file" type="file" name="clone_file"
                                style="display: none;">
@@ -138,12 +122,15 @@
                                     <tr>
                                         <td>
                                             <div class="userDatatable-content">
-                                                <a href="{% url "contract_detail" item.id %}"> {{ forloop.counter }}</a>
+                                                <a href="{% url "contract_detail" item.id %}"
+                                                > {{ forloop.counter }}</a>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="userDatatable-content">
-                                                <a href="{% url "contract_detail" item.id %}">{{ item.name }}</a>
+                                                <a href="{% url "contract_detail" item.id %}"
+
+                                                >{{ item.name }}</a>
                                             </div>
                                         </td>
                                         <td>
@@ -184,7 +171,11 @@
 
                                             </form>
                                             <a href="{% url "contract_update" item.id %}"
-                                               class=" px-2" style="box-shadow: none;">
+                                               class=" px-2" style="box-shadow: none;"
+                                               onclick="ShowLoadingPage(event,
+                                                       '{% url "contract_update" item.id %}',
+                                                       'The data is being retrieved. Depending on the number of lines, this may take a while.'
+                                                       )">
 
                                                 <i class="uil uil-edit " style="color: #1B3F7F;"></i>
                                             </a>
@@ -252,12 +243,10 @@
                 <div class="card-header color-dark fw-500">
                     New Upload
                 </div>
-                <div id="processingIndicator" class="processing-indicator">
-                    <img src="{% static "img/spinner.gif" %}" alt="Loading..."/>
-                </div>
+
                 <div class="card-body p-0">
                     <form action="{% url "upload_data" %}" method="post" enctype="multipart/form-data"
-                          id="myForm" class="myForm">
+                          id="myForm" class="myForm" onsubmit="SubmitUploadForm()">
                         {% csrf_token %}
                         <input class="form-control form-control-lg clone_file" type="file" name="clone_file"
                                id="clone_file2"
@@ -295,6 +284,12 @@
             </div>
         </div>
 
+    </div>
+    <div class="row" id="hide_row">
+        <div id="processingIndicator" class="processing-indicator">
+            <img src="{% static "img/spinner.gif" %}" alt="Loading..."/>
+            <div id="processingIndicatorText"></div>
+        </div>
     </div>
 {% endblock %}
 
@@ -338,25 +333,12 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const form = document.getElementById("myForm");
-            const submitButton = document.getElementById("submitButton");
-            const processingIndicator = document.getElementById("processingIndicator");
 
-            form.addEventListener("submit", function (event) {
-                event.preventDefault();  // Prevent the default form submission
-
-                // Show the processing indicator and disable the submit button
-                processingIndicator.style.display = "flex";
-                submitButton.disabled = true;
-                submitButton.style.display = "none";
-
-                // Perform any additional processing needed here
-
-                // Submit the form
-                form.submit();
-            });
-        });
+        const SubmitUploadForm = () => {
+            var processingIndicatorText = "The data is being uploaded. Depending on the number of lines, this may take a while"
+            ShowLoadingPageWithOutLink(processingIndicatorText);
+            console.log("called here")
+        }
     </script>
 
 

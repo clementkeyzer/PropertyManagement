@@ -46,162 +46,180 @@
 
 {% block content %}
 
-    <div class="alert
+    <div class="row" id="show_row">
+        <div class="alert
                 alert-success text-white
                 p-2 alert-dismissible fade show text-center text-capitalize shadow-sm sentence "
-         role="alert" id="successMessage"
-         style="background-color: #1B3F7F;display: none">
-        The data has been saved. You can now <a href="{% url "contract_update" contract.id %}"
-                                                      style="color:white;
+             role="alert" id="successMessage"
+             style="background-color: #1B3F7F;display: none">
+            The data has been saved. You can now <a href="{% url "contract_update" contract.id %}"
+                                                    style="color:white;
                                                       text-underline: #9D2154 !important;
                                                       text-decoration: underline !important;
                                                       text-decoration-color: #9D2154 !important"
-                                                      class="px-2"
-    > {{ " " }}validate.{{ " " }}</a>
+                                                    onclick="ShowLoadingPage(event,
+                                                            '{% url "contract_update" contract.id %}',
+                                                            'The data is being processed. Depending on the number of lines, this may take a while.')"
+                                                    class="px-2"
+        > {{ " " }}validate.{{ " " }}</a>
 
-        <button type="button" class="btn-close text-capitalize dismiss-all-button"
-                data-bs-dismiss="alert"
-                aria-label="Close">
-            <img src="{% static "img/svg/x.svg" %}" alt="x" class="svg" aria-hidden="true"
-                 style="color: white">
-        </button>
-    </div>
-
-
-    <div class="col-12 mt-30">
-        <div class="d-flex justify-content-end align-content-end m-3">
-            {% if validate_errors|length > 0 %}
-                <button class="btn btn-outline-primary my-2" data-bs-toggle="modal" data-bs-target="#validate-errors">
-                    Show Validation Errors
-                </button>
-            {% endif %}
-            {% if required_field_errors|length > 0 %}
-                <button class="btn btn-outline-primary my-2"
-                        data-bs-toggle="modal" data-bs-target="#required-fields"
-                >Show Required Fields
-                </button>
-
-            {% endif %}
-            <button type="button" class="btn btn-outline-primary float-end dismiss-all-button "
-                    id="dismiss-all-btn">
-                Dismiss
-                All
+            <button type="button" class="btn-close text-capitalize dismiss-all-button"
+                    data-bs-dismiss="alert"
+                    aria-label="Close">
+                <img src="{% static "img/svg/x.svg" %}" alt="x" class="svg" aria-hidden="true"
+                     style="color: white">
             </button>
-
         </div>
-        <div class="card border-0">
-            <div class="card-header">
-                <h6>{{ contract.name }}</h6>
-                <div class="card-extra">
-                    <strong> Created: </strong> {{ contract.timestamp|timesince }} ago
-                </div>
+
+
+        <div class="col-12 mt-30">
+            <div class="d-flex justify-content-end align-content-end m-3">
+                {% if validate_errors|length > 0 %}
+                    <button class="btn btn-outline-primary my-2" data-bs-toggle="modal"
+                            data-bs-target="#validate-errors">
+                        Show Validation Errors
+                    </button>
+                {% endif %}
+                {% if required_field_errors|length > 0 %}
+                    <button class="btn btn-outline-primary my-2"
+                            data-bs-toggle="modal" data-bs-target="#required-fields"
+                    >Show Required Fields
+                    </button>
+
+                {% endif %}
+                <button type="button" class="btn btn-outline-primary float-end dismiss-all-button "
+                        id="dismiss-all-btn">
+                    Dismiss
+                    All
+                </button>
+
             </div>
-            <div class="card-body p-0 pe-2">
-                <div class="table-responsive " style="margin-bottom: 50px">
-                    <form id="updateForm" method="post" action="{% url 'contract_update_api' contract.id %}"
-                    >
-                        {% csrf_token %}
-                        <div class="table-container">
-                            <table class="table table-bordered table-social">
-                                <thead>
-                                <tr>
-                                    <th scope="row" rowspan="3">{{ Counter }}</th>
-                                    {% for field in object_list|first|get_all_fields %}
-                                        {% if field.name not in exclude_management_fields %}
-                                            <th scope="row" rowspan="3"
-                                                style="font-weight: bold">{{ field.verbose_name|title }}</th>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                {% for form in formset %}
-
+            <div class="card border-0">
+                <div class="card-header">
+                    <h6>{{ contract.name }}</h6>
+                    <div class="card-extra">
+                        <strong> Created: </strong> {{ contract.timestamp|timesince }} ago
+                    </div>
+                </div>
+                <div class="card-body p-0 pe-2">
+                    <div class="table-responsive " style="margin-bottom: 50px">
+                        <form id="updateForm" method="post" action="{% url 'contract_update_api' contract.id %}"
+                        >
+                            {% csrf_token %}
+                            <div class="table-container">
+                                <table class="table table-bordered table-social">
+                                    <thead>
                                     <tr>
-                                        <td class="sticky-counter">{{ forloop.counter }}</td>
-                                        <input type="hidden" name="id" value="{{ form.instance.id }}">
-                                        {% for field in form.visible_fields %}
-                                            {% if field.name != "contract"  and field.name != "user" and field.name != "timestamp" %}
-                                                {% comment %} So i returned the error exists class {% endcomment %}
-                                                {% check_error_field_name form.instance.id field.name instances_errors as error_exist_class %}
-                                                <td style="min-width: 100px;" class="{{ error_exist_class }}">
-                                                    {% crispy_field field form_show_labels=False %}
-                                                </td>
+                                        <th scope="row" rowspan="3">{{ Counter }}</th>
+                                        {% for field in object_list|first|get_all_fields %}
+                                            {% if field.name not in exclude_management_fields %}
+                                                <th scope="row" rowspan="3"
+                                                    style="font-weight: bold">{{ field.verbose_name|title }}</th>
                                             {% endif %}
                                         {% endfor %}
                                     </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center"
-                             style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;">
+                                    </thead>
+                                    <tbody>
+
+                                    {% for form in formset %}
+
+                                        <tr>
+                                            <td class="sticky-counter">{{ forloop.counter }}</td>
+                                            <input type="hidden" name="id" value="{{ form.instance.id }}">
+                                            {% for field in form.visible_fields %}
+                                                {% if field.name != "contract"  and field.name != "user" and field.name != "timestamp" %}
+                                                    {% comment %} So i returned the error exists class {% endcomment %}
+                                                    {% check_error_field_name form.instance.id field.name instances_errors as error_exist_class %}
+                                                    <td style="min-width: 100px;" class="{{ error_exist_class }}">
+                                                        {% crispy_field field form_show_labels=False %}
+                                                    </td>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center"
+                                 style="position: fixed;bottom: 20px;right: 20px;z-index: 9999;">
 
 
-                            <button class="btn " id="updateButton"
-                                    style=" background-color: #1B3F7F;color: white"
-                            >Save
-                            </button>
-                            <a href="{% url "contract_update" contract.id %}" class="btn mx-2 "
-                               style="background-color: #9D2154;color: white"
-                            >Validate
-                            </a>
-                        </div>
+                                <button class="btn " id="updateButton"
+                                        style=" background-color: #1B3F7F;color: white"
+                                >Save
+                                </button>
+                                <a href="{% url "contract_update" contract.id %}" class="btn mx-2 "
+                                   onclick="ShowLoadingPage(event,
+                                           '{% url "contract_update" contract.id %}',
+                                           'The data is being processed. Depending on the number of lines, this may take a while.')"
+                                   style="background-color: #9D2154;color: white"
+                                >Validate
+                                </a>
+                            </div>
 
-                    </form>
+                        </form>
+
+                    </div>
 
                 </div>
+            </div>
+        </div>
 
+        <div class="modal-basic modal fade" id="validate-errors" tabindex="-1" style="display: none;"
+             aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content modal-bg-white ">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Validation Errors</h6>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="uil uil-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% for item in validate_errors %}
+                            <p>{{ item }}</p>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                                style=" background-color: #1B3F7F;color: white">Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-basic modal fade" id="required-fields" tabindex="-1" style="display: none;"
+             aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content modal-bg-white ">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Required Fields Errors</h6>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="uil uil-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% for item in required_field_errors %}
+                            <p>{{ item }}</p>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                                style=" background-color: #1B3F7F;color: white">Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal-basic modal fade" id="validate-errors" tabindex="-1" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content modal-bg-white ">
-                <div class="modal-header">
-                    <h6 class="modal-title">Validation Errors</h6>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="uil uil-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {% for item in validate_errors %}
-                        <p>{{ item }}</p>
-                    {% endfor %}
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
-                            style=" background-color: #1B3F7F;color: white">Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-basic modal fade" id="required-fields" tabindex="-1" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content modal-bg-white ">
-                <div class="modal-header">
-                    <h6 class="modal-title">Required Fields Errors</h6>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="uil uil-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {% for item in required_field_errors %}
-                        <p>{{ item }}</p>
-                    {% endfor %}
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
-                            style=" background-color: #1B3F7F;color: white">Cancel
-                    </button>
-                </div>
-            </div>
+    <div class="row" id="hide_row">
+        <div id="processingIndicator" class="processing-indicator">
+            <img src="{% static "img/spinner.gif" %}" alt="Loading..."/>
+            <div id="processingIndicatorText"></div>
         </div>
     </div>
 {% endblock %}

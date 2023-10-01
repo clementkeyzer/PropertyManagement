@@ -55,6 +55,15 @@
             min-width: 200px !important;;
         }
 
+        @media (max-width: 1920px) {
+            .table-container {
+                height: auto; /* Set the desired height (1080 - 17px for scrollbar) */
+                overflow-y: auto !important; /* Enable vertical scrolling only when necessary */
+                scrollbar-width: auto !important; /* Set the width of the scrollbar */
+                scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
+            }
+        }
+
     </style>
     {% block css %}
 
@@ -276,36 +285,6 @@
             </div>
         </div>
     </div>
-    {% comment %} <footer class="footer-wrapper">
-        <div class="footer-wrapper__inside">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="footer-copyright">
-                            <p><span>© 2023</span><a href="#">Sovware</a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="footer-menu text-end">
-                            <ul>
-                                <li>
-                                    <a href="#">About</a>
-                                </li>
-                                <li>
-                                    <a href="#">Team</a>
-                                </li>
-                                <li>
-                                    <a href="#">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>{% endcomment %}
 </main>
 <div id="overlayer">
     <div class="loader-overlay">
@@ -388,6 +367,46 @@
     });
 </script>
 
+<script>
+    const ShowLoadingPage = (event, continueLink, processingIndicatorText) => {
+        // Prevent the default link behavior (e.g., navigating to a new page)
+        event.preventDefault();
+        // Get references to the first and second rows by their IDs
+        var showRow = document.getElementById("show_row");
+        var hideRow = document.getElementById("hide_row");
+        var processingIndicatorID = document.getElementById("processingIndicatorText");
+
+        processingIndicatorID.innerHTML = processingIndicatorText;
+
+
+        console.log("call this link " + continueLink)
+        // Hide the first row by setting its display property to "none"
+        showRow.style.display = "none";
+
+        // Show the second row by setting its display property to "flex"
+        hideRow.style.display = "flex";
+        // Continue to the desired page by changing the window location
+        window.location.href = continueLink;
+    }
+
+    const ShowLoadingPageWithOutLink = (processingIndicatorText) => {
+
+        // Get references to the first and second rows by their IDs
+        var showRow = document.getElementById("show_row");
+        var hideRow = document.getElementById("hide_row");
+        var processingIndicatorID = document.getElementById("processingIndicatorText");
+
+        processingIndicatorID.innerHTML = processingIndicatorText;
+
+        // Hide the first row by setting its display property to "none"
+        showRow.style.display = "none";
+
+        // Show the second row by setting its display property to "flex"
+        hideRow.style.display = "flex";
+        // Continue to the desired page by changing the window location
+
+    }
+</script>
 </body>
 
 </html>

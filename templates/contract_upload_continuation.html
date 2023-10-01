@@ -20,35 +20,12 @@
             }
         }
 
-        .processing-indicator {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            height: 100vh;
 
-        }
-
-        #first_row {
-
-        }
-
-        #second_row {
-            display: none;
-        }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="row" id="first_row">
+    <div class="row" id="show_row">
 
 
         <div class="col-12">
@@ -101,6 +78,9 @@
                             Alternatively, you can
                             <a href="{% url 'contract_update' contract.id %}"
                                id="continue_link"
+                               onclick="ShowLoadingPage(event,
+                                       '{% url 'contract_update' contract.id %}',
+                                       'The data is being processed. Depending on the number of lines, this may take a while.')"
                                style="color: #1B3F7F; font-weight: bold; font-size: 16px;">
                                 continue
                             </a> .
@@ -162,10 +142,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="second_row">
+    <div class="row" id="hide_row">
         <div id="processingIndicator" class="processing-indicator">
             <img src="{% static "img/spinner.gif" %}" alt="Loading..."/>
+            <div id="processingIndicatorText">
+            </div>
         </div>
+
     </div>
 {% endblock %}
 
@@ -173,29 +156,6 @@
 
 
 {% block script %}
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get references to the first and second rows by their IDs
-            var firstRow = document.getElementById("first_row");
-            var secondRow = document.getElementById("second_row");
 
-            // Get a reference to the "Continue" link by its ID
-            var continueLink = document.getElementById("continue_link");
-
-            // Add a click event listener to the "Continue" link
-            continueLink.addEventListener("click", function (event) {
-                // Prevent the default link behavior (e.g., navigating to a new page)
-                event.preventDefault();
-
-                // Hide the first row by setting its display property to "none"
-                firstRow.style.display = "none";
-
-                // Show the second row by setting its display property to "flex"
-                secondRow.style.display = "flex";
-                // Continue to the desired page by changing the window location
-                window.location.href = "{% url 'contract_update' contract.id %}";
-            });
-        });
-    </script>
 {% endblock %}
 
