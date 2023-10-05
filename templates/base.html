@@ -376,6 +376,11 @@
         var hideRow = document.getElementById("hide_row");
         var processingIndicatorID = document.getElementById("processingIndicatorText");
 
+        var processingIndicatorShow = hideRow.getElementsByClassName("processing-indicator")[0];
+
+        processingIndicatorShow.style.display = "flex";
+
+
         processingIndicatorID.innerHTML = processingIndicatorText;
 
 
@@ -395,6 +400,9 @@
         var showRow = document.getElementById("show_row");
         var hideRow = document.getElementById("hide_row");
         var processingIndicatorID = document.getElementById("processingIndicatorText");
+        var processingIndicatorShow = hideRow.getElementsByClassName("processing-indicator")[0];
+
+        processingIndicatorShow.style.display = "flex";
 
         processingIndicatorID.innerHTML = processingIndicatorText;
 
