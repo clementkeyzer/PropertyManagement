@@ -26901,7 +26901,7 @@ svg {
 .mCSB_scrollTools.mCSB_scrollTools_horizontal .mCSB_buttonRight {
     display: block;
     position: absolute;
-    width: 20px;
+    width: 4px;
     height: 100%;
     overflow: hidden;
     margin: 0 auto;

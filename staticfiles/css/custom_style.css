@@ -1,13 +1,16 @@
 /* Styles for screens with a width of 1920px or less */
-@media (max-width: 1920px) {
+@media (min-width: 1919px) {
     .table-container::-webkit-scrollbar {
-        width: 4px; /* Set the width of the scrollbar */
+        width: 5px !important; /* Set the width of the scrollbar */
+        height: 5px !important;
         background-color: #f0f0f0; /* Set the background color of the scrollbar track */
     }
 
     .table-container::-webkit-scrollbar-thumb {
         background-color: #888888; /* Set the color of the scrollbar handle */
         border-radius: 4px; /* Set the border radius of the scrollbar handle */
+        height: 5px !important;
+
     }
 
     .table-container::-webkit-scrollbar-thumb:hover {
@@ -16,9 +19,10 @@
 }
 
 /* Styles for screens with a width greater than 1920px */
-@media (min-width: 1921px) {
+@media (max-width: 1920px) {
     .table-container::-webkit-scrollbar {
-        width: 0; /* Set the width of the scrollbar to 0 to hide it */
+        width: 4px !important; /* Set the width of the scrollbar to 0 to hide it */
+        height: 4px !important;
     }
 }
 
