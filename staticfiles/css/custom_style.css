@@ -124,3 +124,18 @@ th {
 #hide_row {
     display: none;
 }
+
+
+/* Apply styles when viewport width is at least 1921px and height is at least 1081px */
+@media screen and (min-width: 1921px) and (min-height: 1081px) {
+    /*html {
+        height: auto; !* Set the desired height (1080 - 17px for scrollbar) *!
+        overflow-y: auto !important; !* Enable vertical scrolling only when necessary *!
+        overflow-x: auto !important; !* Hide horizontal scrolling when not necessary *!
+        scrollbar-width: auto !important; !* Set the width of the scrollbar *!
+    }*/
+    html::-webkit-scrollbar {
+        width: 0px !important; /* Set the width of the scrollbar to 0 to hide it */
+        height: 0px !important;
+    }
+}
