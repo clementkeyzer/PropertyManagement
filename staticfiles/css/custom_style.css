@@ -1,30 +1,33 @@
 /* Styles for screens with a width of 1920px or less */
-@media (min-width: 1919px) {
-    .table-container::-webkit-scrollbar {
-        width: 5px !important; /* Set the width of the scrollbar */
-        height: 5px !important;
-        background-color: #f0f0f0; /* Set the background color of the scrollbar track */
-    }
-
-    .table-container::-webkit-scrollbar-thumb {
-        background-color: #888888; /* Set the color of the scrollbar handle */
-        border-radius: 4px; /* Set the border radius of the scrollbar handle */
-        height: 5px !important;
-
-    }
-
-    .table-container::-webkit-scrollbar-thumb:hover {
-        background-color: #555555; /* Set the color of the scrollbar handle on hover */
-    }
+/*@media (min-width: 1919px) {*/
+.table-container::-webkit-scrollbar {
+    width: 5px !important; /* Set the width of the scrollbar */
+    height: 5px !important;
+    background-color: #f0f0f0; /* Set the background color of the scrollbar track */
 }
 
-/* Styles for screens with a width greater than 1920px */
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888888; /* Set the color of the scrollbar handle */
+    border-radius: 4px; /* Set the border radius of the scrollbar handle */
+    height: 5px !important;
+
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555555; /* Set the color of the scrollbar handle on hover */
+}
+
+/*}*/
+/*
+
+!* Styles for screens with a width greater than 1920px *!
 @media (max-width: 1920px) {
     .table-container::-webkit-scrollbar {
-        width: 4px !important; /* Set the width of the scrollbar to 0 to hide it */
-        height: 4px !important;
+        width: 5px !important; !* Set the width of the scrollbar to 0 to hide it *!
+        height: 5px !important;
     }
 }
+*/
 
 
 .table-responsive {
@@ -127,16 +130,8 @@ th {
 
 
 /* Apply styles when viewport width is at least 1921px and height is at least 1081px */
-@media screen and (min-width: 1921px) and (min-height: 1081px) {
-    html::-webkit-scrollbar {
-        width: 0px !important; /* Set the width of the scrollbar to 0 to hide it */
-        height: 0px !important;
-    }
-}
-
-/* Apply styles when viewport width is at least 1921px and height is at least 1081px */
-@media screen and (min-width: 1920px) {
-    html::-webkit-scrollbar {
+@media screen and (min-width: 1919px) {
+    body::-webkit-scrollbar {
         width: 0px !important; /* Set the width of the scrollbar to 0 to hide it */
         height: 0px !important;
     }
