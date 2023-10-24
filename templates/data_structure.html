@@ -25,11 +25,21 @@
         }
 
 
+        {% comment %} from 1900 above it applies{% endcomment %}
+        @media (min-width: 1919px) {
+
+            body {
+                overflow: hidden !important;
+                height: 100% !important;
+            }
+        }
+
+
     </style>
 
 {% endblock %}
 {% block content %}
-    <div class="row">
+    <div class="row custom_height">
         <div class="col-lg-12">
             <div class="breadcrumb-main">
                 <h4 class="text-capitalize breadcrumb-title">Mapping</h4>
@@ -45,7 +55,7 @@
             </div>
         </div>
         <div class="col-12">
-            <div class=" p-4 ml-3">
+            <div class=" p-2 ml-3">
                 <p>In order to report properly, we conform to the OSCRE Industry Data Model. OSCRE is the international
                     standard for corporate real estate and real estate investment.
                     To make sure your values end up in the right places, we need to map your columns to the database

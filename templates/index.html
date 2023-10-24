@@ -45,6 +45,11 @@
                 scrollbar-width: none !important; /* Set the width of the scrollbar */
                 scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
             }
+
+            body {
+                overflow: hidden !important;
+                height: 100% !important;
+            }
         }
 
 
@@ -53,7 +58,7 @@
 
 {% block content %}
 
-    <div class="row" id="show_row">
+    <div class="row custom_height" id="show_row">
 
         <div id="content" class="col-12 my-5">
             <div class="card">

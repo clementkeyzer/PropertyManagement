@@ -41,6 +41,14 @@
         .numberinput {
             min-width: 200px !important;;
         }
+
+        {% comment %} from 1900 above it applies{% endcomment %}
+        @media (min-width: 1919px) {
+            body {
+                overflow: hidden !important;
+                height: 100% !important;
+            }
+        }
     </style>
 {% endblock %}
 
