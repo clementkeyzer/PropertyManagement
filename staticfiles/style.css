@@ -3378,7 +3378,7 @@ ul {
 }
 
 .contents {
-    padding: 74px 15px 72px 295px;
+    padding: 74px 15px 72px 210px;
     -webkit-transition: var(--transition);
     -o-transition: var(--transition);
     transition: var(--transition);
@@ -5748,7 +5748,7 @@ body.top-menu .navbar-left .customizer-trigger + .top-menu {
     overflow-y: auto;
     -webkit-box-shadow: 0 0 30px rgba(var(--light-gray-rgba), .1);
     box-shadow: 0 0 30px rgba(var(--light-gray-rgba), .1);
-    width: 280px;
+    width: 200px;
     background: var(--color-white);
     padding: 0;
     -webkit-transition: var(--transition);
