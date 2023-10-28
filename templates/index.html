@@ -47,22 +47,18 @@
                 -ms-overflow-style: none; /* Microsoft Edge scrollbar styling */
             }
 
-            body {
-                overflow: hidden !important;
-                height: 100% !important;
-            }
         }
 
         body {
-            /* Hide the scrollbar */
+            overflow: hidden; /* Disable scrolling */
             scrollbar-width: none; /* For Firefox */
             -ms-overflow-style: none; /* For Internet Explorer/Edge */
         }
 
         body::-webkit-scrollbar {
-            width: 0px !important; /* Set the width of the scrollbar to 0 to hide it */
-            height: 0px !important;
+            display: none; /* Hide the scrollbar for Chrome/Safari */
         }
+
 
     </style>
 {% endblock %}
