@@ -131,6 +131,12 @@ th {
 
 /* Apply styles when viewport width is at least 1921px and height is at least 1081px */
 @media screen and (min-width: 1919px) {
+    body {
+        /* Hide the scrollbar */
+        scrollbar-width: none; /* For Firefox */
+        -ms-overflow-style: none; /* For Internet Explorer/Edge */
+    }
+
     body::-webkit-scrollbar {
         width: 0px !important; /* Set the width of the scrollbar to 0 to hide it */
         height: 0px !important;
