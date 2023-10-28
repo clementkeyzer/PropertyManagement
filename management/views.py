@@ -370,7 +370,7 @@ class UpdateAllContractAPIView(View):
 
 
 class ContractListView(LoginRequiredMixin, DisableAdminRequiredMixin, ListView):
-    paginate_by = 10
+    paginate_by = 5
     queryset = Contract.objects.all()
     template_name = "index.html"
     context_object_name = "contracts"
