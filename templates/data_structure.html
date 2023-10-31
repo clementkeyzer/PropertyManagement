@@ -35,6 +35,15 @@
             }
         }
 
+        body {
+            overflow: hidden; /* Disable scrolling */
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none; /* For Internet Explorer/Edge */
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /* Hide the scrollbar for Chrome/Safari */
+        }
 
     </style>
 
@@ -55,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12">
+       {% comment %} <div class="col-12">
             <div class=" p-2 ml-3">
                 <p>In order to report properly, we conform to the OSCRE Industry Data Model. OSCRE is the international
                     standard for corporate real estate and real estate investment.
@@ -79,7 +88,7 @@
                 </ul>
 
             </div>
-        </div>
+        </div>{% endcomment %}
         <div class="col-12 d-flex justify-content-center align-items-center">
             <div class="card card-default card-md mb-4">
 
