@@ -156,3 +156,8 @@ def post_save_create_data_structure(sender, instance, *args, **kwargs):
 
 
 post_save.connect(post_save_create_data_structure, sender=User)
+
+
+class MappingInfo(models.Model):
+    title = models.CharField(max_length=250)
+    description = models.TextField()

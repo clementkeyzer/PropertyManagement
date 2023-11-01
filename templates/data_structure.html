@@ -31,7 +31,7 @@
             body {
                 overflow: hidden !important;
                 height: 100% !important;
-                font-size:12px;
+                font-size: 12px;
             }
         }
 
@@ -45,6 +45,7 @@
             display: none; /* Hide the scrollbar for Chrome/Safari */
         }
 
+
     </style>
 
 {% endblock %}
@@ -52,7 +53,19 @@
     <div class="row custom_height">
         <div class="col-lg-12">
             <div class="breadcrumb-main">
-                <h4 class="text-capitalize breadcrumb-title">Mapping</h4>
+                <h4 class="text-capitalize breadcrumb-title" style="display: flex; align-items: center;">
+                    Mapping
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#mapping_info"
+                       style="text-decoration: none; display: flex; align-items: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" id="info"
+                             style="width: 25px; margin-left: 5px;">
+                            <circle cx="12" cy="12" r="11" fill="#4472C4"/>
+                            <path fill="white"
+                                  d="M12,10a1,1,0,0,0-1,1v6a1,1,0,0,0,2,0V11A1,1,0,0,0,12,10Zm0-4a1.25,1.25,0,1,0,1.25,1.25A1.25,1.25,0,0,0,12,6Z"/>
+                        </svg>
+                    </a>
+                </h4>
+
                 <div class="breadcrumb-action justify-content-center flex-wrap">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -64,31 +77,6 @@
                 </div>
             </div>
         </div>
-       {% comment %} <div class="col-12">
-            <div class=" p-2 ml-3">
-                <p>In order to report properly, we conform to the OSCRE Industry Data Model. OSCRE is the international
-                    standard for corporate real estate and real estate investment.
-                    To make sure your values end up in the right places, we need to map your columns to the database
-                    standard.
-                    Type the header of your upload in the appropriate boxes. You can overwrite the suggested column
-                    names.
-                </p>
-
-                <strong style="font-weight: bolder ;"> Important notes:</strong>
-                <ul style="list-style: circle;">
-                    <li>Your upload must be in Excel format and have the .xlsx or .csv extension</li>
-                    <li>In case of .xlsx, your workbook can only have 1 sheet</li>
-                    <li>Your upload must have 1 header row</li>
-                    <li>The format of your upload must be consistent; If the format of your upload changes, you will
-                        need to
-                        adjust
-                        the mapping here.
-                    </li>
-                    <li>Feel free to reach out and we will send you an Excel template with explanations.</li>
-                </ul>
-
-            </div>
-        </div>{% endcomment %}
         <div class="col-12 d-flex justify-content-center align-items-center">
             <div class="card card-default card-md mb-4">
 
@@ -745,4 +733,26 @@
         </div>
     </div>
 
+
+    <div class="modal-basic modal fade" id="mapping_info" tabindex="-1" style="display: none;"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content modal-bg-white ">
+                <div class="modal-header">
+                    <h6 class="modal-title">{{ mapping_info.title }}</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="uil uil-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ mapping_info.description|safe }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                            style=" background-color: #1B3F7F;color: white">Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

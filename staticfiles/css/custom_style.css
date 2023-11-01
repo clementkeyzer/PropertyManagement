@@ -142,3 +142,18 @@ th {
         height: 0px !important;
     }
 }
+
+
+/* Media query for screens with a maximum width of 768px or smaller */
+@media (max-width: 768px) {
+    .modal-dialog {
+        max-width: 80vw !important; /* Adjust the width for smaller screens */
+    }
+}
+
+/* Media query for screens with a minimum width of 1200px or larger */
+@media (min-width: 1200px) {
+    .modal-dialog {
+        max-width: 50vw !important; /* Adjust the width for larger screens */
+    }
+}

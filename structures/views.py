@@ -7,7 +7,7 @@ from django.views.generic import ListView
 
 from .forms import DataStructureForm, DataStructureRequiredFieldForm
 from .mixins import AdminRequiredMixin
-from .models import DataStructure, DataStructureRequiredField
+from .models import DataStructure, DataStructureRequiredField, MappingInfo
 from .utils import query_required_field_items
 
 
@@ -18,9 +18,13 @@ class DataStructureUpdateView(LoginRequiredMixin, View):
             DataStructure.objects.create(user=self.request.user)
         data_structure = DataStructure.objects.filter(user=self.request.user).first()
         form = DataStructureForm()
+        mapping_info = MappingInfo.objects.first()
+        if not mapping_info:
+            mapping_info = MappingInfo.objects.create(title="",description="")
         context = {
             "form": form,
             "data_structure": data_structure,
+            "mapping_info": mapping_info,
         }
         return render(request, "data_structure.html", context=context)
 

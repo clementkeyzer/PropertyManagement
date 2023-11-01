@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import DataStructure, DataStructureRequiredField
+from .models import DataStructure, DataStructureRequiredField, MappingInfo
 
 
 class DataStructureAdmin(admin.ModelAdmin):
@@ -34,3 +34,14 @@ class DataStructureRequiredFieldAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DataStructureRequiredField, DataStructureRequiredFieldAdmin)
+
+
+class MappingInfoAdmin(admin.ModelAdmin):
+    list_display = [
+        "title",
+    ]
+    list_filter = [
+        "title", ]
+
+
+admin.site.register(MappingInfo, MappingInfoAdmin)
