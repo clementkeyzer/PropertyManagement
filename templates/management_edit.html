@@ -7,10 +7,11 @@
 {% block css %}
     <style>
         .table-container {
-            height: 75vh; /* Set the desired height */
+            height: 70vh; /* Set the desired height */
             overflow-y: scroll; /* Enable vertical scrolling */
             scrollbar-width: thin; /* Set the width of the scrollbar */
             scrollbar-color: #888888 #f0f0f0; /* Set the color of the scrollbar */
+            padding-bottom: 20px;
         }
 
 
@@ -49,6 +50,18 @@
                 height: 100% !important;
             }
         }
+
+        body {
+            overflow: hidden; /* Disable scrolling */
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none; /* For Internet Explorer/Edge */
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /* Hide the scrollbar for Chrome/Safari */
+        }
+
+
     </style>
 {% endblock %}
 
@@ -80,8 +93,8 @@
         </div>
 
 
-        <div class="col-12 mt-10">
-            <div class="d-flex justify-content-end align-content-end m-3">
+        <div class="col-12 mt-3">
+            <div class="d-flex justify-content-end align-content-end m-2">
                 {% if validate_errors|length > 0 %}
                     <button class="btn btn-outline-primary my-2" data-bs-toggle="modal"
                             data-bs-target="#validate-errors">
