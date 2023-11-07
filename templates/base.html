@@ -424,22 +424,6 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const numberInputs = document.querySelectorAll('input[type="number"]');
-
-        numberInputs.forEach(function (input) {
-            input.addEventListener('input', function (e) {
-                // Remove existing commas and spaces
-                let unformattedValue = e.target.value.replace(/,/g, '').replace(/\s/g, '');
-
-                // Format the number with thousand separators
-                let formattedValue = parseFloat(unformattedValue).toLocaleString('en-US');
-
-                // Update the input value with the formatted number
-                e.target.value = formattedValue;
-            });
-        });
-    });
 
 </script>
 </body>
