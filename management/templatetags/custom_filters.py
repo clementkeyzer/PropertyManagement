@@ -1,5 +1,9 @@
+import decimal
+
 from django import template
 from django.core.paginator import Paginator
+
+from management.models import Management
 
 register = template.Library()
 
@@ -64,3 +68,12 @@ def check_error_field_name(instance_id, field_name, instances_errors):
             if item.get(field_name):
                 return "error_exist_class"
     return ""
+
+
+@register.filter
+def get_field_type(field_name):
+    try:
+        field_object = Management._meta.get_field(field_name)
+        return field_object.get_internal_type()
+    except Exception as e:
+        return ''
