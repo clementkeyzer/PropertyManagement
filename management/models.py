@@ -76,8 +76,8 @@ class Management(models.Model):
     to_date = models.DateField(max_length=240, blank=True, null=True)
     option_type_code = models.IntegerField(blank=True, null=True)
     option_by_code = models.IntegerField(blank=True, null=True)
-    term = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
-    notice_term = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
+    term = models.IntegerField(blank=True, null=True)
+    notice_term = models.IntegerField(blank=True, null=True)
     notice_term_date = models.DateField(max_length=250, blank=True, null=True)
 
     # unit
@@ -134,7 +134,6 @@ class Management(models.Model):
     # added vat_amount
     # index_value to value
     # next_index_value to index_date_sr2
-
 
 
 """
