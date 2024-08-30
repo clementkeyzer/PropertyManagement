@@ -133,7 +133,7 @@ class UploadContractView(LoginRequiredMixin, View):
                 required_field_errors = sorted(required_field_errors, key=lambda x: int(re.findall(r'\d+', x)[0]))
 
                 # check if the length of the error is greater than 50 and if it is i delete
-                if len(invalid_header_errors) >= 50:
+                if len(invalid_header_errors) >= 115:
                     contract.delete()
                     messages.error(request, f'Error uploading file: So many errors with invalid header name')
                     return redirect("contract")
